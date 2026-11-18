@@ -10,7 +10,7 @@ body{background:#0a0f14;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFo
 .wrap{max-width:460px;margin:0 auto;padding:16px}
 .header{display:flex;justify-content:space-between;align-items:center;background:#111821;border:1px solid #1f2a36;border-radius:14px;padding:14px 16px}
 .logo{font-size:18px;font-weight:800}.logo span{color:#2ea5ff}
-.logo small{display:block;font-size:10px;color:#8b98a9;font-weight:600;letter-spacing:1px}
+.logo small{display:block;font-size:10px;color:#8b98a9}
 .status{font-size:11px;font-weight:700;color:#3fb950;border:1px solid #1e3a2a;background:#0a1a12;padding:6px 10px;border-radius:999px}
 .hero{padding:20px 4px 14px}
 .hero h1{font-size:26px;line-height:1.15;font-weight:800}
@@ -19,15 +19,11 @@ body{background:#0a0f14;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFo
 .stat{background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:14px;margin:10px 0 16px;display:flex;justify-content:space-between;align-items:center}
 .stat small{color:#8b98a9;font-size:10px;font-weight:600}
 .stat b{font-size:18px}
-.card{background:#111821;border:1px solid #1f2a36;border-radius:16px;padding:18px}
+.card{background:#111821;border:1px solid #1f2a36;border-radius:16px;padding:18px;margin-bottom:14px}
 .card h2{font-size:16px}
 .card p{font-size:12.5px;color:#8b98a9;margin:6px 0 14px;line-height:1.5}
-.tabs{display:flex;background:#0a0f14;border:1px solid #1f2a36;padding:4px;border-radius:11px;margin-bottom:16px}
-.tab{flex:1;padding:11px;border:none;background:transparent;color:#8b98a9;font-weight:700;font-size:13px;border-radius:8px;cursor:pointer}
-.tab.active{background:#fff;color:#000}
 label{font-size:12px;font-weight:700;color:#c9d1d9}
 input{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding:13px 14px;border-radius:11px;font-size:14px;outline:none;margin:7px 0 12px}
-input:focus{border-color:#2ea5ff}
 .btn{width:100%;border:none;padding:14px;border-radius:11px;font-weight:800;font-size:14px;cursor:pointer}
 .btn-primary{background:#2ea5ff;color:#fff}
 .btn-dark{background:#1f6feb;color:#fff}
@@ -36,7 +32,6 @@ input:focus{border-color:#2ea5ff}
 .alert{font-size:13px;text-align:center;padding:12px;border-radius:11px;margin:10px 0;display:none;line-height:1.5}
 .alert.show{display:block}.alert.err{background:#2a0f14;border:1px solid #7a1f2a;color:#f0a0a8}.alert.ok{background:#0a1f14;border:1px solid #1e4d2e;color:#8ce8ab}
 .coins{background:#1a1505;border:1px solid #5a4310;border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin:14px 0}
-.coins small{color:#d8b64a;font-size:11px}.coins b{font-size:22px}
 .userbar{display:flex;justify-content:space-between;align-items:center;background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:12px 14px;margin:14px 0}
 .input-row{display:flex;gap:8px;margin:7px 0 12px}
 .prefix{background:#2ea5ff;color:#fff;font-weight:800;padding:13px 12px;border-radius:11px}
@@ -64,44 +59,44 @@ input:focus{border-color:#2ea5ff}
 .hidden{display:none!important}
 .footer{text-align:center;font-size:11px;color:#6b7a8a;margin:16px 0;line-height:1.6}
 .support{border:1px solid #1f2a36;background:#0d1512;border-radius:14px;padding:14px;margin-top:14px}
+.divider{text-align:center;color:#8b98a9;font-size:11px;font-weight:700;margin:4px 0 14px;letter-spacing:1px}
 </style>
 </head>
 <body>
 <div class="wrap">
 <div class="header"><div class="logo">BXJO <span>PANEL</span><small>BAN V1 - PRO</small></div><div class="status">EN LINEA</div></div>
 
-<!-- LOGIN / REGISTRO -->
+<!-- LOGIN / REGISTRO - LOS DOS SIEMPRE VISIBLES -->
 <div id="authScreen">
 <div class="hero"><h1>Panel de reportes<br><span>Profesional y seguro.</span></h1><p>Sistema de usuarios con coins, registro unico y panel exclusivo para el creador.</p></div>
 <div class="stat"><div><small>USUARIOS REGISTRADOS</small><br><b id="countLogin">0</b></div><span style="font-size:11px;color:#3fb950;font-weight:700">Activo</span></div>
 
 <div class="card">
-<div class="tabs">
-<button type="button" class="tab active" id="tabLogin" onclick="showTab('login')">Iniciar Sesion</button>
-<button type="button" class="tab" id="tabReg" onclick="showTab('reg')">Crear Cuenta</button>
-</div>
+<h2>Iniciar Sesion</h2>
+<p>Entra con tu usuario creado.</p>
 <div id="alertBox" class="alert"></div>
-
-<div id="loginForm">
 <label>Usuario</label>
-<input id="loginUser" placeholder="Tu usuario registrado" autocomplete="username">
+<input id="loginUser" placeholder="Tu usuario registrado">
 <label>Contrasena</label>
-<input id="loginPass" type="password" placeholder="Tu contrasena" autocomplete="current-password">
+<input id="loginPass" type="password" placeholder="Tu contrasena">
 <button type="button" class="btn btn-primary" onclick="doLogin()">Entrar al Panel</button>
-<p>Si no tienes cuenta, crea una arriba en Crear Cuenta. Sin registro no puedes entrar.<br>Empiezas con <b style="color:#fff">0 Coins</b>. Pide coins a Bxjo.</p>
+<p style="margin-top:10px">Empiezas con <b style="color:#fff">0 Coins</b>. Pide coins a Bxjo.</p>
 </div>
 
-<div id="regForm" class="hidden">
+<div class="card" style="border-color:#1f6feb">
+<h2>Crear Cuenta</h2>
+<p>Si no tienes cuenta, creala aqui. Siempre esta visible.</p>
+<div id="alertReg" class="alert"></div>
 <label>Elige tu usuario</label>
-<input id="regUser" placeholder="Ejemplo: carlos123" autocomplete="username">
+<input id="regUser" placeholder="Ejemplo: carlos123">
 <label>Crea tu contrasena</label>
-<input id="regPass" type="password" placeholder="Minimo 4 caracteres" autocomplete="new-password">
+<input id="regPass" type="password" placeholder="Minimo 4 caracteres">
 <label>Repite tu contrasena</label>
-<input id="regPass2" type="password" placeholder="Repite tu contrasena" autocomplete="new-password">
-<button type="button" class="btn btn-dark" id="btnReg" onclick="doRegister()">Crear Mi Cuenta</button>
+<input id="regPass2" type="password" placeholder="Repite tu contrasena">
+<button type="button" class="btn btn-dark" onclick="doRegister()">Crear Mi Cuenta</button>
 <p>Solo puedes registrarte <b style="color:#fff">1 vez por usuario</b>.<br>El usuario <b style="color:#e3b341">bxjo</b> es exclusivo del creador.</p>
 </div>
-</div>
+<button type="button" class="btn btn-ghost" onclick="borrarSesion()">Si no te sale nada, toca aqui para limpiar sesion vieja</button>
 <div class="footer">BXJO PANEL - Demo / Simulacion educativa<br>Sin acciones reales en WhatsApp - 2026</div>
 </div>
 
@@ -110,7 +105,7 @@ input:focus{border-color:#2ea5ff}
 <div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px" onclick="logout()">Cerrar sesion</span></div>
 <div class="coins"><div><small>TU BALANCE</small><br><b id="coinsShow">0 Coins</b></div><span style="font-size:11px;background:#000;color:#e3b341;padding:6px 10px;border-radius:999px;font-weight:700">Coins</span></div>
 
-<!-- ADMIN - SE ABRE SOLO SI ERES BXJO, SIN OTRA CLAVE -->
+<!-- ADMIN - SIEMPRE SALE SI ERES BXJO -->
 <div id="adminPanel" class="admin hidden">
 <h3>Panel Admin - Solo Bxjo</h3>
 <p style="font-size:11px;text-align:center;color:#c9d1d9;margin:6px 0">Lista de usuarios registrados.</p>
@@ -141,217 +136,104 @@ input:focus{border-color:#2ea5ff}
 </div>
 
 <script>
-// CONFIG - SIMPLE, SIN SEGUNDA CLAVE DE ADMIN
 var ADMIN_USER = 'bxjo';
 var ADMIN_PASS = 'BxjoAdmin2026';
 var COSTO = 10;
-var KEY = 'bxjo_panel_final_v5';
-var SESSION_KEY = 'bxjo_session_v5';
+var KEY = 'bxjo_panel_final_v6';
+var SESSION_KEY = 'bxjo_session_v6';
 
-function getUsers(){
-  try{
-    var raw = localStorage.getItem(KEY);
-    if(!raw) return {};
-    return JSON.parse(raw) || {};
-  }catch(e){ return {}; }
-}
+function getUsers(){ try{ var r=localStorage.getItem(KEY); if(!r) return {}; return JSON.parse(r)||{}; }catch(e){ return {}; } }
 function saveUsers(u){ localStorage.setItem(KEY, JSON.stringify(u)); }
-function setText(id, txt){ var el = document.getElementById(id); if(el) el.innerText = txt; }
-function showAlert(m, t){
-  var a = document.getElementById('alertBox');
-  a.innerText = m;
-  a.className = 'alert show ' + t;
-}
+function setText(id,t){ var e=document.getElementById(id); if(e) e.innerText=t; }
+function showAlert(id,m,t){ var a=document.getElementById(id); a.innerText=m; a.className='alert show '+t; }
 function updateCount(){ setText('countLogin', Object.keys(getUsers()).length); }
+function borrarSesion(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); alert('Sesion vieja borrada. Ahora si te debe salir Crear Cuenta.'); }
 
-function showTab(t){
-  document.getElementById('tabLogin').className = 'tab' + (t==='login' ? ' active' : '');
-  document.getElementById('tabReg').className = 'tab' + (t==='reg' ? ' active' : '');
-  document.getElementById('loginForm').classList.toggle('hidden', t!=='login');
-  document.getElementById('regForm').classList.toggle('hidden', t!=='reg');
-  document.getElementById('alertBox').className = 'alert';
-}
-
-// CREAR CUENTA - ARREGLADO
 function doRegister(){
-  var user = (document.getElementById('regUser').value || '').trim().toLowerCase().replace(/\s+/g,'');
-  var p1 = document.getElementById('regPass').value || '';
-  var p2 = document.getElementById('regPass2').value || '';
-
-  if(!user){ showAlert('Escribe un usuario para registrarte.','err'); return; }
-  if(user.length < 3){ showAlert('El usuario debe tener minimo 3 letras.','err'); return; }
-  if(user === ADMIN_USER){ showAlert('El usuario bxjo es solo del creador. Elige otro nombre.','err'); return; }
-  if(p1.length < 4){ showAlert('La contrasena debe tener minimo 4 caracteres.','err'); return; }
-  if(p1 !== p2){ showAlert('Las contrasenas no coinciden. Revisalas.','err'); return; }
-
-  var users = getUsers();
-  if(users[user]){
-    showAlert('Este usuario ya esta registrado. Ve a Iniciar Sesion.','err');
-    showTab('login');
-    document.getElementById('loginUser').value = user;
-    return;
-  }
-
-  users[user] = { pass: p1, coins: 0, reports: 0, created: new Date().toLocaleString() };
-  saveUsers(users);
-  updateCount();
-  showAlert('Cuenta "' + user + '" creada con exito. Ahora inicia sesion.','ok');
-  document.getElementById('regUser').value = '';
-  document.getElementById('regPass').value = '';
-  document.getElementById('regPass2').value = '';
-  document.getElementById('loginUser').value = user;
-  setTimeout(function(){ showTab('login'); }, 800);
-}
-
-function doLogin(){
-  var user = (document.getElementById('loginUser').value || '').trim().toLowerCase().replace(/\s+/g,'');
-  var pass = document.getElementById('loginPass').value || '';
-  if(!user || !pass){ showAlert('Escribe tu usuario y contrasena.','err'); return; }
-
-  var users = getUsers();
-
-  // ADMIN - SOLO BXJO
-  if(user === ADMIN_USER){
-    if(pass === ADMIN_PASS){
-      if(!users[user]){
-        users[user] = { pass: ADMIN_PASS, coins: 999, reports: 0, created: new Date().toLocaleString() };
-        saveUsers(users);
-      }
-      localStorage.setItem(SESSION_KEY, user);
-      enterPanel(user);
-      return;
-    }
-    if(users[user] && users[user].pass === pass){
-      localStorage.setItem(SESSION_KEY, user);
-      enterPanel(user);
-      return;
-    }
-    showAlert('Clave incorrecta para admin Bxjo.','err');
-    return;
-  }
-
-  if(!users[user]){ showAlert('El usuario "' + user + '" no esta registrado. Ve a Crear Cuenta.','err'); return; }
-  if(users[user].pass !== pass){ showAlert('Contrasena incorrecta.','err'); return; }
-  localStorage.setItem(SESSION_KEY, user);
-  enterPanel(user);
-}
-
-function enterPanel(user){
-  var users = getUsers();
-  var u = users[user];
-  if(!u){ logout(); return; }
-  if(user === ADMIN_USER && (u.coins || 0) < 999){ u.coins = 999; saveUsers(users); }
-  setText('userShow', user);
-  setText('userReport', user);
-  setText('coinsShow', (u.coins || 0) + ' Coins');
-  setText('roleShow', user === ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado');
-  document.getElementById('authScreen').classList.add('hidden');
-  document.getElementById('panelScreen').classList.remove('hidden');
-
-  // ADMIN - SE MUESTRA SOLO SI ERES BXJO
-  if(user === ADMIN_USER){
-    document.getElementById('adminPanel').classList.remove('hidden');
-    renderAdmin();
-  } else {
-    document.getElementById('adminPanel').classList.add('hidden');
-  }
+  var user=(document.getElementById('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
+  var p1=document.getElementById('regPass').value||'';
+  var p2=document.getElementById('regPass2').value||'';
+  if(!user){ showAlert('alertReg','Escribe un usuario para registrarte.','err'); return; }
+  if(user.length<3){ showAlert('alertReg','El usuario debe tener minimo 3 letras.','err'); return; }
+  if(user===ADMIN_USER){ showAlert('alertReg','El usuario bxjo es solo del creador. Elige otro nombre.','err'); return; }
+  if(p1.length<4){ showAlert('alertReg','La contrasena debe tener minimo 4 caracteres.','err'); return; }
+  if(p1!==p2){ showAlert('alertReg','Las contrasenas no coinciden. Revisalas.','err'); return; }
+  var users=getUsers();
+  if(users[user]){ showAlert('alertReg','Este usuario ya esta registrado. Usa Iniciar Sesion arriba.','err'); document.getElementById('loginUser').value=user; return; }
+  users[user]={pass:p1,coins:0,reports:0,created:new Date().toLocaleString()};
+  saveUsers(users); updateCount();
+  showAlert('alertReg','Cuenta "'+user+'" creada con exito. Ahora inicia sesion arriba.','ok');
+  showAlert('alertBox','Cuenta "'+user+'" creada. Inicia sesion arriba.','ok');
+  document.getElementById('regUser').value=''; document.getElementById('regPass').value=''; document.getElementById('regPass2').value='';
+  document.getElementById('loginUser').value=user;
   window.scrollTo(0,0);
 }
 
-function logout(){
-  localStorage.removeItem(SESSION_KEY);
-  document.getElementById('panelScreen').classList.add('hidden');
-  document.getElementById('authScreen').classList.remove('hidden');
-  updateCount();
+function doLogin(){
+  var user=(document.getElementById('loginUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
+  var pass=document.getElementById('loginPass').value||'';
+  if(!user||!pass){ showAlert('alertBox','Escribe tu usuario y contrasena.','err'); return; }
+  var users=getUsers();
+  if(user===ADMIN_USER){
+    if(pass===ADMIN_PASS){
+      if(!users[user]){ users[user]={pass:ADMIN_PASS,coins:999,reports:0,created:new Date().toLocaleString()}; saveUsers(users); }
+      localStorage.setItem(SESSION_KEY,user); enterPanel(user); return;
+    }
+    if(users[user] && users[user].pass===pass){ localStorage.setItem(SESSION_KEY,user); enterPanel(user); return; }
+    showAlert('alertBox','Clave incorrecta para admin Bxjo.','err'); return;
+  }
+  if(!users[user]){ showAlert('alertBox','El usuario "'+user+'" no esta registrado. Crealo abajo en Crear Cuenta.','err'); return; }
+  if(users[user].pass!==pass){ showAlert('alertBox','Contrasena incorrecta.','err'); return; }
+  localStorage.setItem(SESSION_KEY,user); enterPanel(user);
 }
 
-function isAdmin(){ return localStorage.getItem(SESSION_KEY) === ADMIN_USER; }
-
+function enterPanel(user){
+  var users=getUsers(); var u=users[user];
+  if(!u){ borrarSesion(); return; }
+  if(user===ADMIN_USER && (u.coins||0)<999){ u.coins=999; saveUsers(users); }
+  setText('userShow',user); setText('userReport',user); setText('coinsShow',(u.coins||0)+' Coins');
+  setText('roleShow', user===ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado');
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('panelScreen').classList.remove('hidden');
+  if(user===ADMIN_USER){ document.getElementById('adminPanel').classList.remove('hidden'); renderAdmin(); }
+  else { document.getElementById('adminPanel').classList.add('hidden'); }
+  window.scrollTo(0,0);
+}
+function logout(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); }
+function isAdmin(){ return localStorage.getItem(SESSION_KEY)===ADMIN_USER; }
 function renderAdmin(){
   if(!isAdmin()) return;
-  var users = getUsers();
-  var list = document.getElementById('usersList');
-  if(!list) return;
-  list.innerHTML = '';
-  var names = Object.keys(users);
-  setText('totalUsers', names.length);
+  var users=getUsers(); var list=document.getElementById('usersList'); if(!list) return;
+  list.innerHTML=''; var names=Object.keys(users); setText('totalUsers',names.length);
   names.forEach(function(name){
-    var u = users[name];
-    var btns = '';
-    if(name !== ADMIN_USER){
-      btns = '<div class="adminbtns"><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',10)">+10</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',50)">+50</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',100)">+100</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="quitarCoins(\''+name+'\')">Poner 0</button></div>';
-    }
-    list.innerHTML += '<div class="userrow"><b>'+name+(name===ADMIN_USER?' - TU':'')+'</b><small>Coins: '+u.coins+' - Reportes: '+(u.reports||0)+' - '+(u.created||'')+'</small>'+btns+'</div>';
+    var u=users[name]; var btns='';
+    if(name!==ADMIN_USER){ btns='<div class="adminbtns"><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',10)">+10</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',50)">+50</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',100)">+100</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="quitarCoins(\''+name+'\')">Poner 0</button></div>'; }
+    list.innerHTML+='<div class="userrow"><b>'+name+(name===ADMIN_USER?' - TU':'')+'</b><small>Coins: '+u.coins+' - Reportes: '+(u.reports||0)+' - '+(u.created||'')+'</small>'+btns+'</div>';
   });
 }
-function darCoins(name, cant){
-  if(!isAdmin()){ alert('No eres admin'); return; }
-  var users = getUsers();
-  users[name].coins = (users[name].coins || 0) + cant;
-  saveUsers(users);
-  alert('Le diste ' + cant + ' coins a ' + name + '. Ahora tiene ' + users[name].coins);
-  renderAdmin();
-}
-function quitarCoins(name){
-  if(!isAdmin()) return;
-  var users = getUsers();
-  users[name].coins = 0;
-  saveUsers(users);
-  alert('Coins de ' + name + ' en 0');
-  renderAdmin();
-}
-function pedirCoins(){
-  var user = localStorage.getItem(SESSION_KEY) || 'usuario';
-  alert('Hola Bxjo, soy ' + user + ' y necesito coins para usar el panel.');
-}
-
-var motivo = 'Spam';
-function sel(el){
-  document.querySelectorAll('.motivo').forEach(function(m){ m.classList.remove('active'); });
-  el.classList.add('active');
-  motivo = el.innerText;
-}
+function darCoins(name,cant){ if(!isAdmin()){ alert('No eres admin'); return; } var users=getUsers(); users[name].coins=(users[name].coins||0)+cant; saveUsers(users); alert('Le diste '+cant+' coins a '+name+'. Ahora tiene '+users[name].coins); renderAdmin(); }
+function quitarCoins(name){ if(!isAdmin()) return; var users=getUsers(); users[name].coins=0; saveUsers(users); alert('Coins de '+name+' en 0'); renderAdmin(); }
+function pedirCoins(){ var user=localStorage.getItem(SESSION_KEY)||'usuario'; alert('Hola Bxjo, soy '+user+' y necesito coins para usar el panel.'); }
+var motivo='Spam';
+function sel(el){ document.querySelectorAll('.motivo').forEach(function(m){ m.classList.remove('active'); }); el.classList.add('active'); motivo=el.innerText; }
 function iniciar(){
-  var user = localStorage.getItem(SESSION_KEY);
-  var users = getUsers();
-  var u = users[user];
+  var user=localStorage.getItem(SESSION_KEY); var users=getUsers(); var u=users[user];
   if(!u){ alert('Debes iniciar sesion primero'); logout(); return; }
-  if((u.coins || 0) < COSTO){ alert('No tienes coins suficientes. Tienes: ' + (u.coins||0) + ' - Necesitas: 10. Pidele coins a Bxjo.'); return; }
-  var num = document.getElementById('numero').value.trim();
-  if(num.length < 10){ alert('Pon un numero de 10 digitos'); return; }
-  u.coins -= COSTO;
-  u.reports = (u.reports || 0) + 1;
-  saveUsers(users);
-  setText('coinsShow', u.coins + ' Coins');
-  setText('coinsAfter', u.coins + ' Coins');
-  if(isAdmin()) renderAdmin();
-  var start = Date.now();
-  var caseId = 'BX-' + Math.floor(100000 + Math.random()*900000);
-  setText('caseId', caseId);
-  setText('numFinal', '+57 ' + num);
-  setText('motivoFinal', motivo);
-  setText('metaNum', '+57 ' + num);
-  setText('metaSes', 'SES-' + Math.floor(1000 + Math.random()*9000));
-  document.getElementById('progWrap').classList.add('show');
-  document.getElementById('successBox').classList.remove('show');
-  var log = document.getElementById('log');
-  log.innerHTML = '';
-  var barra = document.getElementById('barra');
-  var porc = document.getElementById('porcent');
-  var barText = document.getElementById('barText');
-  log.innerHTML += '<div class="ok">[OK] Conectado a Bxjo-01 - Seguro</div><div class="warn">[Coins] -10 coins - Saldo: ' + u.coins + '</div><div class="ok">[OK] Objetivo +57 ' + num + ' verificado</div>';
-  var p = 0;
-  var timer = setInterval(function(){
-    p += Math.floor(Math.random()*9) + 4;
-    if(p > 100) p = 100;
-    barra.style.width = p + '%';
-    porc.innerText = p + '%';
-    barText.innerText = 'Enviando reporte... ' + p + '%';
-    if(p % 20 < 8){ log.innerHTML += '<div class="ok">[OK] Reporte enviado - ' + motivo + ' - 200 OK</div>'; log.scrollTop = log.scrollHeight; }
-    if(p >= 100){
-      clearInterval(timer);
-      var secs = ((Date.now() - start)/1000).toFixed(1);
-      setText('timeFinal', secs + 's');
-      setTimeout(function(){
-        log.innerHTML += '<div class="ok">[OK] Caso ' + caseId + ' creado - En revision 24-48h</div>';
-  
+  if((u.coins||0)<COSTO){ alert('No tienes coins suficientes. Tienes: '+(u.coins||0)+' - Necesitas: 10. Pidele coins a Bxjo.'); return; }
+  var num=document.getElementById('numero').value.trim(); if(num.length<10){ alert('Pon un numero de 10 digitos'); return; }
+  u.coins-=COSTO; u.reports=(u.reports||0)+1; saveUsers(users); setText('coinsShow',u.coins+' Coins'); setText('coinsAfter',u.coins+' Coins'); if(isAdmin()) renderAdmin();
+  var start=Date.now(); var caseId='BX-'+Math.floor(100000+Math.random()*900000); setText('caseId',caseId); setText('numFinal','+57 '+num); setText('motivoFinal',motivo); setText('metaNum','+57 '+num); setText('metaSes','SES-'+Math.floor(1000+Math.random()*9000));
+  document.getElementById('progWrap').classList.add('show'); document.getElementById('successBox').classList.remove('show');
+  var log=document.getElementById('log'); log.innerHTML=''; var barra=document.getElementById('barra'); var porc=document.getElementById('porcent'); var barText=document.getElementById('barText');
+  log.innerHTML+='<div class="ok">[OK] Conectado a Bxjo-01 - Seguro</div><div class="warn">[Coins] -10 coins - Saldo: '+u.coins+'</div><div class="ok">[OK] Objetivo +57 '+num+' verificado</div>';
+  var p=0; var timer=setInterval(function(){ p+=Math.floor(Math.random()*9)+4; if(p>100) p=100; barra.style.width=p+'%'; porc.innerText=p+'%'; barText.innerText='Enviando reporte... '+p+'%'; if(p%20<8){ log.innerHTML+='<div class="ok">[OK] Reporte enviado - '+motivo+' - 200 OK</div>'; log.scrollTop=log.scrollHeight; } if(p>=100){ clearInterval(timer); var secs=((Date.now()-start)/1000).toFixed(1); setText('timeFinal',secs+'s'); setTimeout(function(){ log.innerHTML+='<div class="ok">[OK] Caso '+caseId+' creado - En revision 24-48h</div>'; document.getElementById('successBox').classList.add('show'); document.getElementById('waStatus').innerHTML='Estado: <b style="color:#e3b341">En Revision</b> - Caso '+caseId; window.scrollTo(0,document.body.scrollHeight); },400); } },130);
+}
+function otro(){ document.getElementById('numero').value=''; document.getElementById('progWrap').classList.remove('show'); document.getElementById('successBox').classList.remove('show'); }
+document.getElementById('numero').addEventListener('input', function(e){ e.target.value=e.target.value.replace(/[^0-9]/g,''); if(e.target.value.length>=3) setText('metaNum','+57 '+e.target.value); });
+
+updateCount();
+var ses=localStorage.getItem(SESSION_KEY);
+if(ses && getUsers()[ses]){ enterPanel(ses); }
+</script>
+</body>
+  </html>
