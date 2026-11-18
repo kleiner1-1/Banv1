@@ -265,7 +265,7 @@ function pedirCoins(){
   reqs.push({id:Date.now(), user:user, cant:parseInt(cant), fecha:new Date().toLocaleString(), estado:'pendiente'});
   saveReq(reqs);
   var msg='Hola Bxjo, soy '+user+' y necesito '+cant+' coins para usar el panel BXJO. Mi usuario es: '+user;
-  var url='https://t.me/Formen0'+TELEGRAM_USER+'?text='+encodeURIComponent(msg);
+  var url='https://t.me/@Formen0'+TELEGRAM_USER+'?text='+encodeURIComponent(msg);
   window.open(url,'_blank');
   alert('Solicitud guardada y Telegram abierto. Ya le llega a Bxjo.');
 }
