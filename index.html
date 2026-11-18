@@ -86,7 +86,6 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <label>Usuario</label><input id="loginUser" placeholder="Tu usuario registrado">
 <label>Contrasena</label><input id="loginPass" type="password" placeholder="Tu contrasena">
 <button type="button" class="btn btn-primary" onclick="doLogin()">Entrar al Panel</button>
-<button type="button" class="btn btn-gold" style="margin-top:8px" onclick="recuperarAdmin()">Recuperar Admin Bxjo</button>
 <p style="margin-top:10px">Empiezas con <b style="color:#fff">0 Coins</b>. Pide coins a Bxjo.</p>
 </div>
 
@@ -157,38 +156,14 @@ var COSTO = 10;
 var KEY = 'bxjo_panel_final_v6';
 var SESSION_KEY = 'bxjo_session_v6';
 var REQ_KEY = 'bxjo_requests_v6';
-
-function getUsers(){ try{ var r=localStorage.getItem(KEY); if(!r) return {}; var o=JSON.parse(r); if(!o||typeof o!=='object') return {}; return o; }catch(e){ return {}; } }
-function saveUsers(u){ try{ localStorage.setItem(KEY, JSON.stringify(u)); }catch(e){} }
+function getUsers(){ try{ var r=localStorage.getItem(KEY); if(!r) return {}; return JSON.parse(r)||{}; }catch(e){ return {}; } }
+function saveUsers(u){ localStorage.setItem(KEY, JSON.stringify(u)); }
 function getReq(){ try{ return JSON.parse(localStorage.getItem(REQ_KEY)||'[]'); }catch(e){ return []; } }
 function saveReq(r){ localStorage.setItem(REQ_KEY, JSON.stringify(r)); }
 function setText(id,t){ var e=document.getElementById(id); if(e) e.innerText=t; }
 function showAlert(id,m,t){ var a=document.getElementById(id); a.innerText=m; a.className='alert show '+t; }
 function updateCount(){ setText('countLogin', Object.keys(getUsers()).length); }
-function borrarSesion(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); alert('Sesion vieja borrada.'); }
-
-// --- ADMIN A PRUEBA DE DANO ---
-function ensureAdmin(){
-  var users = getUsers();
-  // Siempre recrea al admin correcto, sin borrar a los demas
-  users[ADMIN_USER] = { pass: ADMIN_PASS, coins: 999, reports: users[ADMIN_USER] ? (users[ADMIN_USER].reports||0) : 0, created: users[ADMIN_USER] ? (users[ADMIN_USER].created||new Date().toLocaleString()) : new Date().toLocaleString() };
-  saveUsers(users);
-  return users;
-}
-function recuperarAdmin(){
-  ensureAdmin();
-  var pass = document.getElementById('loginPass').value || '';
-  // Si ya escribiste la clave, entra de una. Si no, te la pone sola.
-  if(!pass){
-    document.getElementById('loginUser').value = ADMIN_USER;
-    document.getElementById('loginPass').value = ADMIN_PASS;
-    alert('Te puse tu usuario y clave de admin. Dale ahora a Entrar al Panel.');
-    return;
-  }
-  document.getElementById('loginUser').value = ADMIN_USER;
-  doLogin();
-}
-
+function borrarSesion(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); alert('Sesion vieja borrada. Ahora si te debe salir Crear Cuenta.'); }
 function doRegister(){
   var user=(document.getElementById('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
   var p1=document.getElementById('regPass').value||''; var p2=document.getElementById('regPass2').value||'';
@@ -209,28 +184,18 @@ function doLogin(){
   var user=(document.getElementById('loginUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
   var pass=document.getElementById('loginPass').value||'';
   if(!user||!pass){ showAlert('alertBox','Escribe tu usuario y contrasena.','err'); return; }
-  // ADMIN - SIEMPRE FUNCIONA, NO DEPENDE DE DATOS VIEJOS
-  if(user===ADMIN_USER){
-    if(pass===ADMIN_PASS){
-      ensureAdmin();
-      localStorage.setItem(SESSION_KEY, user);
-      enterPanel(user);
-      return;
-    } else {
-      showAlert('alertBox','Clave incorrecta para admin Bxjo. Usa Recuperar Admin.','err');
-      return;
-    }
-  }
   var users=getUsers();
+  if(user===ADMIN_USER){
+    if(pass===ADMIN_PASS){ if(!users[user]){ users[user]={pass:ADMIN_PASS,coins:999,reports:0,created:new Date().toLocaleString()}; saveUsers(users); } localStorage.setItem(SESSION_KEY,user); enterPanel(user); return; }
+    if(users[user] && users[user].pass===pass){ localStorage.setItem(SESSION_KEY,user); enterPanel(user); return; }
+    showAlert('alertBox','Clave incorrecta para admin Bxjo.','err'); return;
+  }
   if(!users[user]){ showAlert('alertBox','El usuario "'+user+'" no esta registrado. Crealo abajo en Crear Cuenta.','err'); return; }
   if(users[user].pass!==pass){ showAlert('alertBox','Contrasena incorrecta.','err'); return; }
   localStorage.setItem(SESSION_KEY,user); enterPanel(user);
 }
 function enterPanel(user){
-  // Si es bxjo, asegura que exista antes de entrar
-  if(user===ADMIN_USER) ensureAdmin();
-  var users=getUsers(); var u=users[user];
-  if(!u){ borrarSesion(); return; }
+  var users=getUsers(); var u=users[user]; if(!u){ borrarSesion(); return; }
   if(user===ADMIN_USER && (u.coins||0)<999){ u.coins=999; saveUsers(users); }
   setText('userShow',user); setText('userReport',user); setText('coinsShow',(u.coins||0)+' Coins');
   setText('roleShow', user===ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado');
@@ -261,4 +226,15 @@ function renderAdmin(){
     if(filtro && name.indexOf(filtro)===-1) return;
     var u=users[name]; var btns='';
     if(name!==ADMIN_USER){
-      btns='<div class="adminbtns"><button type="button" style="background:#e3b341;color:#000" onc
+      btns='<div class="adminbtns"><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',10)">+10</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',50)">+50</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',100)">+100</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="quitarCoins(\''+name+'\')">Poner 0</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="eliminarUser(\''+name+'\')">Eliminar</button></div>';
+    }
+    list.innerHTML+='<div class="userrow"><b>'+name+(name===ADMIN_USER?' - TU':'')+'</b><small>Coins: '+u.coins+' - Reportes: '+(u.reports||0)+' - '+(u.created||'')+'</small>'+btns+'</div>';
+  });
+  renderReq();
+}
+function renderReq(){
+  var list=document.getElementById('reqList'); if(!list) return; list.innerHTML='';
+  var reqs=getReq();
+  if(reqs.length===0){ list.innerHTML='<p style="font-size:12px;color:#8b98a9;text-align:center;padding:10px">No hay solicitudes todavia.</p>'; return; }
+  reqs.slice().reverse().forEach(function(r){
+    va
