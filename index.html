@@ -6,29 +6,28 @@
 <title>BXJO - Panel Ban V1</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0f14;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;min-height:100vh}
+body{background:#0a0f14;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
 .wrap{max-width:460px;margin:0 auto;padding:16px}
 .header{display:flex;justify-content:space-between;align-items:center;background:#111821;border:1px solid #1f2a36;border-radius:14px;padding:14px 16px}
-.logo{font-size:18px;font-weight:800;letter-spacing:-.5px}.logo span{color:#2ea5ff}
-.logo small{display:block;font-size:10px;color:#8b98a9;font-weight:600;letter-spacing:1px;margin-top:2px}
+.logo{font-size:18px;font-weight:800}.logo span{color:#2ea5ff}
+.logo small{display:block;font-size:10px;color:#8b98a9;font-weight:600;letter-spacing:1px}
 .status{font-size:11px;font-weight:700;color:#3fb950;border:1px solid #1e3a2a;background:#0a1a12;padding:6px 10px;border-radius:999px}
 .hero{padding:20px 4px 14px}
-.hero h1{font-size:26px;line-height:1.15;letter-spacing:-.6px;font-weight:800}
+.hero h1{font-size:26px;line-height:1.15;font-weight:800}
 .hero h1 span{color:#2ea5ff}
 .hero p{color:#8b98a9;font-size:13px;margin-top:8px;line-height:1.5}
-.stat-single{background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:14px;margin:10px 0 16px;display:flex;justify-content:space-between;align-items:center}
-.stat-single small{color:#8b98a9;font-size:10px;font-weight:600;letter-spacing:.5px}
-.stat-single b{font-size:18px}
-.stat-single span{font-size:11px;color:#3fb950;font-weight:700;background:#0a1a12;border:1px solid #1e3a2a;padding:5px 9px;border-radius:999px}
+.stat{background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:14px;margin:10px 0 16px;display:flex;justify-content:space-between;align-items:center}
+.stat small{color:#8b98a9;font-size:10px;font-weight:600}
+.stat b{font-size:18px}
 .card{background:#111821;border:1px solid #1f2a36;border-radius:16px;padding:18px}
-.card h2{font-size:16px;font-weight:700}
+.card h2{font-size:16px}
 .card p{font-size:12.5px;color:#8b98a9;margin:6px 0 14px;line-height:1.5}
 .tabs{display:flex;background:#0a0f14;border:1px solid #1f2a36;padding:4px;border-radius:11px;margin-bottom:16px}
 .tab{flex:1;padding:11px;border:none;background:transparent;color:#8b98a9;font-weight:700;font-size:13px;border-radius:8px;cursor:pointer}
 .tab.active{background:#fff;color:#000}
-label{font-size:11.5px;font-weight:700;color:#c9d1d9}
+label{font-size:12px;font-weight:700;color:#c9d1d9}
 input{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding:13px 14px;border-radius:11px;font-size:14px;outline:none;margin:7px 0 12px}
-input:focus{border-color:#2ea5ff;box-shadow:0 0 0 3px rgba(46,165,255,.15)}
+input:focus{border-color:#2ea5ff}
 .btn{width:100%;border:none;padding:14px;border-radius:11px;font-weight:800;font-size:14px;cursor:pointer}
 .btn-primary{background:#2ea5ff;color:#fff}
 .btn-dark{background:#1f6feb;color:#fff}
@@ -39,7 +38,6 @@ input:focus{border-color:#2ea5ff;box-shadow:0 0 0 3px rgba(46,165,255,.15)}
 .coins{background:#1a1505;border:1px solid #5a4310;border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin:14px 0}
 .coins small{color:#d8b64a;font-size:11px}.coins b{font-size:22px}
 .userbar{display:flex;justify-content:space-between;align-items:center;background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:12px 14px;margin:14px 0}
-.userbar b{font-size:14px}.userbar small{color:#8b98a9;display:block;font-size:11px}
 .input-row{display:flex;gap:8px;margin:7px 0 12px}
 .prefix{background:#2ea5ff;color:#fff;font-weight:800;padding:13px 12px;border-radius:11px}
 .motivos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 14px}
@@ -58,7 +56,6 @@ input:focus{border-color:#2ea5ff;box-shadow:0 0 0 3px rgba(46,165,255,.15)}
 .success.show{display:block}
 .report{background:#05080b;border:1px solid #1f2a36;border-radius:12px;padding:12px;text-align:left;margin-top:12px}
 .report div{font-size:12px;padding:5px 0;border-bottom:1px solid #111821;display:flex;justify-content:space-between}
-.report div:last-child{border:none}
 .admin{background:#1a1505;border:1px solid #5a4310;border-radius:16px;padding:16px;margin:14px 0}
 .admin h3{color:#e3b341;font-size:15px;text-align:center}
 .userrow{background:#05080b;border:1px solid #1f2a36;border-radius:12px;padding:12px;margin:10px 0}
@@ -67,19 +64,16 @@ input:focus{border-color:#2ea5ff;box-shadow:0 0 0 3px rgba(46,165,255,.15)}
 .hidden{display:none!important}
 .footer{text-align:center;font-size:11px;color:#6b7a8a;margin:16px 0;line-height:1.6}
 .support{border:1px solid #1f2a36;background:#0d1512;border-radius:14px;padding:14px;margin-top:14px}
-.support b{font-size:13px}.support p{font-size:12px;color:#c9d1d9;margin:6px 0;line-height:1.5}
 </style>
 </head>
 <body>
 <div class="wrap">
-
 <div class="header"><div class="logo">BXJO <span>PANEL</span><small>BAN V1 - PRO</small></div><div class="status">EN LINEA</div></div>
 
+<!-- LOGIN / REGISTRO -->
 <div id="authScreen">
 <div class="hero"><h1>Panel de reportes<br><span>Profesional y seguro.</span></h1><p>Sistema de usuarios con coins, registro unico y panel exclusivo para el creador.</p></div>
-
-<!-- SOLO USUARIOS -->
-<div class="stat-single"><div><small>USUARIOS REGISTRADOS</small><br><b id="countLogin">0</b></div><span>Activo</span></div>
+<div class="stat"><div><small>USUARIOS REGISTRADOS</small><br><b id="countLogin">0</b></div><span style="font-size:11px;color:#3fb950;font-weight:700">Activo</span></div>
 
 <div class="card">
 <div class="tabs">
@@ -90,48 +84,39 @@ input:focus{border-color:#2ea5ff;box-shadow:0 0 0 3px rgba(46,165,255,.15)}
 
 <div id="loginForm">
 <label>Usuario</label>
-<input id="loginUser" placeholder="Tu usuario registrado">
+<input id="loginUser" placeholder="Tu usuario registrado" autocomplete="username">
 <label>Contrasena</label>
-<input id="loginPass" type="password" placeholder="Tu contrasena">
+<input id="loginPass" type="password" placeholder="Tu contrasena" autocomplete="current-password">
 <button type="button" class="btn btn-primary" onclick="doLogin()">Entrar al Panel</button>
 <p>Si no tienes cuenta, crea una arriba en Crear Cuenta. Sin registro no puedes entrar.<br>Empiezas con <b style="color:#fff">0 Coins</b>. Pide coins a Bxjo.</p>
 </div>
 
 <div id="regForm" class="hidden">
 <label>Elige tu usuario</label>
-<input id="regUser" placeholder="Ejemplo: carlos123">
+<input id="regUser" placeholder="Ejemplo: carlos123" autocomplete="username">
 <label>Crea tu contrasena</label>
-<input id="regPass" type="password" placeholder="Minimo 4 caracteres">
+<input id="regPass" type="password" placeholder="Minimo 4 caracteres" autocomplete="new-password">
 <label>Repite tu contrasena</label>
-<input id="regPass2" type="password" placeholder="Repite tu contrasena">
+<input id="regPass2" type="password" placeholder="Repite tu contrasena" autocomplete="new-password">
 <button type="button" class="btn btn-dark" id="btnReg" onclick="doRegister()">Crear Mi Cuenta</button>
 <p>Solo puedes registrarte <b style="color:#fff">1 vez por usuario</b>.<br>El usuario <b style="color:#e3b341">bxjo</b> es exclusivo del creador.</p>
-<p id="regDebug" style="font-size:11px;color:#6b7a8a;margin:0"></p>
 </div>
 </div>
 <div class="footer">BXJO PANEL - Demo / Simulacion educativa<br>Sin acciones reales en WhatsApp - 2026</div>
 </div>
 
+<!-- PANEL -->
 <div id="panelScreen" class="hidden">
-<div class="userbar"><div><b id="userShow">-</b><small id="roleShow">Usuario verificado</small></div><span style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px" onclick="logout()">Cerrar sesion</span></div>
+<div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px" onclick="logout()">Cerrar sesion</span></div>
 <div class="coins"><div><small>TU BALANCE</small><br><b id="coinsShow">0 Coins</b></div><span style="font-size:11px;background:#000;color:#e3b341;padding:6px 10px;border-radius:999px;font-weight:700">Coins</span></div>
 
-<div id="adminLock" class="admin hidden">
-<h3>Acceso Admin - Solo Creador</h3>
-<p style="font-size:12px;text-align:center;color:#c9d1d9;margin:8px 0">Eres Bxjo, ingresa tu clave secreta para desbloquear el panel.</p>
-<label>Clave secreta admin</label>
-<input id="adminPassInput" type="password" placeholder="Clave secreta admin">
-<button type="button" class="btn btn-gold" onclick="unlockAdmin()">Desbloquear Panel Admin</button>
-</div>
-
-<!-- ADMIN - SOLO USUARIOS -->
+<!-- ADMIN - SE ABRE SOLO SI ERES BXJO, SIN OTRA CLAVE -->
 <div id="adminPanel" class="admin hidden">
 <h3>Panel Admin - Solo Bxjo</h3>
 <p style="font-size:11px;text-align:center;color:#c9d1d9;margin:6px 0">Lista de usuarios registrados.</p>
 <div style="background:#000;border:1px solid #333;border-radius:11px;padding:12px;text-align:center;margin:10px 0"><small style="color:#8b98a9">USUARIOS REGISTRADOS</small><br><b id="totalUsers" style="font-size:20px">0</b></div>
 <div id="usersList"></div>
 <button type="button" class="btn btn-ghost" onclick="renderAdmin()">Actualizar lista</button>
-<button type="button" class="btn btn-ghost" style="margin-top:8px" onclick="lockAdmin()">Bloquear Admin</button>
 </div>
 
 <div class="card" style="margin-top:14px">
@@ -146,85 +131,227 @@ input:focus{border-color:#2ea5ff;box-shadow:0 0 0 3px rgba(46,165,255,.15)}
 <button type="button" class="btn btn-gold" style="margin-top:10px" onclick="pedirCoins()">Pedir Coins al Admin</button>
 <div class="progress" id="progWrap"><div style="display:flex;justify-content:space-between;font-size:11px;color:#8b98a9;margin:10px 0 6px"><span id="barText">Enviando reporte...</span><span>Enviando...</span></div><div class="bar"><i id="barra"></i></div><div class="porcent" id="porcent">0%</div><div class="console" id="log"></div></div>
 <div class="success" id="successBox"><h3 style="font-size:18px">Reporte Completado</h3>
-<div class="report"><div><span>Numero</span><b id="numFinal" style="color:#3fb950">--</b></div><div><span>Reportado por</span><b id="userReport">--</b></div><div><span>Motivo</span><b id="motivoFinal">Spam</b></div><div><span>Coins usados</span><b style="color:#e3b341">Saldo: <span id="coinsAfter">0</span></b></div><div><span>Caso</span><b id="caseId">BX-000000</b></div><div><span>Tiempo</span><b id="timeFinal">0s</b></div><div><span>Estado</span><b style="color:#e3b341">En Revision 24-48h</b></div></div>
+<div class="report"><div><span>Numero</span><b id="numFinal" style="color:#3fb950">--</b></div><div><span>Reportado por</span><b id="userReport">--</b></div><div><span>Motivo</span><b id="motivoFinal">Spam</b></div><div><span>Saldo</span><b style="color:#e3b341"><span id="coinsAfter">0</span> Coins</b></div><div><span>Caso</span><b id="caseId">BX-000000</b></div><div><span>Tiempo</span><b id="timeFinal">0s</b></div><div><span>Estado</span><b style="color:#e3b341">En Revision 24-48h</b></div></div>
 <button type="button" class="btn btn-primary" style="margin-top:12px" onclick="otro()">Reportar Otro Numero</button></div>
 </div>
 
-<div class="support"><b>WhatsApp Support</b><p>Se recibieron multiples reportes sobre este numero.</p><p>Procesando solicitud de revision...</p><p id="waStatus">Estado: <b style="color:#e3b341">En Revision</b></p></div>
+<div class="support"><b>WhatsApp Support</b><p style="font-size:12px;color:#c9d1d9;margin:6px 0">Se recibieron multiples reportes sobre este numero.</p><p style="font-size:12px;color:#c9d1d9">Procesando solicitud de revision...</p><p id="waStatus" style="font-size:12px">Estado: <b style="color:#e3b341">En Revision</b></p></div>
 <div class="footer">BXJO PANEL PRO - Demo / Simulacion educativa<br>Hecho con dedicacion por Bxjo - 2026</div>
 </div>
 </div>
 
 <script>
+// CONFIG - SIMPLE, SIN SEGUNDA CLAVE DE ADMIN
 var ADMIN_USER = 'bxjo';
 var ADMIN_PASS = 'BxjoAdmin2026';
 var COSTO = 10;
-var KEY = 'bxjo_users_v4_final';
-var SESSION_KEY = 'bxjo_session_v4';
-var ADMIN_SESSION_KEY = 'bxjo_admin_v4';
-function getUsers(){ try{ var raw=localStorage.getItem(KEY); if(!raw) return {}; var obj=JSON.parse(raw); if(!obj||typeof obj!=='object') return {}; return obj; }catch(e){ return {}; } }
-function saveUsers(u){ try{ localStorage.setItem(KEY, JSON.stringify(u)); }catch(e){ alert('Tu navegador bloqueo el guardado. Usa Chrome en modo normal.'); } }
-function setText(id,txt){ var el=document.getElementById(id); if(el) el.innerText=txt; }
-function showAlert(m,t){ var a=document.getElementById('alertBox'); if(!a) return; a.innerText=m; a.className='alert show '+t; }
+var KEY = 'bxjo_panel_final_v5';
+var SESSION_KEY = 'bxjo_session_v5';
+
+function getUsers(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(!raw) return {};
+    return JSON.parse(raw) || {};
+  }catch(e){ return {}; }
+}
+function saveUsers(u){ localStorage.setItem(KEY, JSON.stringify(u)); }
+function setText(id, txt){ var el = document.getElementById(id); if(el) el.innerText = txt; }
+function showAlert(m, t){
+  var a = document.getElementById('alertBox');
+  a.innerText = m;
+  a.className = 'alert show ' + t;
+}
 function updateCount(){ setText('countLogin', Object.keys(getUsers()).length); }
-function showTab(t){ document.getElementById('tabLogin').classList.toggle('active', t==='login'); document.getElementById('tabReg').classList.toggle('active', t==='reg'); document.getElementById('loginForm').classList.toggle('hidden', t!=='login'); document.getElementById('regForm').classList.toggle('hidden', t!=='reg'); var a=document.getElementById('alertBox'); if(a) a.className='alert'; }
+
+function showTab(t){
+  document.getElementById('tabLogin').className = 'tab' + (t==='login' ? ' active' : '');
+  document.getElementById('tabReg').className = 'tab' + (t==='reg' ? ' active' : '');
+  document.getElementById('loginForm').classList.toggle('hidden', t!=='login');
+  document.getElementById('regForm').classList.toggle('hidden', t!=='reg');
+  document.getElementById('alertBox').className = 'alert';
+}
+
+// CREAR CUENTA - ARREGLADO
 function doRegister(){
-  var user=(document.getElementById('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
-  var p1=document.getElementById('regPass').value||''; var p2=document.getElementById('regPass2').value||'';
-  document.getElementById('regDebug').innerText='Intentando crear: '+user;
-  if(user===''){ showAlert('Escribe un usuario para registrarte.','err'); return; }
-  if(user.length<3){ showAlert('El usuario debe tener minimo 3 letras.','err'); return; }
-  if(user===ADMIN_USER){ showAlert('El usuario bxjo es solo del creador. Elige otro nombre.','err'); return; }
-  if(p1.length<4){ showAlert('La contrasena debe tener minimo 4 caracteres.','err'); return; }
-  if(p1!==p2){ showAlert('Las contrasenas no coinciden. Revisalas.','err'); return; }
-  var users=getUsers();
-  if(users[user]){ showAlert('Este usuario ya esta registrado. Ve a Iniciar Sesion.','err'); showTab('login'); document.getElementById('loginUser').value=user; return; }
-  users[user]={pass:p1,coins:0,reports:0,created:new Date().toLocaleString()}; saveUsers(users); updateCount();
-  showAlert('Cuenta "'+user+'" creada con exito. Ahora inicia sesion.','ok');
-  document.getElementById('regUser').value=''; document.getElementById('regPass').value=''; document.getElementById('regPass2').value='';
-  document.getElementById('loginUser').value=user; document.getElementById('regDebug').innerText='Cuenta creada correctamente.';
-  setTimeout(function(){ showTab('login'); },800);
-}
-function doLogin(){
-  var user=(document.getElementById('loginUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
-  var pass=document.getElementById('loginPass').value||'';
-  if(user===''||pass===''){ showAlert('Escribe tu usuario y contrasena.','err'); return; }
-  if(user===ADMIN_USER){
-    var usersA=getUsers();
-    if(usersA[user] && usersA[user].pass===pass){ localStorage.setItem(SESSION_KEY,user); enterPanel(user); return; }
-    if(pass===ADMIN_PASS){ if(!usersA[user]){ usersA[user]={pass:ADMIN_PASS,coins:999,reports:0,created:new Date().toLocaleString()}; saveUsers(usersA); } localStorage.setItem(SESSION_KEY,user); enterPanel(user); return; }
-    showAlert('Clave incorrecta para admin Bxjo.','err'); return;
+  var user = (document.getElementById('regUser').value || '').trim().toLowerCase().replace(/\s+/g,'');
+  var p1 = document.getElementById('regPass').value || '';
+  var p2 = document.getElementById('regPass2').value || '';
+
+  if(!user){ showAlert('Escribe un usuario para registrarte.','err'); return; }
+  if(user.length < 3){ showAlert('El usuario debe tener minimo 3 letras.','err'); return; }
+  if(user === ADMIN_USER){ showAlert('El usuario bxjo es solo del creador. Elige otro nombre.','err'); return; }
+  if(p1.length < 4){ showAlert('La contrasena debe tener minimo 4 caracteres.','err'); return; }
+  if(p1 !== p2){ showAlert('Las contrasenas no coinciden. Revisalas.','err'); return; }
+
+  var users = getUsers();
+  if(users[user]){
+    showAlert('Este usuario ya esta registrado. Ve a Iniciar Sesion.','err');
+    showTab('login');
+    document.getElementById('loginUser').value = user;
+    return;
   }
-  var users=getUsers();
-  if(!users[user]){ showAlert('El usuario "'+user+'" no esta registrado. Ve a Crear Cuenta.','err'); return; }
-  if(users[user].pass!==pass){ showAlert('Contrasena incorrecta.','err'); return; }
-  localStorage.setItem(SESSION_KEY,user); enterPanel(user);
+
+  users[user] = { pass: p1, coins: 0, reports: 0, created: new Date().toLocaleString() };
+  saveUsers(users);
+  updateCount();
+  showAlert('Cuenta "' + user + '" creada con exito. Ahora inicia sesion.','ok');
+  document.getElementById('regUser').value = '';
+  document.getElementById('regPass').value = '';
+  document.getElementById('regPass2').value = '';
+  document.getElementById('loginUser').value = user;
+  setTimeout(function(){ showTab('login'); }, 800);
 }
+
+function doLogin(){
+  var user = (document.getElementById('loginUser').value || '').trim().toLowerCase().replace(/\s+/g,'');
+  var pass = document.getElementById('loginPass').value || '';
+  if(!user || !pass){ showAlert('Escribe tu usuario y contrasena.','err'); return; }
+
+  var users = getUsers();
+
+  // ADMIN - SOLO BXJO
+  if(user === ADMIN_USER){
+    if(pass === ADMIN_PASS){
+      if(!users[user]){
+        users[user] = { pass: ADMIN_PASS, coins: 999, reports: 0, created: new Date().toLocaleString() };
+        saveUsers(users);
+      }
+      localStorage.setItem(SESSION_KEY, user);
+      enterPanel(user);
+      return;
+    }
+    if(users[user] && users[user].pass === pass){
+      localStorage.setItem(SESSION_KEY, user);
+      enterPanel(user);
+      return;
+    }
+    showAlert('Clave incorrecta para admin Bxjo.','err');
+    return;
+  }
+
+  if(!users[user]){ showAlert('El usuario "' + user + '" no esta registrado. Ve a Crear Cuenta.','err'); return; }
+  if(users[user].pass !== pass){ showAlert('Contrasena incorrecta.','err'); return; }
+  localStorage.setItem(SESSION_KEY, user);
+  enterPanel(user);
+}
+
 function enterPanel(user){
-  var users=getUsers(); var u=users[user]; if(!u){ logout(); return; }
-  if(user===ADMIN_USER && (u.coins||0)<999){ u.coins=999; saveUsers(users); }
-  setText('userShow',user); setText('userReport',user); setText('coinsShow',(u.coins||0)+' Coins');
-  setText('roleShow', user===ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado');
-  document.getElementById('authScreen').classList.add('hidden'); document.getElementById('panelScreen').classList.remove('hidden');
-  if(user===ADMIN_USER){ if(localStorage.getItem(ADMIN_SESSION_KEY)==='1'){ document.getElementById('adminPanel').classList.remove('hidden'); document.getElementById('adminLock').classList.add('hidden'); renderAdmin(); } else { document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('adminLock').classList.remove('hidden'); } }
-  else { document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('adminLock').classList.add('hidden'); }
+  var users = getUsers();
+  var u = users[user];
+  if(!u){ logout(); return; }
+  if(user === ADMIN_USER && (u.coins || 0) < 999){ u.coins = 999; saveUsers(users); }
+  setText('userShow', user);
+  setText('userReport', user);
+  setText('coinsShow', (u.coins || 0) + ' Coins');
+  setText('roleShow', user === ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado');
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('panelScreen').classList.remove('hidden');
+
+  // ADMIN - SE MUESTRA SOLO SI ERES BXJO
+  if(user === ADMIN_USER){
+    document.getElementById('adminPanel').classList.remove('hidden');
+    renderAdmin();
+  } else {
+    document.getElementById('adminPanel').classList.add('hidden');
+  }
   window.scrollTo(0,0);
 }
-function unlockAdmin(){ var user=localStorage.getItem(SESSION_KEY); if(user!==ADMIN_USER){ alert('Solo Bxjo puede desbloquear el admin.'); return; } var pass=document.getElementById('adminPassInput').value; if(pass!==ADMIN_PASS){ alert('Clave admin incorrecta.'); return; } localStorage.setItem(ADMIN_SESSION_KEY,'1'); document.getElementById('adminLock').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); renderAdmin(); alert('Admin desbloqueado, bienvenido Bxjo.'); }
-function lockAdmin(){ localStorage.removeItem(ADMIN_SESSION_KEY); document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('adminLock').classList.remove('hidden'); }
-function logout(){ localStorage.removeItem(SESSION_KEY); localStorage.removeItem(ADMIN_SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); }
-function isAdmin(){ return localStorage.getItem(SESSION_KEY)===ADMIN_USER && localStorage.getItem(ADMIN_SESSION_KEY)==='1'; }
-function renderAdmin(){
-  if(!isAdmin()) return; var users=getUsers(); var list=document.getElementById('usersList'); if(!list) return; list.innerHTML=''; var names=Object.keys(users); setText('totalUsers',names.length);
-  names.forEach(function(name){ var u=users[name]; var btns=''; if(name!==ADMIN_USER){ btns='<div class="adminbtns"><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',10)">+10</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',50)">+50</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',100)">+100</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="quitarCoins(\''+name+'\')">Poner 0</button></div>'; } list.innerHTML+='<div class="userrow"><b>'+name+(name===ADMIN_USER?' - TU':'')+'</b><small>Coins: '+u.coins+' - Reportes: '+(u.reports||0)+' - '+(u.created||'')+'</small>'+btns+'</div>'; });
+
+function logout(){
+  localStorage.removeItem(SESSION_KEY);
+  document.getElementById('panelScreen').classList.add('hidden');
+  document.getElementById('authScreen').classList.remove('hidden');
+  updateCount();
 }
-function darCoins(name,cant){ if(!isAdmin()){ alert('No eres admin'); return; } var users=getUsers(); users[name].coins=(users[name].coins||0)+cant; saveUsers(users); alert('Le diste '+cant+' coins a '+name+'. Ahora tiene '+users[name].coins); renderAdmin(); }
-function quitarCoins(name){ if(!isAdmin()) return; var users=getUsers(); users[name].coins=0; saveUsers(users); alert('Coins de '+name+' en 0'); renderAdmin(); }
-function pedirCoins(){ var user=localStorage.getItem(SESSION_KEY)||'usuario'; alert('Hola Bxjo, soy '+user+' y necesito coins para usar el panel.'); }
-var motivo='Spam';
-function sel(el){ document.querySelectorAll('.motivo').forEach(function(m){ m.classList.remove('active'); }); el.classList.add('active'); motivo=el.innerText; }
+
+function isAdmin(){ return localStorage.getItem(SESSION_KEY) === ADMIN_USER; }
+
+function renderAdmin(){
+  if(!isAdmin()) return;
+  var users = getUsers();
+  var list = document.getElementById('usersList');
+  if(!list) return;
+  list.innerHTML = '';
+  var names = Object.keys(users);
+  setText('totalUsers', names.length);
+  names.forEach(function(name){
+    var u = users[name];
+    var btns = '';
+    if(name !== ADMIN_USER){
+      btns = '<div class="adminbtns"><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',10)">+10</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',50)">+50</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',100)">+100</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="quitarCoins(\''+name+'\')">Poner 0</button></div>';
+    }
+    list.innerHTML += '<div class="userrow"><b>'+name+(name===ADMIN_USER?' - TU':'')+'</b><small>Coins: '+u.coins+' - Reportes: '+(u.reports||0)+' - '+(u.created||'')+'</small>'+btns+'</div>';
+  });
+}
+function darCoins(name, cant){
+  if(!isAdmin()){ alert('No eres admin'); return; }
+  var users = getUsers();
+  users[name].coins = (users[name].coins || 0) + cant;
+  saveUsers(users);
+  alert('Le diste ' + cant + ' coins a ' + name + '. Ahora tiene ' + users[name].coins);
+  renderAdmin();
+}
+function quitarCoins(name){
+  if(!isAdmin()) return;
+  var users = getUsers();
+  users[name].coins = 0;
+  saveUsers(users);
+  alert('Coins de ' + name + ' en 0');
+  renderAdmin();
+}
+function pedirCoins(){
+  var user = localStorage.getItem(SESSION_KEY) || 'usuario';
+  alert('Hola Bxjo, soy ' + user + ' y necesito coins para usar el panel.');
+}
+
+var motivo = 'Spam';
+function sel(el){
+  document.querySelectorAll('.motivo').forEach(function(m){ m.classList.remove('active'); });
+  el.classList.add('active');
+  motivo = el.innerText;
+}
 function iniciar(){
-  var user=localStorage.getItem(SESSION_KEY); var users=getUsers(); var u=users[user];
+  var user = localStorage.getItem(SESSION_KEY);
+  var users = getUsers();
+  var u = users[user];
   if(!u){ alert('Debes iniciar sesion primero'); logout(); return; }
-  if((u.coins||0)<COSTO){ alert('No tienes coins suficientes. Tienes: '+(u.coins||0)+' - Necesitas: 10. Pidele coins a Bxjo.'); return; }
-  var num=document.getElementById('numero').value.trim(); if(num.length<10){ alert('Pon un numero de 10 dig
+  if((u.coins || 0) < COSTO){ alert('No tienes coins suficientes. Tienes: ' + (u.coins||0) + ' - Necesitas: 10. Pidele coins a Bxjo.'); return; }
+  var num = document.getElementById('numero').value.trim();
+  if(num.length < 10){ alert('Pon un numero de 10 digitos'); return; }
+  u.coins -= COSTO;
+  u.reports = (u.reports || 0) + 1;
+  saveUsers(users);
+  setText('coinsShow', u.coins + ' Coins');
+  setText('coinsAfter', u.coins + ' Coins');
+  if(isAdmin()) renderAdmin();
+  var start = Date.now();
+  var caseId = 'BX-' + Math.floor(100000 + Math.random()*900000);
+  setText('caseId', caseId);
+  setText('numFinal', '+57 ' + num);
+  setText('motivoFinal', motivo);
+  setText('metaNum', '+57 ' + num);
+  setText('metaSes', 'SES-' + Math.floor(1000 + Math.random()*9000));
+  document.getElementById('progWrap').classList.add('show');
+  document.getElementById('successBox').classList.remove('show');
+  var log = document.getElementById('log');
+  log.innerHTML = '';
+  var barra = document.getElementById('barra');
+  var porc = document.getElementById('porcent');
+  var barText = document.getElementById('barText');
+  log.innerHTML += '<div class="ok">[OK] Conectado a Bxjo-01 - Seguro</div><div class="warn">[Coins] -10 coins - Saldo: ' + u.coins + '</div><div class="ok">[OK] Objetivo +57 ' + num + ' verificado</div>';
+  var p = 0;
+  var timer = setInterval(function(){
+    p += Math.floor(Math.random()*9) + 4;
+    if(p > 100) p = 100;
+    barra.style.width = p + '%';
+    porc.innerText = p + '%';
+    barText.innerText = 'Enviando reporte... ' + p + '%';
+    if(p % 20 < 8){ log.innerHTML += '<div class="ok">[OK] Reporte enviado - ' + motivo + ' - 200 OK</div>'; log.scrollTop = log.scrollHeight; }
+    if(p >= 100){
+      clearInterval(timer);
+      var secs = ((Date.now() - start)/1000).toFixed(1);
+      setText('timeFinal', secs + 's');
+      setTimeout(function(){
+        log.innerHTML += '<div class="ok">[OK] Caso ' + caseId + ' creado - En revision 24-48h</div>';
+  
