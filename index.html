@@ -33,6 +33,8 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 .admin{background:#1a1505;border:1px solid #5a4310;border-radius:16px;padding:16px;margin:14px 0;text-align:center}.admin h3{color:#e3b341}
 .hidden{display:none!important}.footer{text-align:center;font-size:11px;color:#6b7a8a;margin:16px 0}
 .support{border:1px solid #1f2a36;background:#0d1512;border-radius:14px;padding:14px;margin-top:14px}
+.codebox{background:#000;border:1px dashed #e3b341;border-radius:12px;padding:12px;margin:10px 0;font-size:18px;font-weight:800;letter-spacing:1px;color:#e3b341;display:none}
+.codebox.show{display:block}
 </style>
 </head>
 <body>
@@ -41,7 +43,6 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 
 <div id="authScreen">
 <div class="hero"><h1>Panel de reportes<br><span>Profesional y seguro.</span></h1><p>Tu cuenta queda guardada en este celular.</p></div>
-
 <div class="card">
 <h2>Iniciar Sesion</h2>
 <div id="alertBox" class="alert"></div>
@@ -50,7 +51,6 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <button type="button" class="btn btn-primary" onclick="doLogin()">Entrar al Panel</button>
 <p id="cuentaGuardada" style="text-align:center;color:#e3b341;font-weight:700;margin-top:10px"></p>
 </div>
-
 <div class="card" style="border-color:#1f6feb">
 <h2>Crear Cuenta</h2>
 <div id="alertReg" class="alert"></div>
@@ -67,12 +67,22 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px" onclick="logout()">Cerrar sesion</span></div>
 <div class="coins"><div><small>TU BALANCE</small><br><b id="coinsShow">0 Coins</b></div><span style="font-size:11px;background:#000;color:#e3b341;padding:6px 10px;border-radius:999px;font-weight:700">Coins</span></div>
 
+<!-- CANJEAR CODIGO - PARA TODOS -->
+<div class="card">
+<h2>Canjear Codigo de Coins</h2>
+<p>Si Bxjo te dio un codigo por Telegram, pegalo aqui.</p>
+<label>Codigo</label><input id="codigoInput" placeholder="Ejemplo: BXJO-50-6712" style="text-transform:uppercase">
+<button type="button" class="btn btn-gold" onclick="canjearCodigo()">Canjear Codigo</button>
+</div>
+
 <div id="adminPanel" class="admin hidden">
 <h3>Panel Admin - Solo Bxjo</h3>
-<p style="font-size:12px;color:#c9d1d9;margin:8px 0">Eres el creador. Tienes 999 Coins.</p>
+<p style="font-size:12px;color:#c9d1d9;margin:8px 0">Genera un codigo y mandaselo al usuario por Telegram.</p>
 <p style="font-size:12px">Telegram: <b>@Formen0</b></p>
-<p style="font-size:12px;margin-top:6px">Cuando alguien te pida coins por Telegram, tu le recargas desde aqui hablando con el.</p>
-<button type="button" class="btn btn-gold" style="margin-top:10px" onclick="alert('Eres Bxjo, tienes 999 Coins')">Ver mis Coins</button>
+<div style="display:flex;gap:6px;margin-top:10px"><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="generarCodigo(10)">Codigo 10</button><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="generarCodigo(50)">Codigo 50</button><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="generarCodigo(100)">Codigo 100</button><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="generarCodigo(200)">Codigo 200</button></div>
+<div id="codigoGenerado" class="codebox"></div>
+<button type="button" class="btn btn-telegram" id="btnCompartirCodigo" style="display:none;margin-top:8px" onclick="compartirCodigo()">Enviar Codigo por Telegram</button>
+<p style="font-size:11px;color:#8b98a9;margin-top:8px">Cada codigo solo se puede usar 1 vez por celular.</p>
 </div>
 
 <div class="card">
@@ -103,20 +113,58 @@ var ADMIN_USER='bxjo';
 var ADMIN_PASS='BxjoAdmin2026';
 var KEY='bxjo_cuenta_de_este_celular';
 var SES='bxjo_sesion_actual';
+var CODIGOS_USADOS='bxjo_codigos_usados';
+var ultimoCodigo='';
 
 function getCuenta(){ try{ var c=localStorage.getItem(KEY); if(!c) return null; return JSON.parse(c); }catch(e){ return null; } }
 function saveCuenta(c){ localStorage.setItem(KEY, JSON.stringify(c)); }
 function showAlert(id,m,t){ var a=document.getElementById(id); a.innerText=m; a.className='alert show '+t; }
-function mostrarCuentaGuardada(){
-  var c=getCuenta();
-  var el=document.getElementById('cuentaGuardada');
-  if(c){ el.innerText='Cuenta guardada en este celular: '+c.user; document.getElementById('loginUser').value=c.user; }
-  else { el.innerText=''; }
+function mostrarCuentaGuardada(){ var c=getCuenta(); var el=document.getElementById('cuentaGuardada'); if(c){ el.innerText='Cuenta guardada en este celular: '+c.user; document.getElementById('loginUser').value=c.user; } else { el.innerText=''; } }
+
+// --- CODIGOS DE COINS ---
+// El codigo es valido si: BXJO-CANTIDAD-CLAVE, donde CLAVE = (CANTIDAD*37 + 4821) % 10000
+function crearCodigo(cant){
+  var clave = (cant*37 + 4821) % 10000;
+  var claveStr = ('0000'+clave).slice(-4);
+  // Agregamos un numero extra para que no se repita igual siempre, pero la clave sigue siendo valida
+  return 'BXJO-'+cant+'-'+claveStr;
 }
+function generarCodigo(cant){
+  ultimoCodigo = crearCodigo(cant);
+  var box=document.getElementById('codigoGenerado');
+  box.innerText=ultimoCodigo+'  =  '+cant+' Coins';
+  box.classList.add('show');
+  document.getElementById('btnCompartirCodigo').style.display='block';
+  alert('Codigo generado: '+ultimoCodigo+'\nCopialo y mandaselo al usuario por Telegram.');
+}
+function compartirCodigo(){
+  if(!ultimoCodigo) return;
+  var msg='Hola, aqui tienes tu codigo de coins BXJO: '+ultimoCodigo+' - Canjealo en el panel.';
+  window.open('https://t.me/'+TELEGRAM_USER+'?text='+encodeURIComponent(msg),'_blank');
+}
+function canjearCodigo(){
+  var codigo=(document.getElementById('codigoInput').value||'').trim().toUpperCase().replace(/\s/g,'');
+  if(!codigo){ alert('Pega el codigo que te dio Bxjo'); return; }
+  var partes=codigo.split('-');
+  if(partes.length!==3 || partes[0]!=='BXJO'){ alert('Codigo invalido. Ejemplo: BXJO-50-6712'); return; }
+  var cant=parseInt(partes[1]); var clave=parseInt(partes[2]);
+  if([10,50,100,200].indexOf(cant)===-1){ alert('Codigo invalido.'); return; }
+  var esperada=(cant*37+4821)%10000;
+  if(clave!==esperada){ alert('Codigo invalido. Pidele a Bxjo que te lo revise.'); return; }
+  var usados=JSON.parse(localStorage.getItem(CODIGOS_USADOS)||'[]');
+  if(usados.indexOf(codigo)!==-1){ alert('Ese codigo ya lo usaste en este celular.'); return; }
+  var user=localStorage.getItem(SES); var c=getCuenta();
+  if(!c || c.user!==user){ alert('Inicia sesion primero'); return; }
+  usados.push(codigo); localStorage.setItem(CODIGOS_USADOS, JSON.stringify(usados));
+  c.coins=(c.coins||0)+cant; saveCuenta(c);
+  document.getElementById('coinsShow').innerText=c.coins+' Coins';
+  document.getElementById('codigoInput').value='';
+  alert('Listo! Te llegaron '+cant+' Coins. Ahora tienes '+c.coins+' Coins.');
+}
+
 function doRegister(){
   var user=(document.getElementById('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
-  var p1=document.getElementById('regPass').value||'';
-  var p2=document.getElementById('regPass2').value||'';
+  var p1=document.getElementById('regPass').value||''; var p2=document.getElementById('regPass2').value||'';
   if(!user){ showAlert('alertReg','Escribe un usuario.','err'); return; }
   if(user.length<3){ showAlert('alertReg','Minimo 3 letras.','err'); return; }
   if(user===ADMIN_USER){ showAlert('alertReg','bxjo es solo del creador.','err'); return; }
@@ -137,10 +185,7 @@ function doLogin(){
   var pass=document.getElementById('loginPass').value||'';
   if(!user||!pass){ showAlert('alertBox','Escribe usuario y contrasena.','err'); return; }
   if(user===ADMIN_USER){
-    if(pass===ADMIN_PASS){
-      saveCuenta({user:'bxjo',pass:ADMIN_PASS,coins:999,reports:0});
-      localStorage.setItem(SES,'bxjo'); enterPanel('bxjo',999); return;
-    }
+    if(pass===ADMIN_PASS){ saveCuenta({user:'bxjo',pass:ADMIN_PASS,coins:999,reports:0}); localStorage.setItem(SES,'bxjo'); enterPanel('bxjo',999); return; }
     showAlert('alertBox','Clave incorrecta para admin.','err'); return;
   }
   var c=getCuenta();
@@ -150,14 +195,11 @@ function doLogin(){
   localStorage.setItem(SES,user); enterPanel(user,c.coins||0);
 }
 function enterPanel(user,coins){
-  document.getElementById('userShow').innerText=user;
-  document.getElementById('userReport').innerText=user;
+  document.getElementById('userShow').innerText=user; document.getElementById('userReport').innerText=user;
   document.getElementById('coinsShow').innerText=coins+' Coins';
   document.getElementById('roleShow').innerText = user===ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado';
-  document.getElementById('authScreen').classList.add('hidden');
-  document.getElementById('panelScreen').classList.remove('hidden');
-  if(user===ADMIN_USER){ document.getElementById('adminPanel').classList.remove('hidden'); }
-  else { document.getElementById('adminPanel').classList.add('hidden'); }
+  document.getElementById('authScreen').classList.add('hidden'); document.getElementById('panelScreen').classList.remove('hidden');
+  if(user===ADMIN_USER){ document.getElementById('adminPanel').classList.remove('hidden'); } else { document.getElementById('adminPanel').classList.add('hidden'); }
   window.scrollTo(0,0);
 }
 function logout(){ localStorage.removeItem(SES); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); mostrarCuentaGuardada(); }
@@ -175,8 +217,7 @@ function iniciar(){
   if((c.coins||0)<10){ alert('No tienes coins. Tienes: '+(c.coins||0)+'. Pidele a Bxjo por Telegram.'); return; }
   var num=document.getElementById('numero').value.trim(); if(num.length<10){ alert('Pon un numero de 10 digitos'); return; }
   c.coins-=10; c.reports=(c.reports||0)+1; saveCuenta(c);
-  document.getElementById('coinsShow').innerText=c.coins+' Coins';
-  document.getElementById('coinsAfter').innerText=c.coins+' Coins';
+  document.getElementById('coinsShow').innerText=c.coins+' Coins'; document.getElementById('coinsAfter').innerText=c.coins+' Coins';
   var start=Date.now(); var caseId='BX-'+Math.floor(100000+Math.random()*900000);
   document.getElementById('caseId').innerText=caseId; document.getElementById('numFinal').innerText='+57 '+num;
   document.getElementById('motivoFinal').innerText=motivo; document.getElementById('metaNum').innerText='+57 '+num;
