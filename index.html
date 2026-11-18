@@ -106,7 +106,6 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px" onclick="logout()">Cerrar sesion</span></div>
 <div class="coins"><div><small>TU BALANCE</small><br><b id="coinsShow">0 Coins</b></div><span style="font-size:11px;background:#000;color:#e3b341;padding:6px 10px;border-radius:999px;font-weight:700">Coins</span></div>
 
-<!-- ADMIN MEJORADO -->
 <div id="adminPanel" class="admin hidden">
 <h3>Panel Admin - Solo Bxjo</h3>
 <div class="admin-grid"><div><small>USUARIOS</small><b id="totalUsers">0</b></div><div><small>TOTAL COINS</small><b id="totalCoins" style="color:#e3b341">0</b></div><div><small>SOLICITUDES</small><b id="totalReq" style="color:#229ED9">0</b></div></div>
@@ -135,11 +134,10 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <label>Motivo del reporte</label>
 <div class="motivos"><div class="motivo active" onclick="sel(this)">Spam</div><div class="motivo" onclick="sel(this)">Contenido +18</div><div class="motivo" onclick="sel(this)">Acoso</div><div class="motivo" onclick="sel(this)">Estafa</div></div>
 <button type="button" class="btn btn-dark" onclick="iniciar()">Iniciar Reporte</button>
-<!-- PEDIR COINS A TELEGRAM -->
 <label style="margin-top:14px;display:block">Cuantos coins necesitas?</label>
 <select id="cantPedir"><option value="10">10 Coins</option><option value="50" selected>50 Coins</option><option value="100">100 Coins</option><option value="200">200 Coins</option></select>
 <button type="button" class="btn btn-telegram" onclick="pedirCoins()">Pedir Coins por Telegram a Bxjo</button>
-<p style="font-size:11px;text-align:center;margin-top:8px">Se abrira tu Telegram con el mensaje listo para enviar a Bxjo.</p>
+<p style="font-size:11px;text-align:center;margin-top:8px">Se abrira tu Telegram con el mensaje listo para enviar a @Formen0.</p>
 
 <div class="progress" id="progWrap"><div style="display:flex;justify-content:space-between;font-size:11px;color:#8b98a9;margin:10px 0 6px"><span id="barText">Enviando reporte...</span><span>Enviando...</span></div><div class="bar"><i id="barra"></i></div><div class="porcent" id="porcent">0%</div><div class="console" id="log"></div></div>
 <div class="success" id="successBox"><h3 style="font-size:18px">Reporte Completado</h3>
@@ -153,8 +151,7 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 </div>
 
 <script>
-// >>> CAMBIA ESTO POR TU @ DE TELEGRAM SIN EL @ <<<
-var TELEGRAM_USER = 'Bxjo';
+var TELEGRAM_USER = 'Formen0';
 var ADMIN_USER = 'bxjo';
 var ADMIN_PASS = 'BxjoAdmin2026';
 var COSTO = 10;
@@ -213,7 +210,6 @@ function enterPanel(user){
 }
 function logout(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); }
 function isAdmin(){ return localStorage.getItem(SESSION_KEY)===ADMIN_USER; }
-
 function showAdminTab(t){
   document.getElementById('tabUsuariosBtn').className = t==='usuarios' ? 'active' : '';
   document.getElementById('tabReqBtn').className = t==='req' ? 'active' : '';
@@ -245,47 +241,4 @@ function renderReq(){
   var reqs=getReq();
   if(reqs.length===0){ list.innerHTML='<p style="font-size:12px;color:#8b98a9;text-align:center;padding:10px">No hay solicitudes todavia.</p>'; return; }
   reqs.slice().reverse().forEach(function(r){
-    var color = r.estado==='pendiente' ? '#229ED9' : (r.estado==='aprobada' ? '#3fb950' : '#ff5a5a');
-    var btns = r.estado==='pendiente' ? '<div class="adminbtns"><button type="button" style="background:#3fb950;color:#fff" onclick="aprobarReq('+r.id+')">Aprobar +'+r.cant+'</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="rechazarReq('+r.id+')">Rechazar</button></div>' : '<small style="color:'+color+'">Estado: '+r.estado.toUpperCase()+'</small>';
-    list.innerHTML+='<div class="req"><b>'+r.user+' pide '+r.cant+' Coins</b><small>'+r.fecha+' - Estado: '+r.estado+'</small>'+btns+'</div>';
-  });
-}
-function darCoins(name,cant){ if(!isAdmin()) return; var users=getUsers(); if(!users[name]) return; users[name].coins=(users[name].coins||0)+cant; saveUsers(users); alert('Le diste '+cant+' coins a '+name+'. Ahora tiene '+users[name].coins); renderAdmin(); }
-function darCoinsSelect(cant){ var name=document.getElementById('selectUserAdmin').value; if(!name){ alert('Selecciona un usuario primero'); return; } darCoins(name,cant); }
-function quitarCoins(name){ if(!isAdmin()) return; var users=getUsers(); users[name].coins=0; saveUsers(users); alert('Coins de '+name+' en 0'); renderAdmin(); }
-function eliminarUser(name){ if(!isAdmin()) return; if(!confirm('Eliminar a '+name+' para siempre?')) return; var users=getUsers(); delete users[name]; saveUsers(users); alert('Usuario '+name+' eliminado'); renderAdmin(); updateCount(); }
-function aprobarReq(id){ var reqs=getReq(); var r=reqs.find(function(x){return x.id===id}); if(!r) return; var users=getUsers(); if(!users[r.user]){ alert('Ese usuario ya no existe'); r.estado='rechazada'; saveReq(reqs); renderAdmin(); return; } users[r.user].coins=(users[r.user].coins||0)+r.cant; saveUsers(users); r.estado='aprobada'; saveReq(reqs); alert('Aprobado. '+r.user+' ahora tiene '+users[r.user].coins+' coins'); renderAdmin(); }
-function rechazarReq(id){ var reqs=getReq(); var r=reqs.find(function(x){return x.id===id}); if(!r) return; r.estado='rechazada'; saveReq(reqs); renderAdmin(); }
-function limpiarReq(){ saveReq(getReq().filter(function(r){return r.estado==='pendiente'})); renderAdmin(); alert('Solicitudes atendidas borradas'); }
-
-function pedirCoins(){
-  var user=localStorage.getItem(SESSION_KEY)||'usuario';
-  var cant=document.getElementById('cantPedir').value;
-  var reqs=getReq();
-  reqs.push({id:Date.now(), user:user, cant:parseInt(cant), fecha:new Date().toLocaleString(), estado:'pendiente'});
-  saveReq(reqs);
-  var msg='Hola Bxjo, soy '+user+' y necesito '+cant+' coins para usar el panel BXJO. Mi usuario es: '+user;
-  var url='https://t.me/formen0'+TELEGRAM_USER+'?text='+encodeURIComponent(msg);
-  window.open(url,'_blank');
-  alert('Solicitud guardada y Telegram abierto. Ya le llega a Bxjo.');
-}
-var motivo='Spam';
-function sel(el){ document.querySelectorAll('.motivo').forEach(function(m){ m.classList.remove('active'); }); el.classList.add('active'); motivo=el.innerText; }
-function iniciar(){
-  var user=localStorage.getItem(SESSION_KEY); var users=getUsers(); var u=users[user];
-  if(!u){ alert('Debes iniciar sesion primero'); logout(); return; }
-  if((u.coins||0)<COSTO){ alert('No tienes coins suficientes. Tienes: '+(u.coins||0)+' - Necesitas: 10. Pidele coins a Bxjo por Telegram.'); return; }
-  var num=document.getElementById('numero').value.trim(); if(num.length<10){ alert('Pon un numero de 10 digitos'); return; }
-  u.coins-=COSTO; u.reports=(u.reports||0)+1; saveUsers(users); setText('coinsShow',u.coins+' Coins'); setText('coinsAfter',u.coins+' Coins'); if(isAdmin()) renderAdmin();
-  var start=Date.now(); var caseId='BX-'+Math.floor(100000+Math.random()*900000); setText('caseId',caseId); setText('numFinal','+57 '+num); setText('motivoFinal',motivo); setText('metaNum','+57 '+num); setText('metaSes','SES-'+Math.floor(1000+Math.random()*9000));
-  document.getElementById('progWrap').classList.add('show'); document.getElementById('successBox').classList.remove('show');
-  var log=document.getElementById('log'); log.innerHTML=''; var barra=document.getElementById('barra'); var porc=document.getElementById('porcent'); var barText=document.getElementById('barText');
-  log.innerHTML+='<div class="ok">[OK] Conectado a Bxjo-01 - Seguro</div><div class="warn">[Coins] -10 coins - Saldo: '+u.coins+'</div><div class="ok">[OK] Objetivo +57 '+num+' verificado</div>';
-  var p=0; var timer=setInterval(function(){ p+=Math.floor(Math.random()*9)+4; if(p>100) p=100; barra.style.width=p+'%'; porc.innerText=p+'%'; barText.innerText='Enviando reporte... '+p+'%'; if(p%20<8){ log.innerHTML+='<div class="ok">[OK] Reporte enviado - '+motivo+' - 200 OK</div>'; log.scrollTop=log.scrollHeight; } if(p>=100){ clearInterval(timer); var secs=((Date.now()-start)/1000).toFixed(1); setText('timeFinal',secs+'s'); setTimeout(function(){ log.innerHTML+='<div class="ok">[OK] Caso '+caseId+' creado - En revision 24-48h</div>'; document.getElementById('successBox').classList.add('show'); document.getElementById('waStatus').innerHTML='Estado: <b style="color:#e3b341">En Revision</b> - Caso '+caseId; window.scrollTo(0,document.body.scrollHeight); },400); } },130);
-}
-function otro(){ document.getElementById('numero').value=''; document.getElementById('progWrap').classList.remove('show'); document.getElementById('successBox').classList.remove('show'); }
-document.getElementById('numero').addEventListener('input', function(e){ e.target.value=e.target.value.replace(/[^0-9]/g,''); if(e.target.value.length>=3) setText('metaNum','+57 '+e.target.value); });
-updateCount(); var ses=localStorage.getItem(SESSION_KEY); if(ses && getUsers()[ses]){ enterPanel(ses); }
-</script>
-</body>
-</html>
+  
