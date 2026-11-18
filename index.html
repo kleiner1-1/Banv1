@@ -6,241 +6,191 @@
 <title>BXJO - Panel Ban V1</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0f14;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+body{background:#0a0f14;color:#e6edf3;font-family:Arial,sans-serif}
 .wrap{max-width:460px;margin:0 auto;padding:16px}
-.header{display:flex;justify-content:space-between;align-items:center;background:#111821;border:1px solid #1f2a36;border-radius:14px;padding:14px 16px}
+.header{display:flex;justify-content:space-between;align-items:center;background:#111821;border:1px solid #1f2a36;border-radius:14px;padding:14px}
 .logo{font-size:18px;font-weight:800}.logo span{color:#2ea5ff}
-.logo small{display:block;font-size:10px;color:#8b98a9}
 .status{font-size:11px;font-weight:700;color:#3fb950;border:1px solid #1e3a2a;background:#0a1a12;padding:6px 10px;border-radius:999px}
-.hero{padding:20px 4px 14px}
-.hero h1{font-size:26px;line-height:1.15;font-weight:800}
-.hero h1 span{color:#2ea5ff}
-.hero p{color:#8b98a9;font-size:13px;margin-top:8px;line-height:1.5}
-.stat{background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:14px;margin:10px 0 16px;display:flex;justify-content:space-between;align-items:center}
-.stat small{color:#8b98a9;font-size:10px;font-weight:600}
-.stat b{font-size:18px}
+.hero{padding:20px 4px 14px}.hero h1{font-size:26px;line-height:1.15}.hero h1 span{color:#2ea5ff}.hero p{color:#8b98a9;font-size:13px;margin-top:8px}
 .card{background:#111821;border:1px solid #1f2a36;border-radius:16px;padding:18px;margin-bottom:14px}
-.card h2{font-size:16px}
-.card p{font-size:12.5px;color:#8b98a9;margin:6px 0 14px;line-height:1.5}
-label{font-size:12px;font-weight:700;color:#c9d1d9}
-input{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding:13px 14px;border-radius:11px;font-size:14px;outline:none;margin:7px 0 12px}
+.card h2{font-size:16px}.card p{font-size:12.5px;color:#8b98a9;margin:6px 0 14px}
+label{font-size:12px;font-weight:700}
+input{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding:13px;border-radius:11px;font-size:14px;margin:7px 0 12px;outline:none}
 select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding:12px;border-radius:11px;margin:7px 0 12px}
 .btn{width:100%;border:none;padding:14px;border-radius:11px;font-weight:800;font-size:14px;cursor:pointer}
-.btn-primary{background:#2ea5ff;color:#fff}
-.btn-dark{background:#1f6feb;color:#fff}
-.btn-gold{background:#e3b341;color:#000}
-.btn-ghost{background:#1c2530;color:#fff;border:1px solid #2a3644}
-.btn-telegram{background:#229ED9;color:#fff}
-.alert{font-size:13px;text-align:center;padding:12px;border-radius:11px;margin:10px 0;display:none;line-height:1.5}
-.alert.show{display:block}.alert.err{background:#2a0f14;border:1px solid #7a1f2a;color:#f0a0a8}.alert.ok{background:#0a1f14;border:1px solid #1e4d2e;color:#8ce8ab}
-.coins{background:#1a1505;border:1px solid #5a4310;border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin:14px 0}
-.userbar{display:flex;justify-content:space-between;align-items:center;background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:12px 14px;margin:14px 0}
-.input-row{display:flex;gap:8px;margin:7px 0 12px}
-.prefix{background:#2ea5ff;color:#fff;font-weight:800;padding:13px 12px;border-radius:11px}
-.motivos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 14px}
-.motivo{border:1px solid #2a3644;background:#0a0f14;padding:12px;font-size:12.5px;font-weight:600;text-align:center;cursor:pointer;border-radius:11px}
-.motivo.active{border-color:#2ea5ff;background:#0a1a2e;color:#fff}
-.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
-.meta div{background:#0a0f14;border:1px solid #1f2a36;padding:10px;border-radius:11px}
-.meta small{color:#8b98a9;font-size:10px}.meta b{display:block;font-size:12.5px;margin-top:2px}
-.progress{display:none;margin-top:14px}.progress.show{display:block}
-.bar{height:10px;background:#1f2a36;border-radius:999px;overflow:hidden}
-.bar i{display:block;height:100%;width:0%;background:#2ea5ff;transition:width .25s}
-.porcent{font-size:26px;font-weight:800;text-align:center;margin:8px 0}
-.console{background:#05080b;border:1px solid #1f2a36;padding:12px;height:210px;overflow-y:auto;border-radius:12px;font-size:12px;line-height:1.7;font-family:Consolas,monospace}
-.console .ok{color:#3fb950}.console .warn{color:#e3b341}
-.success{display:none;text-align:center;padding:16px;border:1px dashed #2a5a3a;background:#0a1a12;border-radius:14px;margin-top:14px}
-.success.show{display:block}
-.report{background:#05080b;border:1px solid #1f2a36;border-radius:12px;padding:12px;text-align:left;margin-top:12px}
-.report div{font-size:12px;padding:5px 0;border-bottom:1px solid #111821;display:flex;justify-content:space-between}
-.admin{background:#1a1505;border:1px solid #5a4310;border-radius:16px;padding:16px;margin:14px 0}
-.admin h3{color:#e3b341;font-size:15px;text-align:center}
-.admin-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}
-.admin-grid div{background:#000;border:1px solid #333;border-radius:11px;padding:10px;text-align:center}
-.admin-grid small{color:#8b98a9;font-size:9px}
-.admin-grid b{display:block;font-size:16px;margin-top:3px}
-.userrow{background:#05080b;border:1px solid #1f2a36;border-radius:12px;padding:12px;margin:10px 0}
-.userrow b{font-size:13px}.userrow small{color:#8b98a9;display:block;font-size:11px;margin:3px 0}
-.adminbtns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.adminbtns button{flex:1;padding:9px;border-radius:8px;border:none;font-weight:800;cursor:pointer;font-size:12px;min-width:60px}
-.req{background:#05080b;border:1px solid #229ED9;border-radius:12px;padding:12px;margin:8px 0}
-.req b{font-size:13px}.req small{color:#8b98a9;display:block;font-size:11px}
-.hidden{display:none!important}
-.footer{text-align:center;font-size:11px;color:#6b7a8a;margin:16px 0;line-height:1.6}
+.btn-primary{background:#2ea5ff;color:#fff}.btn-dark{background:#1f6feb;color:#fff}.btn-gold{background:#e3b341;color:#000}.btn-ghost{background:#1c2530;color:#fff;border:1px solid #2a3644}.btn-telegram{background:#229ED9;color:#fff}
+.alert{font-size:13px;text-align:center;padding:12px;border-radius:11px;margin:10px 0;display:none}
+.alert.show{display:block}.alert.err{background:#2a0f14;color:#f0a0a8}.alert.ok{background:#0a1f14;color:#8ce8ab}
+.coins{background:#1a1505;border:1px solid #5a4310;border-radius:14px;padding:14px;display:flex;justify-content:space-between;margin:14px 0}
+.userbar{display:flex;justify-content:space-between;background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:12px 14px;margin:14px 0}
+.input-row{display:flex;gap:8px;margin:7px 0 12px}.prefix{background:#2ea5ff;font-weight:800;padding:13px 12px;border-radius:11px}
+.motivos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 14px}.motivo{border:1px solid #2a3644;background:#0a0f14;padding:12px;font-size:12.5px;font-weight:600;text-align:center;cursor:pointer;border-radius:11px}.motivo.active{border-color:#2ea5ff;background:#0a1a2e}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.meta div{background:#0a0f14;border:1px solid #1f2a36;padding:10px;border-radius:11px}.meta small{color:#8b98a9;font-size:10px}.meta b{display:block;font-size:12.5px}
+.progress{display:none;margin-top:14px}.progress.show{display:block}.bar{height:10px;background:#1f2a36;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;width:0%;background:#2ea5ff}
+.porcent{font-size:26px;font-weight:800;text-align:center;margin:8px 0}.console{background:#05080b;border:1px solid #1f2a36;padding:12px;height:180px;overflow-y:auto;border-radius:12px;font-size:12px;line-height:1.7;font-family:monospace}.console .ok{color:#3fb950}.console .warn{color:#e3b341}
+.success{display:none;text-align:center;padding:16px;border:1px dashed #2a5a3a;background:#0a1a12;border-radius:14px;margin-top:14px}.success.show{display:block}
+.report{background:#05080b;border:1px solid #1f2a36;border-radius:12px;padding:12px;text-align:left;margin-top:12px}.report div{font-size:12px;padding:5px 0;border-bottom:1px solid #111821;display:flex;justify-content:space-between}
+.admin{background:#1a1505;border:1px solid #5a4310;border-radius:16px;padding:16px;margin:14px 0;text-align:center}.admin h3{color:#e3b341}
+.hidden{display:none!important}.footer{text-align:center;font-size:11px;color:#6b7a8a;margin:16px 0}
 .support{border:1px solid #1f2a36;background:#0d1512;border-radius:14px;padding:14px;margin-top:14px}
-.tabs-admin{display:flex;gap:6px;margin:12px 0}
-.tabs-admin button{flex:1;padding:10px;border-radius:9px;border:1px solid #333;background:#000;color:#fff;font-weight:700;cursor:pointer}
-.tabs-admin button.active{background:#e3b341;color:#000;border-color:#e3b341}
 </style>
 </head>
 <body>
 <div class="wrap">
-<div class="header"><div class="logo">BXJO <span>PANEL</span><small>BAN V1 - PRO</small></div><div class="status">EN LINEA</div></div>
+<div class="header"><div class="logo">BXJO <span>PANEL</span></div><div class="status">EN LINEA</div></div>
 
 <div id="authScreen">
-<div class="hero"><h1>Panel de reportes<br><span>Profesional y seguro.</span></h1><p>Sistema de usuarios con coins, registro unico y panel exclusivo para el creador.</p></div>
-<div class="stat"><div><small>USUARIOS REGISTRADOS</small><br><b id="countLogin">0</b></div><span style="font-size:11px;color:#3fb950;font-weight:700">Activo</span></div>
+<div class="hero"><h1>Panel de reportes<br><span>Profesional y seguro.</span></h1><p>Tu cuenta queda guardada en este celular.</p></div>
 
 <div class="card">
-<h2>Iniciar Sesion</h2><p>Entra con tu usuario creado.</p>
+<h2>Iniciar Sesion</h2>
 <div id="alertBox" class="alert"></div>
-<label>Usuario</label><input id="loginUser" placeholder="Tu usuario registrado">
+<label>Usuario</label><input id="loginUser" placeholder="Tu usuario">
 <label>Contrasena</label><input id="loginPass" type="password" placeholder="Tu contrasena">
 <button type="button" class="btn btn-primary" onclick="doLogin()">Entrar al Panel</button>
-<p style="margin-top:10px">Empiezas con <b style="color:#fff">0 Coins</b>. Pide coins a Bxjo.</p>
+<p id="cuentaGuardada" style="text-align:center;color:#e3b341;font-weight:700;margin-top:10px"></p>
 </div>
 
 <div class="card" style="border-color:#1f6feb">
-<h2>Crear Cuenta</h2><p>Si no tienes cuenta, creala aqui. Siempre esta visible.</p>
+<h2>Crear Cuenta</h2>
 <div id="alertReg" class="alert"></div>
 <label>Elige tu usuario</label><input id="regUser" placeholder="Ejemplo: carlos123">
 <label>Crea tu contrasena</label><input id="regPass" type="password" placeholder="Minimo 4 caracteres">
 <label>Repite tu contrasena</label><input id="regPass2" type="password" placeholder="Repite tu contrasena">
 <button type="button" class="btn btn-dark" onclick="doRegister()">Crear Mi Cuenta</button>
-<p>Solo puedes registrarte <b style="color:#fff">1 vez por usuario</b>.<br>El usuario <b style="color:#e3b341">bxjo</b> es exclusivo del creador.</p>
+<p>El usuario <b style="color:#e3b341">bxjo</b> es solo del creador.</p>
 </div>
-<button type="button" class="btn btn-ghost" onclick="borrarSesion()">Si no te sale nada, toca aqui para limpiar sesion vieja</button>
-<div class="footer">BXJO PANEL - Demo / Simulacion educativa<br>Sin acciones reales en WhatsApp - 2026</div>
+<div class="footer">BXJO PANEL - Demo / Simulacion educativa</div>
 </div>
 
 <div id="panelScreen" class="hidden">
 <div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px" onclick="logout()">Cerrar sesion</span></div>
 <div class="coins"><div><small>TU BALANCE</small><br><b id="coinsShow">0 Coins</b></div><span style="font-size:11px;background:#000;color:#e3b341;padding:6px 10px;border-radius:999px;font-weight:700">Coins</span></div>
 
-<!-- ADMIN MEJORADO -->
 <div id="adminPanel" class="admin hidden">
 <h3>Panel Admin - Solo Bxjo</h3>
-<div class="admin-grid"><div><small>USUARIOS</small><b id="totalUsers">0</b></div><div><small>TOTAL COINS</small><b id="totalCoins" style="color:#e3b341">0</b></div><div><small>SOLICITUDES</small><b id="totalReq" style="color:#229ED9">0</b></div></div>
-<div class="tabs-admin"><button type="button" id="tabUsuariosBtn" class="active" onclick="showAdminTab('usuarios')">Usuarios</button><button type="button" id="tabReqBtn" onclick="showAdminTab('req')">Solicitudes Coins</button></div>
-<div id="adminUsuarios">
-<input id="buscarUser" placeholder="Buscar usuario..." oninput="renderAdmin()">
-<label>Dar coins rapido a:</label>
-<select id="selectUserAdmin"><option value="">Selecciona usuario...</option></select>
-<div style="display:flex;gap:6px;margin-bottom:10px"><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="darCoinsSelect(10)">+10</button><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="darCoinsSelect(50)">+50</button><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="darCoinsSelect(100)">+100</button></div>
-<div id="usersList"></div>
-</div>
-<div id="adminReq" class="hidden">
-<p style="font-size:12px;color:#c9d1d9;text-align:center">Aqui llegan los que piden coins. Apruebalos y se les suma solo.</p>
-<div id="reqList"></div>
-<button type="button" class="btn btn-ghost" onclick="limpiarReq()">Borrar solicitudes atendidas</button>
-</div>
-<button type="button" class="btn btn-ghost" onclick="renderAdmin()" style="margin-top:10px">Actualizar todo</button>
+<p style="font-size:12px;color:#c9d1d9;margin:8px 0">Eres el creador. Tienes 999 Coins.</p>
+<p style="font-size:12px">Telegram: <b>@Formen0</b></p>
+<p style="font-size:12px;margin-top:6px">Cuando alguien te pida coins por Telegram, tu le recargas desde aqui hablando con el.</p>
+<button type="button" class="btn btn-gold" style="margin-top:10px" onclick="alert('Eres Bxjo, tienes 999 Coins')">Ver mis Coins</button>
 </div>
 
-<div class="card" style="margin-top:14px">
+<div class="card">
 <h2>Reportar Numero de WhatsApp</h2>
-<p>Ingresa el numero, elige el motivo y el sistema enviara el reporte para revision.</p>
-<div class="meta"><div><small>OBJETIVO</small><b id="metaNum">--</b></div><div><small>SESION</small><b id="metaSes">--</b></div><div><small>REGION</small><b>CO - Barrancabermeja</b></div><div><small>PROXY</small><b style="color:#3fb950">Activo - Seguro</b></div></div>
+<div class="meta"><div><small>OBJETIVO</small><b id="metaNum">--</b></div><div><small>SESION</small><b id="metaSes">--</b></div><div><small>REGION</small><b>CO - Barrancabermeja</b></div><div><small>PROXY</small><b style="color:#3fb950">Activo</b></div></div>
 <label>Numero a reportar</label>
 <div class="input-row"><div class="prefix">+57</div><input id="numero" type="tel" placeholder="300 123 4567" maxlength="10"></div>
 <label>Motivo del reporte</label>
 <div class="motivos"><div class="motivo active" onclick="sel(this)">Spam</div><div class="motivo" onclick="sel(this)">Contenido +18</div><div class="motivo" onclick="sel(this)">Acoso</div><div class="motivo" onclick="sel(this)">Estafa</div></div>
 <button type="button" class="btn btn-dark" onclick="iniciar()">Iniciar Reporte</button>
-<!-- PEDIR COINS A TELEGRAM -->
 <label style="margin-top:14px;display:block">Cuantos coins necesitas?</label>
 <select id="cantPedir"><option value="10">10 Coins</option><option value="50" selected>50 Coins</option><option value="100">100 Coins</option><option value="200">200 Coins</option></select>
 <button type="button" class="btn btn-telegram" onclick="pedirCoins()">Pedir Coins por Telegram a Bxjo</button>
-<p style="font-size:11px;text-align:center;margin-top:8px">Se abrira tu Telegram con el mensaje listo para enviar a Bxjo.</p>
-
-<div class="progress" id="progWrap"><div style="display:flex;justify-content:space-between;font-size:11px;color:#8b98a9;margin:10px 0 6px"><span id="barText">Enviando reporte...</span><span>Enviando...</span></div><div class="bar"><i id="barra"></i></div><div class="porcent" id="porcent">0%</div><div class="console" id="log"></div></div>
-<div class="success" id="successBox"><h3 style="font-size:18px">Reporte Completado</h3>
-<div class="report"><div><span>Numero</span><b id="numFinal" style="color:#3fb950">--</b></div><div><span>Reportado por</span><b id="userReport">--</b></div><div><span>Motivo</span><b id="motivoFinal">Spam</b></div><div><span>Saldo</span><b style="color:#e3b341"><span id="coinsAfter">0</span> Coins</b></div><div><span>Caso</span><b id="caseId">BX-000000</b></div><div><span>Tiempo</span><b id="timeFinal">0s</b></div><div><span>Estado</span><b style="color:#e3b341">En Revision 24-48h</b></div></div>
+<p style="font-size:11px;text-align:center;margin-top:8px">Se abrira tu Telegram para enviar a @Formen0.</p>
+<div class="progress" id="progWrap"><div style="display:flex;justify-content:space-between;font-size:11px;color:#8b98a9;margin:10px 0 6px"><span id="barText">Enviando...</span><span>Enviando...</span></div><div class="bar"><i id="barra"></i></div><div class="porcent" id="porcent">0%</div><div class="console" id="log"></div></div>
+<div class="success" id="successBox"><h3>Reporte Completado</h3>
+<div class="report"><div><span>Numero</span><b id="numFinal" style="color:#3fb950">--</b></div><div><span>Reportado por</span><b id="userReport">--</b></div><div><span>Motivo</span><b id="motivoFinal">Spam</b></div><div><span>Saldo</span><b style="color:#e3b341"><span id="coinsAfter">0</span> Coins</b></div><div><span>Caso</span><b id="caseId">BX-000000</b></div><div><span>Tiempo</span><b id="timeFinal">0s</b></div></div>
 <button type="button" class="btn btn-primary" style="margin-top:12px" onclick="otro()">Reportar Otro Numero</button></div>
 </div>
-
-<div class="support"><b>WhatsApp Support</b><p style="font-size:12px;color:#c9d1d9;margin:6px 0">Se recibieron multiples reportes sobre este numero.</p><p style="font-size:12px;color:#c9d1d9">Procesando solicitud de revision...</p><p id="waStatus" style="font-size:12px">Estado: <b style="color:#e3b341">En Revision</b></p></div>
-<div class="footer">BXJO PANEL PRO - Demo / Simulacion educativa<br>Hecho con dedicacion por Bxjo - 2026</div>
+<div class="support"><b>WhatsApp Support</b><p style="font-size:12px;color:#c9d1d9;margin:6px 0">Se recibieron multiples reportes sobre este numero.</p><p id="waStatus" style="font-size:12px">Estado: <b style="color:#e3b341">En Revision</b></p></div>
+<div class="footer">BXJO PANEL PRO - Demo / Simulacion educativa<br>Hecho por Bxjo - 2026</div>
 </div>
 </div>
 
 <script>
-// >>> CAMBIA ESTO POR TU @ DE TELEGRAM SIN EL @ <<<
-var TELEGRAM_USER = 'Formen0';
-var ADMIN_USER = 'bxjo';
-var ADMIN_PASS = 'BxjoAdmin2026';
-var COSTO = 10;
-var KEY = 'bxjo_panel_final_v6';
-var SESSION_KEY = 'bxjo_session_v6';
-var REQ_KEY = 'bxjo_requests_v6';
+var TELEGRAM_USER='Formen0';
+var ADMIN_USER='bxjo';
+var ADMIN_PASS='BxjoAdmin2026';
+var KEY='bxjo_cuenta_de_este_celular';
+var SES='bxjo_sesion_actual';
 
-function getUsers(){ try{ var r=localStorage.getItem(KEY); if(!r) return {}; return JSON.parse(r)||{}; }catch(e){ return {}; } }
-function saveUsers(u){ localStorage.setItem(KEY, JSON.stringify(u)); }
-function getReq(){ try{ return JSON.parse(localStorage.getItem(REQ_KEY)||'[]'); }catch(e){ return []; } }
-function saveReq(r){ localStorage.setItem(REQ_KEY, JSON.stringify(r)); }
-function setText(id,t){ var e=document.getElementById(id); if(e) e.innerText=t; }
+function getCuenta(){ try{ var c=localStorage.getItem(KEY); if(!c) return null; return JSON.parse(c); }catch(e){ return null; } }
+function saveCuenta(c){ localStorage.setItem(KEY, JSON.stringify(c)); }
 function showAlert(id,m,t){ var a=document.getElementById(id); a.innerText=m; a.className='alert show '+t; }
-function updateCount(){ setText('countLogin', Object.keys(getUsers()).length); }
-function borrarSesion(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); alert('Sesion vieja borrada. Ahora si te debe salir Crear Cuenta.'); }
-
+function mostrarCuentaGuardada(){
+  var c=getCuenta();
+  var el=document.getElementById('cuentaGuardada');
+  if(c){ el.innerText='Cuenta guardada en este celular: '+c.user; document.getElementById('loginUser').value=c.user; }
+  else { el.innerText=''; }
+}
 function doRegister(){
   var user=(document.getElementById('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
-  var p1=document.getElementById('regPass').value||''; var p2=document.getElementById('regPass2').value||'';
-  if(!user){ showAlert('alertReg','Escribe un usuario para registrarte.','err'); return; }
-  if(user.length<3){ showAlert('alertReg','El usuario debe tener minimo 3 letras.','err'); return; }
-  if(user===ADMIN_USER){ showAlert('alertReg','El usuario bxjo es solo del creador. Elige otro nombre.','err'); return; }
-  if(p1.length<4){ showAlert('alertReg','La contrasena debe tener minimo 4 caracteres.','err'); return; }
-  if(p1!==p2){ showAlert('alertReg','Las contrasenas no coinciden. Revisalas.','err'); return; }
-  var users=getUsers();
-  if(users[user]){ showAlert('alertReg','Este usuario ya esta registrado. Usa Iniciar Sesion arriba.','err'); document.getElementById('loginUser').value=user; return; }
-  users[user]={pass:p1,coins:0,reports:0,created:new Date().toLocaleString()}; saveUsers(users); updateCount();
-  showAlert('alertReg','Cuenta "'+user+'" creada con exito. Ahora inicia sesion arriba.','ok');
-  showAlert('alertBox','Cuenta "'+user+'" creada. Inicia sesion arriba.','ok');
+  var p1=document.getElementById('regPass').value||'';
+  var p2=document.getElementById('regPass2').value||'';
+  if(!user){ showAlert('alertReg','Escribe un usuario.','err'); return; }
+  if(user.length<3){ showAlert('alertReg','Minimo 3 letras.','err'); return; }
+  if(user===ADMIN_USER){ showAlert('alertReg','bxjo es solo del creador.','err'); return; }
+  if(p1.length<4){ showAlert('alertReg','La contrasena minimo 4.','err'); return; }
+  if(p1!==p2){ showAlert('alertReg','Las contrasenas no coinciden.','err'); return; }
+  var vieja=getCuenta();
+  if(vieja && vieja.user===user){ showAlert('alertReg','Esa cuenta ya esta guardada en este celular. Inicia sesion arriba.','err'); return; }
+  if(vieja){ if(!confirm('En este celular ya hay una cuenta guardada: '+vieja.user+'. ¿Quieres cambiarla por '+user+'?')) return; }
+  saveCuenta({user:user,pass:p1,coins:0,reports:0});
+  showAlert('alertReg','Cuenta "'+user+'" guardada en este celular. Ahora inicia sesion arriba.','ok');
+  showAlert('alertBox','Cuenta "'+user+'" guardada. Inicia sesion.','ok');
+  document.getElementById('loginUser').value=user;
   document.getElementById('regUser').value=''; document.getElementById('regPass').value=''; document.getElementById('regPass2').value='';
-  document.getElementById('loginUser').value=user; window.scrollTo(0,0);
+  mostrarCuentaGuardada();
 }
 function doLogin(){
   var user=(document.getElementById('loginUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
   var pass=document.getElementById('loginPass').value||'';
-  if(!user||!pass){ showAlert('alertBox','Escribe tu usuario y contrasena.','err'); return; }
-  var users=getUsers();
+  if(!user||!pass){ showAlert('alertBox','Escribe usuario y contrasena.','err'); return; }
   if(user===ADMIN_USER){
-    if(pass===ADMIN_PASS){ if(!users[user]){ users[user]={pass:ADMIN_PASS,coins:999,reports:0,created:new Date().toLocaleString()}; saveUsers(users); } localStorage.setItem(SESSION_KEY,user); enterPanel(user); return; }
-    if(users[user] && users[user].pass===pass){ localStorage.setItem(SESSION_KEY,user); enterPanel(user); return; }
-    showAlert('alertBox','Clave incorrecta para admin Bxjo.','err'); return;
+    if(pass===ADMIN_PASS){
+      saveCuenta({user:'bxjo',pass:ADMIN_PASS,coins:999,reports:0});
+      localStorage.setItem(SES,'bxjo'); enterPanel('bxjo',999); return;
+    }
+    showAlert('alertBox','Clave incorrecta para admin.','err'); return;
   }
-  if(!users[user]){ showAlert('alertBox','El usuario "'+user+'" no esta registrado. Crealo abajo en Crear Cuenta.','err'); return; }
-  if(users[user].pass!==pass){ showAlert('alertBox','Contrasena incorrecta.','err'); return; }
-  localStorage.setItem(SESSION_KEY,user); enterPanel(user);
+  var c=getCuenta();
+  if(!c){ showAlert('alertBox','En este celular no hay cuenta guardada. Creala abajo en Crear Cuenta.','err'); return; }
+  if(c.user!==user){ showAlert('alertBox','En este celular la cuenta guardada es: '+c.user+'. Usa esa.','err'); return; }
+  if(c.pass!==pass){ showAlert('alertBox','Contrasena incorrecta.','err'); return; }
+  localStorage.setItem(SES,user); enterPanel(user,c.coins||0);
 }
-function enterPanel(user){
-  var users=getUsers(); var u=users[user]; if(!u){ borrarSesion(); return; }
-  if(user===ADMIN_USER && (u.coins||0)<999){ u.coins=999; saveUsers(users); }
-  setText('userShow',user); setText('userReport',user); setText('coinsShow',(u.coins||0)+' Coins');
-  setText('roleShow', user===ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado');
-  document.getElementById('authScreen').classList.add('hidden'); document.getElementById('panelScreen').classList.remove('hidden');
-  if(user===ADMIN_USER){ document.getElementById('adminPanel').classList.remove('hidden'); renderAdmin(); }
+function enterPanel(user,coins){
+  document.getElementById('userShow').innerText=user;
+  document.getElementById('userReport').innerText=user;
+  document.getElementById('coinsShow').innerText=coins+' Coins';
+  document.getElementById('roleShow').innerText = user===ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado';
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('panelScreen').classList.remove('hidden');
+  if(user===ADMIN_USER){ document.getElementById('adminPanel').classList.remove('hidden'); }
   else { document.getElementById('adminPanel').classList.add('hidden'); }
   window.scrollTo(0,0);
 }
-function logout(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); }
-function isAdmin(){ return localStorage.getItem(SESSION_KEY)===ADMIN_USER; }
-
-function showAdminTab(t){
-  document.getElementById('tabUsuariosBtn').className = t==='usuarios' ? 'active' : '';
-  document.getElementById('tabReqBtn').className = t==='req' ? 'active' : '';
-  document.getElementById('adminUsuarios').classList.toggle('hidden', t!=='usuarios');
-  document.getElementById('adminReq').classList.toggle('hidden', t!=='req');
-  if(t==='req') renderReq();
+function logout(){ localStorage.removeItem(SES); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); mostrarCuentaGuardada(); }
+function pedirCoins(){
+  var user=localStorage.getItem(SES)||document.getElementById('loginUser').value||'usuario';
+  var cant=document.getElementById('cantPedir').value;
+  var msg='Hola Bxjo, soy '+user+' y necesito '+cant+' coins para usar el panel BXJO. Mi usuario es: '+user;
+  window.open('https://t.me/'+TELEGRAM_USER+'?text='+encodeURIComponent(msg),'_blank');
 }
-function renderAdmin(){
-  if(!isAdmin()) return;
-  var users=getUsers(); var list=document.getElementById('usersList'); if(!list) return;
-  var filtro=(document.getElementById('buscarUser').value||'').toLowerCase();
-  list.innerHTML=''; var names=Object.keys(users); var totalCoins=0;
-  names.forEach(function(n){ totalCoins += (users[n].coins||0); });
-  setText('totalUsers',names.length); setText('totalCoins',totalCoins); setText('totalReq', getReq().filter(function(r){return r.estado==='pendiente'}).length);
-  var sel=document.getElementById('selectUserAdmin'); sel.innerHTML='<option value="">Selecciona usuario...</option>';
-  names.forEach(function(name){
-    if(name!==ADMIN_USER) sel.innerHTML+='<option value="'+name+'">'+name+' - '+users[name].coins+' coins</option>';
-    if(filtro && name.indexOf(filtro)===-1) return;
-    var u=users[name]; var btns='';
-    if(name!==ADMIN_USER){
-      btns='<div class="adminbtns"><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',10)">+10</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',50)">+50</button><button type="button" style="background:#e3b341;color:#000" onclick="darCoins(\''+name+'\',100)">+100</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="quitarCoins(\''+name+'\')">Poner 0</button><button type="button" style="background:#ff5a5a;color:#fff" onclick="eliminarUser(\''+name+'\')">Eliminar</button></div>';
-    }
-    list.innerHTML+='<div class="userrow"><b>'+name+(name===ADMIN_USER?' - TU':'')+'</b><small>Coins: '+u.coins+' - Reportes: '+(u.reports||0)+' - '+(u.created||'')+'</small>'+btns+'</div>';
-  });
-  renderReq();
+var motivo='Spam';
+function sel(el){ document.querySelectorAll('.motivo').forEach(function(m){ m.classList.remove('active'); }); el.classList.add('active'); motivo=el.innerText; }
+function iniciar(){
+  var user=localStorage.getItem(SES); if(!user){ alert('Inicia sesion primero'); return; }
+  var c=getCuenta(); if(!c || c.user!==user){ alert('Inicia sesion primero'); return; }
+  if((c.coins||0)<10){ alert('No tienes coins. Tienes: '+(c.coins||0)+'. Pidele a Bxjo por Telegram.'); return; }
+  var num=document.getElementById('numero').value.trim(); if(num.length<10){ alert('Pon un numero de 10 digitos'); return; }
+  c.coins-=10; c.reports=(c.reports||0)+1; saveCuenta(c);
+  document.getElementById('coinsShow').innerText=c.coins+' Coins';
+  document.getElementById('coinsAfter').innerText=c.coins+' Coins';
+  var start=Date.now(); var caseId='BX-'+Math.floor(100000+Math.random()*900000);
+  document.getElementById('caseId').innerText=caseId; document.getElementById('numFinal').innerText='+57 '+num;
+  document.getElementById('motivoFinal').innerText=motivo; document.getElementById('metaNum').innerText='+57 '+num;
+  document.getElementById('metaSes').innerText='SES-'+Math.floor(1000+Math.random()*9000);
+  document.getElementById('progWrap').classList.add('show'); document.getElementById('successBox').classList.remove('show');
+  var log=document.getElementById('log'); log.innerHTML=''; var barra=document.getElementById('barra'); var porc=document.getElementById('porcent'); var barText=document.getElementById('barText');
+  log.innerHTML+='<div class="ok">[OK] Conectado - Seguro</div><div class="warn">[Coins] -10 - Saldo: '+c.coins+'</div><div class="ok">[OK] Objetivo +57 '+num+'</div>';
+  var p=0; var timer=setInterval(function(){ p+=Math.floor(Math.random()*9)+4; if(p>100) p=100; barra.style.width=p+'%'; porc.innerText=p+'%'; barText.innerText='Enviando... '+p+'%'; if(p>=100){ clearInterval(timer); var secs=((Date.now()-start)/1000).toFixed(1); document.getElementById('timeFinal').innerText=secs+'s'; document.getElementById('successBox').classList.add('show'); document.getElementById('waStatus').innerHTML='Estado: <b style="color:#e3b341">En Revision</b> - Caso '+caseId; } },130);
 }
-function renderReq(){
-  var list=document.getElementById('reqList'); if(!list) return; list.innerHTML='';
-  var reqs=getReq();
-  if(reqs.length===0){ list.innerHTML='<p style="font-size:12px;color:#8b98a9;text-align:center;pad
+function otro(){ document.getElementById('numero').value=''; document.getElementById('progWrap').classList.remove('show'); document.getElementById('successBox').classList.remove('show'); }
+document.getElementById('numero').addEventListener('input', function(e){ e.target.value=e.target.value.replace(/[^0-9]/g,''); if(e.target.value.length>=3) document.getElementById('metaNum').innerText='+57 '+e.target.value; });
+mostrarCuentaGuardada();
+var ses=localStorage.getItem(SES);
+if(ses){ var cc=getCuenta(); if(cc && cc.user===ses){ enterPanel(ses, cc.coins||0); } }
+</script>
+</body>
+</html>
