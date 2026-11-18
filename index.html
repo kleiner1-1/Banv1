@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PANEL BAN V1 - Bxjo</title>
+<title>PANEL BAN V1 - Bxjo | LOGIN</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Courier New',monospace}
 body{background:#000;color:#00ff41;min-height:100vh;overflow-x:hidden}
@@ -12,81 +12,105 @@ canvas#matrix{position:fixed;inset:0;z-index:0;opacity:.18}
 .scanline{position:fixed;left:0;right:0;height:2px;background:#00ff41;box-shadow:0 0 25px #00ff41;animation:scan 2.8s linear infinite;z-index:99;opacity:.6}
 @keyframes scan{0%{top:0}100%{top:100%}}
 .wrap{max-width:480px;margin:0 auto;padding:14px;position:relative;z-index:2}
-.top{display:flex;justify-content:space-between;align-items:center;border:1px solid #00ff41;background:rgba(2,10,3,.95);padding:12px;box-shadow:0 0 25px rgba(0,255,65,.35);backdrop-filter:blur(5px)}
+.top{display:flex;justify-content:space-between;align-items:center;border:1px solid #00ff41;background:rgba(2,10,3,.95);padding:12px;box-shadow:0 0 25px rgba(0,255,65,.35)}
 .glitch{font-size:17px;letter-spacing:2px;position:relative}
 .glitch span{color:#ff0040}
-.glitch::before{content:attr(data-text);position:absolute;left:2px;top:0;color:#ff0040;opacity:.6;animation:glitch 2s infinite}
-@keyframes glitch{0%,90%{opacity:0}91%{opacity:.7;transform:translateX(-2px)}92%{opacity:0}95%{opacity:.7;transform:translateX(2px)}96%{opacity:0}}
 .badge{background:#ff0040;color:#fff;font-size:10px;padding:5px 9px;animation:blink 1s infinite;border-radius:20px}
 @keyframes blink{50%{opacity:0}}
-.card{border:1px solid #00ff41;background:rgba(2,13,5,.96);padding:16px;box-shadow:0 0 30px rgba(0,255,65,.25);border-radius:10px;margin-top:12px;animation:fadeIn .4s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card{border:1px solid #00ff41;background:rgba(2,13,5,.96);padding:16px;box-shadow:0 0 30px rgba(0,255,65,.25);border-radius:10px;margin-top:12px}
 .card h2{font-size:15px;text-align:center}
 .card p{font-size:11px;text-align:center;color:#8affa8;margin:6px 0 14px}
 label{font-size:11px;color:#00ff41;font-weight:bold}
-input{width:100%;background:#000;border:1px solid #00ff41;color:#00ff41;padding:14px;font-size:16px;outline:none;border-radius:8px;margin:8px 0;transition:.2s}
-input:focus{box-shadow:0 0 15px rgba(0,255,65,.6);border-color:#fff}
-.btn{width:100%;background:#00ff41;color:#000;border:none;padding:15px;font-weight:900;letter-spacing:1px;cursor:pointer;border-radius:8px;font-size:14px;margin-top:6px;box-shadow:0 0 20px rgba(0,255,65,.5);transition:.2s}
+input{width:100%;background:#000;border:1px solid #00ff41;color:#00ff41;padding:14px;font-size:16px;outline:none;border-radius:8px;margin:8px 0}
+input:focus{box-shadow:0 0 15px rgba(0,255,65,.6)}
+.btn{width:100%;background:#00ff41;color:#000;border:none;padding:15px;font-weight:900;letter-spacing:1px;cursor:pointer;border-radius:8px;font-size:14px;margin-top:6px;box-shadow:0 0 20px rgba(0,255,65,.5)}
 .btn:active{transform:scale(.97)}
-.btn.red{background:linear-gradient(90deg,#ff0040,#ff2e63);color:#fff;box-shadow:0 0 20px rgba(255,0,64,.6)}
+.btn.red{background:linear-gradient(90deg,#ff0040,#ff2e63);color:#fff}
 .btn.sound{background:#111;border:1px solid #00ff41;color:#00ff41;box-shadow:none;font-size:12px;padding:10px}
+.btn.outline{background:transparent;border:1px solid #00ff41;color:#00ff41;box-shadow:none}
 .input-box{display:flex;gap:8px;margin:8px 0}
 .prefix{background:#00ff41;color:#000;font-weight:900;padding:14px 12px;border-radius:8px}
 .motivos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.motivo{border:1px solid #333;padding:11px;font-size:11px;text-align:center;cursor:pointer;border-radius:8px;color:#aaa;transition:.2s}
-.motivo.active{border-color:#00ff41;background:#0a2a12;color:#00ff41;box-shadow:0 0 12px rgba(0,255,65,.5);transform:scale(1.03)}
+.motivo{border:1px solid #333;padding:11px;font-size:11px;text-align:center;cursor:pointer;border-radius:8px;color:#aaa}
+.motivo.active{border-color:#00ff41;background:#0a2a12;color:#00ff41;box-shadow:0 0 12px rgba(0,255,65,.5)}
 .progress-wrap{display:none;margin-top:14px}.progress-wrap.show{display:block}
 .bar{height:18px;background:#0a2a12;border:1px solid #00ff41;overflow:hidden;border-radius:20px}
-.bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#00ff41,#25D366,#00ff41);transition:width .25s;box-shadow:0 0 10px #00ff41}
-.porcent{text-align:center;font-size:24px;font-weight:900;margin:10px 0;text-shadow:0 0 10px #00ff41}
+.bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#00ff41,#25D366,#00ff41);transition:width .25s}
+.porcent{text-align:center;font-size:24px;font-weight:900;margin:10px 0}
 .log{font-size:11.5px;line-height:1.8;background:#000;border:1px solid #1a4a26;padding:10px;height:200px;overflow-y:auto;border-radius:8px}
-.log .ok{color:#00ff41}.log .warn{color:#ffcc00}.log .wa{color:#25D366}
-.success{display:none;text-align:center;padding:16px;border:1px dashed #00ff41;background:#021a08;margin-top:14px;border-radius:10px;animation:fadeIn .5s}
+.success{display:none;text-align:center;padding:16px;border:1px dashed #00ff41;background:#021a08;margin-top:14px;border-radius:10px}
 .success.show{display:block}
-.check{font-size:52px;animation:pop .5s}
-@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.check{font-size:52px}
 .wa-box{border:1px solid #25D366;background:#0a0f0a;border-radius:14px;padding:12px;margin-top:12px}
 .wa-head{display:flex;gap:10px;align-items:center}
-.avatar{width:44px;height:44px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:#000;font-weight:900;box-shadow:0 0 12px rgba(37,211,102,.6)}
+.avatar{width:44px;height:44px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:#000;font-weight:900}
 .msg{background:#1f2c34;color:#fff;padding:9px 11px;border-radius:12px;font-size:12px;margin:8px 0;max-width:90%}
 .msg.me{background:#005c4b;margin-left:auto}
 .footer{text-align:center;font-size:10px;opacity:.6;margin:14px 0}
 .hidden{display:none!important}
-.login-logo{font-size:56px;text-align:center;animation:float 2s infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.login-logo{font-size:56px;text-align:center}
 .typing{font-size:11px;color:#8affa8;text-align:center;min-height:16px;margin:6px 0}
 .user-chip{display:flex;justify-content:space-between;align-items:center;font-size:11px;background:#021a08;border:1px solid #00ff41;padding:9px 11px;margin-top:12px;border-radius:8px}
+.alert{padding:10px;border-radius:8px;font-size:12px;text-align:center;margin:8px 0;display:none}
+.alert.error{background:#2a0505;border:1px solid #ff0040;color:#ff6b81;display:block}
+.alert.ok{background:#021a08;border:1px solid #00ff41;color:#00ff41;display:block}
+.tabs{display:flex;gap:8px;margin:10px 0}
+.tab{flex:1;padding:11px;text-align:center;border:1px solid #333;cursor:pointer;border-radius:8px;font-size:12px;color:#aaa}
+.tab.active{background:#00ff41;color:#000;font-weight:900;border-color:#00ff41}
 .shake{animation:shake .4s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.status-row{display:flex;gap:8px;margin-top:12px}
-.status-row div{flex:1;text-align:center;border:1px solid #1a4a26;padding:8px;font-size:10px;border-radius:8px}
-.status-row b{display:block;font-size:13px;color:#fff}
 </style>
 </head>
 <body>
 <canvas id="matrix"></canvas><div class="bg"></div><div class="scanline"></div>
 <div class="wrap">
 
+<!-- LOGIN / REGISTRO -->
 <div id="loginScreen">
-<div class="top"><div><div class="glitch" data-text="PANEL BAN V1 Bxjo">PANEL BAN V1 <span>Bxjo</span></div><small style="color:#8affa8">ACCESO RESTRINGIDO • v1.0</small></div><div class="badge">🔒 LOCKED</div></div>
+<div class="top"><div><div class="glitch">PANEL BAN V1 <span>Bxjo</span></div><small style="color:#8affa8">ACCESO RESTRINGIDO • v1.0</small></div><div class="badge">🔒 LOCKED</div></div>
 <div class="card">
 <div class="login-logo">💀</div>
-<h2>INICIAR SESIÓN - Bxjo</h2>
-<div class="typing" id="typingLogin"></div>
-<label>👤 USUARIO:</label>
-<input id="user" placeholder="Ej: Bxjo" value="Bxjo">
-<label>🔑 CONTRASEÑA:</label>
-<input id="pass" type="password" placeholder="••••••••" value="Bxjo123">
-<button class="btn sound" onclick="toggleSound()">🔊 SONIDO: <span id="soundState">ON</span></button>
-<button class="btn" onclick="login()">🔓 ENTRAR AL PANEL →</button>
-<p>Usuario demo: <b style="color:#fff">Bxjo</b> / Clave: <b style="color:#fff">Bxjo123</b><br>Cualquier usuario entra, es visual.</p>
-</div>
-<div class="status-row"><div><b style="color:#00ff41">ONLINE</b>SERVIDOR</div><div><b style="color:#25D366">12ms</b>PING</div><div><b style="color:#ffcc00">v1.0</b>VERSIÓN</div></div>
+<h2>PANEL BAN V1 - Bxjo</h2>
+<div class="typing" id="typingLogin">> Sistema de usuarios activo...</div>
+
+<div class="tabs">
+<div class="tab active" id="tabLogin" onclick="cambiarTab('login')">🔓 INICIAR SESIÓN</div>
+<div class="tab" id="tabReg" onclick="cambiarTab('reg')">📝 REGISTRARSE</div>
 </div>
 
+<div id="alertBox" class="alert"></div>
+
+<!-- LOGIN -->
+<div id="boxLogin">
+<label>👤 USUARIO:</label>
+<input id="user" placeholder="Tu usuario">
+<label>🔑 CONTRASEÑA:</label>
+<input id="pass" type="password" placeholder="Tu contraseña">
+<button class="btn" onclick="login()">🔓 ENTRAR AL PANEL →</button>
+<p style="margin-top:10px">Si no tienes cuenta, ve a <b style="color:#fff">REGISTRARSE</b><br>Sin registro NO puedes entrar.</p>
+</div>
+
+<!-- REGISTRO -->
+<div id="boxReg" class="hidden">
+<label>👤 CREA TU USUARIO:</label>
+<input id="regUser" placeholder="Ej: bxjo_oficial">
+<label>🔑 CREA TU CONTRASEÑA:</label>
+<input id="regPass" type="password" placeholder="Mínimo 4 caracteres">
+<label>🔑 REPITE CONTRASEÑA:</label>
+<input id="regPass2" type="password" placeholder="Repite tu contraseña">
+<button class="btn red" onclick="registrar()">📝 CREAR MI CUENTA - SOLO 1 VEZ</button>
+<p>⚠️ Solo puedes registrarte 1 vez por usuario.<br>Si el usuario ya existe, no te dejará crearlo.</p>
+</div>
+
+<button class="btn sound" onclick="toggleSound()">🔊 SONIDO: <span id="soundState">ON</span></button>
+</div>
+<div class="footer">PANEL BAN V1 - Bxjo © 2026 • SOLO VISUAL<br>Usuarios guardados en este navegador</div>
+</div>
+
+<!-- PANEL -->
 <div id="panelScreen" class="hidden">
-<div class="top"><div><div class="glitch" data-text="PANEL BAN V1 Bxjo">PANEL BAN V1 <span>Bxjo</span></div><small style="color:#8affa8">SYSTEM: ONLINE • VISUAL ONLY</small></div><div class="badge">● LIVE</div></div>
-<div class="user-chip"><span>👤 Conectado: <b id="userShow">Bxjo</b> • 🛡️ VIP</span><span style="color:#ff0040;cursor:pointer" onclick="logout()">[ SALIR ]</span></div>
+<div class="top"><div><div class="glitch">PANEL BAN V1 <span>Bxjo</span></div><small style="color:#8affa8">SYSTEM: ONLINE • VISUAL ONLY</small></div><div class="badge">● LIVE</div></div>
+<div class="user-chip"><span>👤 Conectado: <b id="userShow">Bxjo</b> • 🛡️ VERIFICADO</span><span style="color:#ff0040;cursor:pointer" onclick="logout()">[ SALIR ]</span></div>
 
 <div class="card">
 <h2>🚫 BANEAR NÚMERO DE WHATSAPP</h2>
@@ -101,7 +125,7 @@ input:focus{box-shadow:0 0 15px rgba(0,255,65,.6);border-color:#fff}
 <div class="motivo" onclick="sel(this)">💳 ESTAFA</div>
 </div>
 <button class="btn red" onclick="iniciar()">🚀 INICIAR REPORTE MASIVO →</button>
-<button class="btn sound" onclick="toggleSound()">🔊 SONIDO: <span id="soundState2">ON</span> • 🎵 EFECTO HACKER</button>
+<button class="btn sound" onclick="toggleSound()">🔊 SONIDO: <span id="soundState2">ON</span></button>
 
 <div class="progress-wrap" id="progWrap">
 <div class="bar"><i id="barra"></i></div>
@@ -112,20 +136,20 @@ input:focus{box-shadow:0 0 15px rgba(0,255,65,.6);border-color:#fff}
 <div class="success" id="successBox">
 <div class="check">✅</div>
 <h3>¡REPORTE EXITOSO!</h3>
-<p>Número <b id="numFinal" style="color:#00ff41"></b> reportado</p>
-<p>📊 250 reportes enviados • 250/250 • Motivo: <b id="motivoFinal">SPAM</b></p>
+<p>Número <b id="numFinal" style="color:#00ff41"></b> reportado por <b id="userRep"></b></p>
+<p>📊 250 reportes enviados • Motivo: <b id="motivoFinal">SPAM</b></p>
 <p style="color:#ffcc00">⏳ En revisión 24-48h (simulado)</p>
 <button class="btn" onclick="otro()">➕ INGRESAR OTRO NÚMERO</button>
 </div>
 </div>
 
 <div class="wa-box">
-<div class="wa-head"><div class="avatar">W</div><div><b style="color:#fff">WhatsApp Support</b><br><small style="color:#25D366">● en línea • escribe...</small></div></div>
+<div class="wa-head"><div class="avatar">W</div><div><b style="color:#fff">WhatsApp Support</b><br><small style="color:#25D366">● en línea</small></div></div>
 <div class="msg">Hola, recibimos múltiples reportes sobre este número.</div>
-<div class="msg me">Procesando solicitud de revisión...</div>
+<div class="msg me">Procesando solicitud...</div>
 <div class="msg">Estado: <b style="color:#ffcc00">EN REVISIÓN</b> ⏳</div>
 </div>
-<div class="footer">PANEL BAN V1 - Bxjo © 2026 • SOLO VISUAL / ENTRETENIMIENTO<br>No hace acciones reales en WhatsApp</div>
+<div class="footer">PANEL BAN V1 - Bxjo © 2026 • SOLO VISUAL</div>
 </div>
 </div>
 
@@ -136,34 +160,86 @@ function resize(){c.width=innerWidth;c.height=innerHeight}resize();addEventListe
 let drops=Array(Math.floor(innerWidth/14)).fill(1);
 setInterval(()=>{ctx.fillStyle='rgba(0,0,0,0.08)';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#00ff41';ctx.font='14px monospace';drops.forEach((y,i)=>{let ch='01Bxjo$#@'[Math.floor(Math.random()*9)];ctx.fillText(ch,i*14,y*14);if(y*14>c.height&&Math.random()>0.975)drops[i]=0;drops[i]++})},50);
 
-// TYPING
-function type(el,text){let i=0;el.innerText='';let t=setInterval(()=>{el.innerText=text.slice(0,++i);if(i>=text.length)clearInterval(t)},35)}
-type(document.getElementById('typingLogin'),'> Bienvenido Bxjo... verificando acceso...');
-setTimeout(()=>type(document.getElementById('typingPanel'),'> Esperando número... listo para reportar'),800);
-
 // SONIDO
 let sonido=true;let audioCtx=null;
 function toggleSound(){sonido=!sonido;document.getElementById('soundState').innerText=sonido?'ON':'OFF';document.getElementById('soundState2').innerText=sonido?'ON':'OFF';if(sonido)beep(880,0.1)}
 function beep(f,d){if(!sonido)return;try{if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.type='square';o.frequency.value=f;g.gain.value=0.07;o.start();o.stop(audioCtx.currentTime+d)}catch(e){}}
 function beepSuccess(){beep(660,0.12);setTimeout(()=>beep(880,0.12),140);setTimeout(()=>beep(1320,0.22),280)}
-function login(){let u=document.getElementById('user').value||'Bxjo';beepSuccess();document.getElementById('userShow').innerText=u;document.getElementById('loginScreen').classList.add('hidden');document.getElementById('panelScreen').classList.remove('hidden');window.scrollTo(0,0)}
-function logout(){beep(400,0.15);document.getElementById('panelScreen').classList.add('hidden');document.getElementById('loginScreen').classList.remove('hidden')}
+
+// === SISTEMA DE USUARIOS - SOLO 1 REGISTRO POR USUARIO ===
+function getUsers(){try{return JSON.parse(localStorage.getItem('bxjo_users')||'[]')}catch(e){return[]}}
+function saveUsers(u){localStorage.setItem('bxjo_users',JSON.stringify(u))}
+function showAlert(msg,type){let a=document.getElementById('alertBox');a.className='alert '+type;a.innerText=msg;a.style.display='block';setTimeout(()=>a.style.display='none',4000)}
+function cambiarTab(t){
+  document.getElementById('tabLogin').classList.toggle('active',t=='login');
+  document.getElementById('tabReg').classList.toggle('active',t=='reg');
+  document.getElementById('boxLogin').classList.toggle('hidden',t!='login');
+  document.getElementById('boxReg').classList.toggle('hidden',t!='reg');
+  beep(700,0.06);
+}
+function registrar(){
+  let u=document.getElementById('regUser').value.trim().toLowerCase();
+  let p=document.getElementById('regPass').value;
+  let p2=document.getElementById('regPass2').value;
+  if(!u||!p){showAlert('⚠️ Llena usuario y contraseña','error');beep(200,0.2);return}
+  if(u.length<3){showAlert('⚠️ El usuario debe tener mínimo 3 letras','error');return}
+  if(p.length<4){showAlert('⚠️ La contraseña debe tener mínimo 4 caracteres','error');return}
+  if(p!==p2){showAlert('⚠️ Las contraseñas no coinciden','error');return}
+  let users=getUsers();
+  if(users.find(x=>x.user===u)){showAlert('❌ Este usuario YA ESTÁ REGISTRADO. No puedes registrarlo 2 veces. Inicia sesión.','error');beep(200,0.3);return}
+  users.push({user:u,pass:p,fecha:new Date().toLocaleString()});
+  saveUsers(users);
+  showAlert('✅ Cuenta creada! Ahora inicia sesión con tu usuario.','ok');beepSuccess();
+  document.getElementById('regUser').value='';document.getElementById('regPass').value='';document.getElementById('regPass2').value='';
+  setTimeout(()=>cambiarTab('login'),800);
+  document.getElementById('user').value=u;
+}
+function login(){
+  let u=document.getElementById('user').value.trim().toLowerCase();
+  let p=document.getElementById('pass').value;
+  if(!u||!p){showAlert('⚠️ Escribe tu usuario y contraseña','error');return}
+  let users=getUsers();
+  let found=users.find(x=>x.user===u);
+  if(!found){showAlert('❌ Este usuario NO ESTÁ REGISTRADO. Primero regístrate.','error');beep(200,0.3);return}
+  if(found.pass!==p){showAlert('❌ Contraseña incorrecta.','error');beep(200,0.3);return}
+  // LOGIN OK
+  beepSuccess();
+  localStorage.setItem('bxjo_session',u);
+  document.getElementById('userShow').innerText=u;
+  document.getElementById('userRep').innerText=u;
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('panelScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+function logout(){beep(400,0.15);localStorage.removeItem('bxjo_session');document.getElementById('panelScreen').classList.add('hidden');document.getElementById('loginScreen').classList.remove('hidden')}
+// Si ya había sesión, mantenerla
+window.onload=()=>{
+  let s=localStorage.getItem('bxjo_session');
+  if(s && getUsers().find(x=>x.user===s)){
+    document.getElementById('userShow').innerText=s;
+    document.getElementById('userRep').innerText=s;
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('panelScreen').classList.remove('hidden');
+  }
+}
+
+// PANEL BAN
 let motivo="SPAM";
 function sel(el){document.querySelectorAll('.motivo').forEach(m=>m.classList.remove('active'));el.classList.add('active');motivo=el.innerText;beep(700,0.06)}
 let logs=["Conectando a servidor Bxjo-01... OK","Verificando número en WhatsApp... OK","Generando sesión anónima... OK","Enviando lote 1/5 - 50 reportes...","Enviando lote 2/5 - 50 reportes... ÉXITO","Enviando lote 3/5 - 50 reportes... ÉXITO","Enviando lote 4/5 - 50 reportes... ÉXITO","Enviando lote 5/5 - 50 reportes... ÉXITO","Validando reportes... 250/250 EXITOSOS","Número marcado como SOSPECHOSO","Proceso finalizado correctamente"];
 function iniciar(){
 let num=document.getElementById('numero').value.trim();
-if(num.length<10){document.getElementById('numero').classList.add('shake');setTimeout(()=>document.getElementById('numero').classList.remove('shake'),400);alert('⚠️ Pon un número de 10 dígitos');beep(200,0.2);return}
-beep(1000,0.1);type(document.getElementById('typingPanel'),'> Reportando +57 '+num+'...');
+if(num.length<10){alert('⚠️ Pon un número de 10 dígitos');beep(200,0.2);return}
+beep(1000,0.1);
 document.getElementById('progWrap').classList.add('show');document.getElementById('successBox').classList.remove('show');
 let log=document.getElementById('log');log.innerHTML='';let barra=document.getElementById('barra');let porc=document.getElementById('porcent');let p=0,i=0;
 if(navigator.vibrate) navigator.vibrate(80);
-let timer=setInterval(()=>{p+=Math.floor(Math.random()*9)+4;if(p>100)p=100;barra.style.width=p+'%';porc.innerText=p+'%';if(p%12==0)beep(500+p*4,0.05);
-if(i<logs.length&&p>(i+1)*8){let cls='ok';if(logs[i].includes('ÉXITO'))cls='wa';if(logs[i].includes('SOSPECHOSO'))cls='warn';log.innerHTML+=`<div class="${cls}">[✓] ${logs[i]}</div>`;log.scrollTop=log.scrollHeight;i++;beep(700,0.05)}
+let timer=setInterval(()=>{p+=Math.floor(Math.random()*9)+4;if(p>100)p=100;barra.style.width=p+'%';porc.innerText=p+'%';
+if(i<logs.length&&p>(i+1)*8){let cls='ok';if(logs[i].includes('ÉXITO'))cls='wa';log.innerHTML+=`<div class="${cls}">[✓] ${logs[i]}</div>`;log.scrollTop=log.scrollHeight;i++;beep(700,0.05)}
 if(p>=100){clearInterval(timer);beepSuccess();if(navigator.vibrate)navigator.vibrate([100,50,100]);setTimeout(()=>{document.getElementById('numFinal').innerText='+57 '+num;document.getElementById('motivoFinal').innerText=motivo;document.getElementById('successBox').classList.add('show');window.scrollTo(0,document.body.scrollHeight)},600)}},160);
 }
-function otro(){document.getElementById('numero').value='';document.getElementById('progWrap').classList.remove('show');document.getElementById('successBox').classList.remove('show');type(document.getElementById('typingPanel'),'> Listo, ingresa otro número...');document.getElementById('numero').focus();beep(880,0.1);window.scrollTo(0,0)}
+function otro(){document.getElementById('numero').value='';document.getElementById('progWrap').classList.remove('show');document.getElementById('successBox').classList.remove('show');document.getElementById('numero').focus();beep(880,0.1);window.scrollTo(0,0)}
 document.getElementById('numero').addEventListener('input',e=>{e.target.value=e.target.value.replace(/[^0-9]/g,'')});
 </script>
 </body>
-                                                     </html>
+</html>
