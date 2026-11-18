@@ -106,6 +106,7 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px" onclick="logout()">Cerrar sesion</span></div>
 <div class="coins"><div><small>TU BALANCE</small><br><b id="coinsShow">0 Coins</b></div><span style="font-size:11px;background:#000;color:#e3b341;padding:6px 10px;border-radius:999px;font-weight:700">Coins</span></div>
 
+<!-- ADMIN MEJORADO -->
 <div id="adminPanel" class="admin hidden">
 <h3>Panel Admin - Solo Bxjo</h3>
 <div class="admin-grid"><div><small>USUARIOS</small><b id="totalUsers">0</b></div><div><small>TOTAL COINS</small><b id="totalCoins" style="color:#e3b341">0</b></div><div><small>SOLICITUDES</small><b id="totalReq" style="color:#229ED9">0</b></div></div>
@@ -134,21 +135,25 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <label>Motivo del reporte</label>
 <div class="motivos"><div class="motivo active" onclick="sel(this)">Spam</div><div class="motivo" onclick="sel(this)">Contenido +18</div><div class="motivo" onclick="sel(this)">Acoso</div><div class="motivo" onclick="sel(this)">Estafa</div></div>
 <button type="button" class="btn btn-dark" onclick="iniciar()">Iniciar Reporte</button>
+<!-- PEDIR COINS A TELEGRAM -->
 <label style="margin-top:14px;display:block">Cuantos coins necesitas?</label>
 <select id="cantPedir"><option value="10">10 Coins</option><option value="50" selected>50 Coins</option><option value="100">100 Coins</option><option value="200">200 Coins</option></select>
 <button type="button" class="btn btn-telegram" onclick="pedirCoins()">Pedir Coins por Telegram a Bxjo</button>
-<p style="font-size:11px;text-align:center;margin-top:8px">Se abrira tu Telegram con el mensaje listo para enviar a @Formen0.</p>
+<p style="font-size:11px;text-align:center;margin-top:8px">Se abrira tu Telegram con el mensaje listo para enviar a Bxjo.</p>
+
 <div class="progress" id="progWrap"><div style="display:flex;justify-content:space-between;font-size:11px;color:#8b98a9;margin:10px 0 6px"><span id="barText">Enviando reporte...</span><span>Enviando...</span></div><div class="bar"><i id="barra"></i></div><div class="porcent" id="porcent">0%</div><div class="console" id="log"></div></div>
 <div class="success" id="successBox"><h3 style="font-size:18px">Reporte Completado</h3>
 <div class="report"><div><span>Numero</span><b id="numFinal" style="color:#3fb950">--</b></div><div><span>Reportado por</span><b id="userReport">--</b></div><div><span>Motivo</span><b id="motivoFinal">Spam</b></div><div><span>Saldo</span><b style="color:#e3b341"><span id="coinsAfter">0</span> Coins</b></div><div><span>Caso</span><b id="caseId">BX-000000</b></div><div><span>Tiempo</span><b id="timeFinal">0s</b></div><div><span>Estado</span><b style="color:#e3b341">En Revision 24-48h</b></div></div>
 <button type="button" class="btn btn-primary" style="margin-top:12px" onclick="otro()">Reportar Otro Numero</button></div>
 </div>
+
 <div class="support"><b>WhatsApp Support</b><p style="font-size:12px;color:#c9d1d9;margin:6px 0">Se recibieron multiples reportes sobre este numero.</p><p style="font-size:12px;color:#c9d1d9">Procesando solicitud de revision...</p><p id="waStatus" style="font-size:12px">Estado: <b style="color:#e3b341">En Revision</b></p></div>
 <div class="footer">BXJO PANEL PRO - Demo / Simulacion educativa<br>Hecho con dedicacion por Bxjo - 2026</div>
 </div>
 </div>
 
 <script>
+// >>> CAMBIA ESTO POR TU @ DE TELEGRAM SIN EL @ <<<
 var TELEGRAM_USER = 'Formen0';
 var ADMIN_USER = 'bxjo';
 var ADMIN_PASS = 'BxjoAdmin2026';
@@ -156,6 +161,7 @@ var COSTO = 10;
 var KEY = 'bxjo_panel_final_v6';
 var SESSION_KEY = 'bxjo_session_v6';
 var REQ_KEY = 'bxjo_requests_v6';
+
 function getUsers(){ try{ var r=localStorage.getItem(KEY); if(!r) return {}; return JSON.parse(r)||{}; }catch(e){ return {}; } }
 function saveUsers(u){ localStorage.setItem(KEY, JSON.stringify(u)); }
 function getReq(){ try{ return JSON.parse(localStorage.getItem(REQ_KEY)||'[]'); }catch(e){ return []; } }
@@ -164,6 +170,7 @@ function setText(id,t){ var e=document.getElementById(id); if(e) e.innerText=t; 
 function showAlert(id,m,t){ var a=document.getElementById(id); a.innerText=m; a.className='alert show '+t; }
 function updateCount(){ setText('countLogin', Object.keys(getUsers()).length); }
 function borrarSesion(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); alert('Sesion vieja borrada. Ahora si te debe salir Crear Cuenta.'); }
+
 function doRegister(){
   var user=(document.getElementById('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
   var p1=document.getElementById('regPass').value||''; var p2=document.getElementById('regPass2').value||'';
@@ -206,6 +213,7 @@ function enterPanel(user){
 }
 function logout(){ localStorage.removeItem(SESSION_KEY); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); updateCount(); }
 function isAdmin(){ return localStorage.getItem(SESSION_KEY)===ADMIN_USER; }
+
 function showAdminTab(t){
   document.getElementById('tabUsuariosBtn').className = t==='usuarios' ? 'active' : '';
   document.getElementById('tabReqBtn').className = t==='req' ? 'active' : '';
@@ -235,6 +243,4 @@ function renderAdmin(){
 function renderReq(){
   var list=document.getElementById('reqList'); if(!list) return; list.innerHTML='';
   var reqs=getReq();
-  if(reqs.length===0){ list.innerHTML='<p style="font-size:12px;color:#8b98a9;text-align:center;padding:10px">No hay solicitudes todavia.</p>'; return; }
-  reqs.slice().reverse().forEach(function(r){
-    va
+  if(reqs.length===0){ list.innerHTML='<p style="font-size:12px;color:#8b98a9;text-align:center;pad
