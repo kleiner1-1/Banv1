@@ -3,332 +3,774 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BXJO - Panel Ban V3</title>
+<title>BXJO - Panel V4</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0f14;color:#e6edf3;font-family:Arial,sans-serif}
-.wrap{max-width:460px;margin:0 auto;padding:16px}
-.header{display:flex;justify-content:space-between;align-items:center;background:#111821;border:1px solid #1f2a36;border-radius:14px;padding:14px}
-.logo{font-size:18px;font-weight:800}.logo span{color:#2ea5ff}
-.status{font-size:11px;font-weight:700;color:#3fb950;border:1px solid #1e3a2a;background:#0a1a12;padding:6px 10px;border-radius:999px}
-.hero{padding:20px 4px 14px}.hero h1{font-size:26px;line-height:1.15}.hero h1 span{color:#2ea5ff}.hero p{color:#8b98a9;font-size:13px;margin-top:8px}
-.card{background:#111821;border:1px solid #1f2a36;border-radius:16px;padding:18px;margin-bottom:14px}
-.card h2{font-size:16px}.card p{font-size:12.5px;color:#8b98a9;margin:6px 0 14px}
-label{font-size:12px;font-weight:700}
-input{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding:13px;border-radius:11px;font-size:14px;margin:7px 0 12px;outline:none}
-select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding:12px;border-radius:11px;margin:7px 0 12px}
-.btn{width:100%;border:none;padding:14px;border-radius:11px;font-weight:800;font-size:14px;cursor:pointer}
-.btn-primary{background:#2ea5ff;color:#fff}.btn-dark{background:#1f6feb;color:#fff}.btn-gold{background:#e3b341;color:#000}.btn-ghost{background:#1c2530;color:#fff;border:1px solid #2a3644}.btn-telegram{background:#229ED9;color:#fff}
-.alert{font-size:13px;text-align:center;padding:12px;border-radius:11px;margin:10px 0;display:none}
-.alert.show{display:block}.alert.err{background:#2a0f14;color:#f0a0a8}.alert.ok{background:#0a1f14;color:#8ce8ab}
-.coins{background:#1a1505;border:1px solid #5a4310;border-radius:14px;padding:14px;display:flex;justify-content:space-between;margin:14px 0}
-.userbar{display:flex;justify-content:space-between;background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:12px 14px;margin:14px 0}
-.input-row{display:flex;gap:8px;margin:7px 0 12px;align-items:stretch}
-.prefix{background:#2ea5ff;font-weight:800;padding:13px 8px;border-radius:11px;flex:0 0 auto;width:96px;border:none;color:#fff;font-size:14px;cursor:pointer;margin:0;text-align:center}
+:root{
+--bg:#070b10;--bg2:#0a1017;--card:#0f1620;--card2:#131d29;--line:#1e2b3a;
+--txt:#e9eff6;--muted:#8b98a9;--blue:#2ea5ff;--blue2:#1f6feb;
+--gold:#e3b341;--green:#3fb950;--red:#ff5a5a;--violet:#8b5cf6;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+background:radial-gradient(900px 500px at 50% -200px,#12283d 0%,var(--bg) 60%) no-repeat,var(--bg);
+color:var(--txt);font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+min-height:100vh;letter-spacing:.2px;
+}
+.wrap{max-width:470px;margin:0 auto;padding:14px 14px 40px}
+.header{
+display:flex;justify-content:space-between;align-items:center;gap:10px;
+background:linear-gradient(180deg,var(--card2),var(--card));
+border:1px solid var(--line);border-radius:18px;padding:13px 15px;
+box-shadow:0 10px 30px -20px #000;
+}
+.logo{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:900;letter-spacing:1.5px}
+.mark{
+width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+background:linear-gradient(140deg,var(--blue),var(--violet));font-size:13px;color:#fff;font-weight:900;
+box-shadow:0 0 18px -4px var(--blue);
+}
+.logo b{color:var(--blue)}
+.vtag{font-size:9px;font-weight:900;background:#0b1d2e;color:var(--blue);border:1px solid #1d3a55;padding:3px 6px;border-radius:6px;letter-spacing:1px}
+.status{font-size:10px;font-weight:800;color:var(--green);border:1px solid #1c3a2b;background:#08170f;padding:6px 10px;border-radius:999px;display:flex;align-items:center;gap:5px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+#diag{font-size:10.5px;text-align:center;color:#5f7183;margin:9px 0 2px;letter-spacing:.6px;text-transform:uppercase;font-weight:700}
+#diag.ok{color:var(--green)}
+#diag.bad{color:var(--red)}
+
+.hero{padding:22px 4px 16px}
+.hero h1{font-size:27px;line-height:1.12;font-weight:900;letter-spacing:-.4px}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--blue),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:12.5px;margin-top:9px;line-height:1.5}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:13px}
+.card.accent{border-color:#1d3a55;background:linear-gradient(180deg,#0f1d2b,var(--card))}
+.card h2{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
+.card h2 i{width:5px;height:16px;border-radius:3px;background:linear-gradient(var(--blue),var(--violet));display:block}
+.card p.sub{font-size:12px;color:var(--muted);margin:7px 0 14px;line-height:1.5}
+
+label{font-size:11px;font-weight:800;color:#a9b6c5;text-transform:uppercase;letter-spacing:.7px;display:block;margin-top:12px}
+input,select{
+width:100%;background:var(--bg2);border:1px solid #263547;color:var(--txt);
+padding:13px 14px;border-radius:12px;font-size:14px;margin:6px 0 0;outline:none;
+font-family:inherit;transition:border-color .15s,box-shadow .15s;
+}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2ea5ff22}
+select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,#7d8b9b 50%),linear-gradient(135deg,#7d8b9b 50%,transparent 50%);background-position:calc(100% - 18px) 21px,calc(100% - 13px) 21px;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+option{background:#0b1219;color:#e9eff6}
+
+.btn{
+width:100%;border:none;padding:14px;border-radius:12px;font-weight:900;font-size:13.5px;
+cursor:pointer;font-family:inherit;letter-spacing:.3px;transition:transform .1s,filter .15s;
+display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.btn:active{transform:scale(.975);filter:brightness(.92)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.b-blue{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;box-shadow:0 10px 24px -14px var(--blue)}
+.b-gold{background:linear-gradient(135deg,#f0c75e,var(--gold));color:#20180a}
+.b-green{background:linear-gradient(135deg,#4bd07a,#2fa257);color:#04170c}
+.b-tg{background:linear-gradient(135deg,#2bb3f0,#1d87b8);color:#fff}
+.b-ghost{background:var(--card2);color:var(--txt);border:1px solid var(--line)}
+.b-red{background:#2a1013;color:#ff8d8d;border:1px solid #4a1c22}
+.mt{margin-top:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+
+.toasts{position:fixed;top:12px;left:0;right:0;z-index:99;display:flex;flex-direction:column;align-items:center;gap:7px;pointer-events:none;padding:0 14px}
+.toast{
+max-width:420px;width:100%;font-size:12.5px;font-weight:700;padding:12px 14px;border-radius:12px;
+background:#111b26;border:1px solid var(--line);box-shadow:0 14px 30px -14px #000;
+animation:in .22s ease-out;display:flex;gap:8px;align-items:center;line-height:1.4;
+}
+.toast.ok{border-color:#1c3a2b;background:#0a1a12;color:#8ce8ab}
+.toast.err{border-color:#4a1c22;background:#1c0d10;color:#ffa8b0}
+.toast.info{border-color:#1d3a55;background:#0b1a28;color:#8fcaff}
+.toast.out{animation:out .2s forwards}
+@keyframes in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes out{to{opacity:0;transform:translateY(-8px)}}
+
+.userbar{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.who{display:flex;align-items:center;gap:10px}
+.ava{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:900;font-size:15px;color:#fff;background:linear-gradient(140deg,var(--blue),var(--violet));text-transform:uppercase}
+.who b{font-size:13.5px;display:block}
+.who small{font-size:10.5px;color:var(--muted)}
+.who small.admin{color:var(--gold)}
+.logout{font-size:11px;font-weight:900;color:#ff8d8d;background:#1c0d10;border:1px solid #4a1c22;padding:8px 11px;border-radius:10px;cursor:pointer}
+
+.balance{
+position:relative;overflow:hidden;border-radius:18px;padding:16px;margin-bottom:13px;
+background:linear-gradient(135deg,#1b1405,#241a06);border:1px solid #5a4310;
+display:flex;justify-content:space-between;align-items:center;
+}
+.balance:after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:#e3b34114;top:-70px;right:-40px}
+.balance small{font-size:9.5px;font-weight:900;color:#c8a44a;letter-spacing:1.4px}
+.balance b{font-size:24px;font-weight:900;color:#f5d98b;display:block;margin-top:3px}
+.chip{font-size:10px;font-weight:900;background:#00000066;color:var(--gold);border:1px solid #5a4310;padding:7px 11px;border-radius:999px;z-index:1}
+
+.input-row{display:flex;gap:8px;margin-top:6px;align-items:stretch}
+.prefix{
+flex:0 0 auto;width:102px;margin:0;text-align:center;font-weight:900;font-size:13.5px;
+background:linear-gradient(135deg,var(--blue),var(--blue2));border:none;color:#fff;padding:13px 6px;
+background-image:none;
+}
 .input-row input{flex:1;min-width:0;margin:0}
-.motivos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 14px}.motivo{border:1px solid #2a3644;background:#0a0f14;padding:12px;font-size:12.5px;font-weight:600;text-align:center;cursor:pointer;border-radius:11px}.motivo.active{border-color:#2ea5ff;background:#0a1a2e}
-.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.meta div{background:#0a0f14;border:1px solid #1f2a36;padding:10px;border-radius:11px}.meta small{color:#8b98a9;font-size:10px}.meta b{display:block;font-size:12.5px}
-.progress{display:none;margin-top:14px}.progress.show{display:block}.bar{height:10px;background:#1f2a36;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;width:0%;background:#2ea5ff}
-.porcent{font-size:26px;font-weight:800;text-align:center;margin:8px 0}.console{background:#05080b;border:1px solid #1f2a36;padding:12px;height:180px;overflow-y:auto;border-radius:12px;font-size:12px;line-height:1.7;font-family:monospace}.console .ok{color:#3fb950}.console .warn{color:#e3b341}
-.success{display:none;text-align:center;padding:16px;border:1px dashed #2a5a3a;background:#0a1a12;border-radius:14px;margin-top:14px}.success.show{display:block}
-.report{background:#05080b;border:1px solid #1f2a36;border-radius:12px;padding:12px;text-align:left;margin-top:12px}.report div{font-size:12px;padding:5px 0;border-bottom:1px solid #111821;display:flex;justify-content:space-between}
-.admin{background:#1a1505;border:1px solid #5a4310;border-radius:16px;padding:16px;margin:14px 0;text-align:center}.admin h3{color:#e3b341}
-.hidden{display:none!important}.footer{text-align:center;font-size:11px;color:#6b7a8a;margin:16px 0}
-.support{border:1px solid #1f2a36;background:#0d1512;border-radius:14px;padding:14px;margin-top:14px}
-.codebox{background:#000;border:1px dashed #e3b341;border-radius:12px;padding:12px;margin:10px 0;font-size:18px;font-weight:800;letter-spacing:1px;color:#e3b341;display:none}
+.paste{flex:0 0 auto;width:44px;border:1px solid var(--line);background:var(--card2);color:var(--muted);border-radius:12px;cursor:pointer;font-size:15px}
+
+.motivos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.motivo{
+border:1px solid #263547;background:var(--bg2);padding:12px 8px;font-size:12px;font-weight:700;
+text-align:center;cursor:pointer;border-radius:12px;transition:.15s;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.motivo:active{transform:scale(.97)}
+.motivo.active{border-color:var(--blue);background:#0a1f33;color:#9fd4ff;box-shadow:0 0 0 3px #2ea5ff1a}
+
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.meta div{background:var(--bg2);border:1px solid var(--line);padding:10px;border-radius:11px}
+.meta small{color:#5f7183;font-size:9px;font-weight:900;letter-spacing:.9px}
+.meta b{display:block;font-size:12px;margin-top:3px;word-break:break-all}
+
+.progress{display:none;margin-top:14px}
+.progress.show{display:block}
+.bar{height:9px;background:#16202c;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--violet));transition:width .18s linear;box-shadow:0 0 12px #2ea5ff99}
+.pcent{font-size:30px;font-weight:900;text-align:center;margin:9px 0 4px;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.steps{display:flex;flex-direction:column;gap:5px;margin:10px 0}
+.step{font-size:11.5px;color:#5f7183;display:flex;gap:7px;align-items:center;transition:.2s}
+.step.on{color:#9fd4ff}
+.step.done{color:var(--green)}
+.step span{width:14px;text-align:center}
+.console{
+background:#04070a;border:1px solid var(--line);padding:11px;height:150px;overflow-y:auto;
+border-radius:11px;font-size:11px;line-height:1.75;font-family:ui-monospace,Consolas,monospace;color:#9aa8b8;
+}
+.console .ok{color:var(--green)}.console .warn{color:var(--gold)}
+
+.success{display:none;text-align:center;padding:16px;border:1px dashed #2a5a3a;background:#07150d;border-radius:16px;margin-top:14px;animation:in .3s}
+.success.show{display:block}
+.tick{width:52px;height:52px;border-radius:50%;background:#0e2a19;border:2px solid #2fa257;color:#4bd07a;font-size:26px;display:grid;place-items:center;margin:0 auto 10px;animation:pop .35s}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+.success h3{font-size:15px;color:#9be9b6}
+.report{background:#04070a;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;margin:12px 0}
+.report div{font-size:11.5px;padding:6px 0;border-bottom:1px solid #101a24;display:flex;justify-content:space-between;gap:10px}
+.report div:last-child{border:none}
+.report span{color:var(--muted)}
+.report b{text-align:right;word-break:break-all}
+
+.admin{background:linear-gradient(180deg,#1c1607,#12100a);border:1px solid #5a4310;border-radius:18px;padding:16px;margin-bottom:13px}
+.admin h3{color:var(--gold);font-size:14px;font-weight:900;display:flex;gap:7px;align-items:center}
+.admin p{font-size:11.5px;color:#b9a679;margin:7px 0;line-height:1.5}
+.codebox{background:#04070a;border:1px dashed var(--gold);border-radius:12px;padding:13px;margin:10px 0;font-size:17px;font-weight:900;letter-spacing:1.4px;color:var(--gold);display:none;text-align:center;word-break:break-all}
 .codebox.show{display:block}
-#diag{font-size:11px;text-align:center;color:#6b7a8a;margin:10px 0 4px}
-#diag.ok{color:#3fb950}
+.list{display:flex;flex-direction:column;gap:7px;margin-top:9px}
+.item{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 11px;display:flex;justify-content:space-between;gap:9px;align-items:center;font-size:11.5px}
+.item b{color:#cfe0f0;word-break:break-all}
+.item small{color:#5f7183;font-size:10px}
+.item .mini{border:none;background:#16202c;color:var(--muted);border-radius:8px;padding:6px 9px;font-size:10.5px;font-weight:800;cursor:pointer}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:11px 0}
+.stat{background:#04070a;border:1px solid #3b2e10;border-radius:11px;padding:10px;text-align:center}
+.stat b{display:block;font-size:17px;color:var(--gold);font-weight:900}
+.stat small{font-size:8.5px;color:#8a7a52;letter-spacing:.7px;font-weight:800}
+.empty{font-size:11.5px;color:#5f7183;text-align:center;padding:12px;border:1px dashed var(--line);border-radius:11px}
+
+.support{background:linear-gradient(180deg,#0b1a14,#0a1210);border:1px solid #1c3a2b;border-radius:16px;padding:14px;margin-bottom:13px}
+.support b{font-size:12.5px;color:#9be9b6}
+.support p{font-size:11.5px;color:#7fa08c;margin-top:5px;line-height:1.5}
+.footer{text-align:center;font-size:10.5px;color:#4f6070;margin-top:18px;line-height:1.8}
+.footer b{color:#6b7f92}
+.hidden{display:none!important}
+.noscript{background:#2a0f14;border:1px solid #4a1c22;color:#ffa8b0;font-size:12px;padding:12px;border-radius:12px;margin:10px 0;text-align:center;font-weight:700}
 </style>
 </head>
 <body>
+<div class="toasts" id="toasts"></div>
 <div class="wrap">
-<div class="header"><div class="logo">BXJO <span>PANEL</span> V3</div><div class="status">EN LINEA</div></div>
+
+<div class="header">
+  <div class="logo"><span class="mark">B</span><span>BXJO <b>PANEL</b></span><span class="vtag">V4</span></div>
+  <div class="status"><span class="dot"></span>EN LINEA</div>
+</div>
 <div id="diag">Cargando panel...</div>
+<noscript><div class="noscript">El JavaScript está apagado. Abre este archivo en Chrome.</div></noscript>
 
+<!-- ================= LOGIN ================= -->
 <div id="authScreen">
-<div class="hero"><h1>Panel de reportes<br><span>Profesional y seguro.</span></h1><p>Tu cuenta queda guardada en este celular.</p></div>
-<div class="card">
-<h2>Iniciar Sesion</h2>
-<div id="alertBox" class="alert"></div>
-<label>Usuario</label><input id="loginUser" placeholder="Tu usuario">
-<label>Contrasena</label><input id="loginPass" type="password" placeholder="Tu contrasena">
-<button type="button" id="btnEntrar" class="btn btn-primary">Entrar al Panel</button>
-<p id="cuentaGuardada" style="text-align:center;color:#e3b341;font-weight:700;margin-top:10px"></p>
-</div>
-<div class="card" style="border-color:#1f6feb">
-<h2>Crear Cuenta</h2>
-<div id="alertReg" class="alert"></div>
-<label>Elige tu usuario</label><input id="regUser" placeholder="Ejemplo: carlos123">
-<label>Crea tu contrasena</label><input id="regPass" type="password" placeholder="Minimo 4 caracteres">
-<label>Repite tu contrasena</label><input id="regPass2" type="password" placeholder="Repite tu contrasena">
-<button type="button" id="btnCrear" class="btn btn-dark">Crear Mi Cuenta</button>
-<p>El usuario <b style="color:#e3b341">bxjo</b> es solo del creador.</p>
-</div>
-<div class="footer">BXJO PANEL - Demo / Simulacion educativa</div>
+  <div class="hero">
+    <h1>Panel de reportes<br><em>profesional y seguro.</em></h1>
+    <p>Tu cuenta queda guardada en este celular. Entra y reporta en segundos.</p>
+  </div>
+
+  <div class="card accent">
+    <h2><i></i>Iniciar sesión</h2>
+    <label>Usuario</label><input id="loginUser" placeholder="Tu usuario" autocomplete="username">
+    <label>Contraseña</label><input id="loginPass" type="password" placeholder="Tu contraseña" autocomplete="current-password">
+    <button type="button" id="btnEntrar" class="btn b-blue mt">Entrar al panel</button>
+    <p id="cuentaGuardada" style="text-align:center;color:var(--gold);font-weight:800;font-size:11.5px;margin-top:11px"></p>
+  </div>
+
+  <div class="card">
+    <h2><i></i>Crear cuenta</h2>
+    <p class="sub">Se guarda solo en este celular.</p>
+    <label>Elige tu usuario</label><input id="regUser" placeholder="Ejemplo: carlos123" autocomplete="off">
+    <label>Contraseña</label><input id="regPass" type="password" placeholder="Mínimo 4 caracteres">
+    <label>Repite la contraseña</label><input id="regPass2" type="password" placeholder="Repite tu contraseña">
+    <button type="button" id="btnCrear" class="btn b-ghost mt">Crear mi cuenta</button>
+    <p class="sub" style="margin:11px 0 0">El usuario <b style="color:var(--gold)">bxjo</b> es solo del creador.</p>
+  </div>
+  <div class="footer">BXJO PANEL · Demo / simulación educativa</div>
 </div>
 
+<!-- ================= PANEL ================= -->
 <div id="panelScreen" class="hidden">
-<div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span id="btnSalir" style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px">Cerrar sesion</span></div>
-<div class="coins"><div><small>TU BALANCE</small><br><b id="coinsShow">0 Coins</b></div><span style="font-size:11px;background:#000;color:#e3b341;padding:6px 10px;border-radius:999px;font-weight:700">Coins</span></div>
 
-<!-- CANJEAR CODIGO - PARA TODOS -->
-<div class="card">
-<h2>Canjear Codigo de Coins</h2>
-<p>Si Bxjo te dio un codigo por Telegram, pegalo aqui.</p>
-<label>Codigo</label><input id="codigoInput" placeholder="Ejemplo: BXJO-50-6712" style="text-transform:uppercase">
-<button type="button" id="btnCanjear" class="btn btn-gold">Canjear Codigo</button>
-</div>
+  <div class="userbar">
+    <div class="who">
+      <div class="ava" id="ava">?</div>
+      <div><b id="userShow">-</b><small id="roleShow">Usuario verificado</small></div>
+    </div>
+    <div class="logout" id="btnSalir">Salir</div>
+  </div>
 
-<div id="adminPanel" class="admin hidden">
-<h3>Panel Admin - Solo Bxjo</h3>
-<p style="font-size:12px;color:#c9d1d9;margin:8px 0">Genera un codigo y mandaselo al usuario por Telegram.</p>
-<p style="font-size:12px">Telegram: <b>@Formen0</b></p>
-<div style="display:flex;gap:6px;margin-top:10px">
-<button type="button" class="btn btn-gold codGen" data-cant="10" style="flex:1;padding:10px">Codigo 10</button>
-<button type="button" class="btn btn-gold codGen" data-cant="50" style="flex:1;padding:10px">Codigo 50</button>
-<button type="button" class="btn btn-gold codGen" data-cant="100" style="flex:1;padding:10px">Codigo 100</button>
-<button type="button" class="btn btn-gold codGen" data-cant="200" style="flex:1;padding:10px">Codigo 200</button>
-</div>
-<div id="codigoGenerado" class="codebox"></div>
-<button type="button" class="btn btn-telegram" id="btnCompartirCodigo" style="display:none;margin-top:8px">Enviar Codigo por Telegram</button>
-<p style="font-size:11px;color:#8b98a9;margin-top:8px">Cada codigo solo se puede usar 1 vez por celular.</p>
-</div>
+  <div class="balance">
+    <div><small>TU BALANCE</small><b id="coinsShow">0 Coins</b></div>
+    <div class="chip">◈ COINS</div>
+  </div>
 
-<div class="card">
-<h2>Reportar Numero de WhatsApp</h2>
-<div class="meta"><div><small>OBJETIVO</small><b id="metaNum">--</b></div><div><small>SESION</small><b id="metaSes">--</b></div><div><small>REGION</small><b>CO - Barrancabermeja</b></div><div><small>PROXY</small><b style="color:#3fb950">Activo</b></div></div>
-<label>Numero a reportar</label>
-<div class="input-row">
-<select id="prefijo" class="prefix">
-<option value="+57">+57</option>
-<option value="+1">+1</option>
-<option value="+52">+52</option>
-<option value="+54">+54</option>
-<option value="+55">+55</option>
-<option value="+56">+56</option>
-<option value="+51">+51</option>
-<option value="+58">+58</option>
-<option value="+593">+593</option>
-<option value="+591">+591</option>
-<option value="+595">+595</option>
-<option value="+598">+598</option>
-<option value="+502">+502</option>
-<option value="+503">+503</option>
-<option value="+504">+504</option>
-<option value="+505">+505</option>
-<option value="+506">+506</option>
-<option value="+507">+507</option>
-<option value="+34">+34</option>
-<option value="+39">+39</option>
-<option value="+33">+33</option>
-<option value="+49">+49</option>
-<option value="+44">+44</option>
-<option value="+351">+351</option>
-<option value="+40">+40</option>
-<option value="+7">+7</option>
-<option value="+90">+90</option>
-<option value="+20">+20</option>
-<option value="+27">+27</option>
-<option value="+212">+212</option>
-<option value="+234">+234</option>
-<option value="+254">+254</option>
-<option value="+91">+91</option>
-<option value="+92">+92</option>
-<option value="+880">+880</option>
-<option value="+62">+62</option>
-<option value="+63">+63</option>
-<option value="+66">+66</option>
-<option value="+84">+84</option>
-<option value="+86">+86</option>
-<option value="+81">+81</option>
-<option value="+82">+82</option>
-<option value="+61">+61</option>
-<option value="+64">+64</option>
-<option value="+971">+971</option>
-<option value="+972">+972</option>
-<option value="+966">+966</option>
-<option value="+961">+961</option>
-<option value="+962">+962</option>
-</select>
-<input id="numero" type="tel" placeholder="Numero sin prefijo" maxlength="15">
-</div>
-<label>Motivo del reporte</label>
-<div class="motivos">
-<div class="motivo active" data-motivo="Spam">Spam</div>
-<div class="motivo" data-motivo="Contenido +18">Contenido +18</div>
-<div class="motivo" data-motivo="Acoso">Acoso</div>
-<div class="motivo" data-motivo="Estafa">Estafa</div>
-</div>
-<button type="button" id="btnIniciar" class="btn btn-dark">Iniciar Reporte</button>
-<label style="margin-top:14px;display:block">Cuantos coins necesitas?</label>
-<select id="cantPedir"><option value="10">10 Coins</option><option value="50" selected>50 Coins</option><option value="100">100 Coins</option><option value="200">200 Coins</option></select>
-<button type="button" id="btnPedir" class="btn btn-telegram">Pedir Coins por Telegram a Bxjo</button>
-<p style="font-size:11px;text-align:center;margin-top:8px">Se abrira tu Telegram para enviar a @Formen0.</p>
-<div class="progress" id="progWrap"><div style="display:flex;justify-content:space-between;font-size:11px;color:#8b98a9;margin:10px 0 6px"><span id="barText">Enviando...</span><span>Enviando...</span></div><div class="bar"><i id="barra"></i></div><div class="porcent" id="porcent">0%</div><div class="console" id="log"></div></div>
-<div class="success" id="successBox"><h3>Reporte Completado</h3>
-<div class="report"><div><span>Numero</span><b id="numFinal" style="color:#3fb950">--</b></div><div><span>Reportado por</span><b id="userReport">--</b></div><div><span>Motivo</span><b id="motivoFinal">Spam</b></div><div><span>Saldo</span><b style="color:#e3b341"><span id="coinsAfter">0</span> Coins</b></div><div><span>Caso</span><b id="caseId">BX-000000</b></div><div><span>Tiempo</span><b id="timeFinal">0s</b></div></div>
-<button type="button" id="btnOtro" class="btn btn-primary" style="margin-top:12px">Reportar Otro Numero</button></div>
-</div>
-<div class="support"><b>WhatsApp Support</b><p style="font-size:12px;color:#c9d1d9;margin:6px 0">Se recibieron multiples reportes sobre este numero.</p><p id="waStatus" style="font-size:12px">Estado: <b style="color:#e3b341">En Revision</b></p></div>
-<div class="footer">BXJO PANEL PRO V3 - Demo / Simulacion educativa<br>Hecho por Bxjo - 2026</div>
+  <div class="card">
+    <h2><i></i>Canjear código</h2>
+    <p class="sub">Si Bxjo te dio un código por Telegram, pégalo aquí.</p>
+    <input id="codigoInput" placeholder="BXJO-50-6712" style="text-transform:uppercase">
+    <button type="button" id="btnCanjear" class="btn b-gold mt">Canjear código</button>
+  </div>
+
+  <div id="adminPanel" class="admin hidden">
+    <h3>⚡ Panel admin · solo Bxjo</h3>
+    <p>Genera un código y mándaselo al usuario por Telegram <b>@Formen0</b>.</p>
+    <div class="stats">
+      <div class="stat"><b id="stGen">0</b><small>GENERADOS</small></div>
+      <div class="stat"><b id="stRep">0</b><small>REPORTES</small></div>
+      <div class="stat"><b id="stBal">0</b><small>BALANCE</small></div>
+    </div>
+    <div class="row3">
+      <button type="button" class="btn b-gold codGen" data-cant="10" style="padding:10px">10</button>
+      <button type="button" class="btn b-gold codGen" data-cant="50" style="padding:10px">50</button>
+      <button type="button" class="btn b-gold codGen" data-cant="100" style="padding:10px">100</button>
+    </div>
+    <div class="row2 mt">
+      <button type="button" class="btn b-gold codGen" data-cant="200" style="padding:10px">200</button>
+      <button type="button" class="btn b-ghost" id="btnCodCustom" style="padding:10px">Otro monto</button>
+    </div>
+    <div id="codigoGenerado" class="codebox"></div>
+    <div class="row2 mt">
+      <button type="button" class="btn b-ghost" id="btnCopiarCodigo" style="padding:11px">Copiar</button>
+      <button type="button" class="btn b-tg" id="btnCompartirCodigo" style="padding:11px">Telegram</button>
+    </div>
+    <p style="margin-top:11px">Historial de códigos generados</p>
+    <div class="list" id="listaCodigos"></div>
+    <button type="button" class="btn b-red mt" id="btnLimpiarCodigos" style="padding:11px">Vaciar historial</button>
+  </div>
+
+  <div class="card">
+    <h2><i></i>Reportar número de WhatsApp</h2>
+    <div class="meta">
+      <div><small>OBJETIVO</small><b id="metaNum">--</b></div>
+      <div><small>SESIÓN</small><b id="metaSes">--</b></div>
+      <div><small>REGIÓN</small><b>CO · Barrancabermeja</b></div>
+      <div><small>PROXY</small><b style="color:var(--green)">Activo</b></div>
+    </div>
+
+    <label>Número a reportar</label>
+    <div class="input-row">
+      <select id="prefijo" class="prefix">
+        <optgroup label="América">
+          <option value="+57">+57</option><option value="+1">+1</option><option value="+52">+52</option>
+          <option value="+54">+54</option><option value="+55">+55</option><option value="+56">+56</option>
+          <option value="+51">+51</option><option value="+58">+58</option><option value="+591">+591</option>
+          <option value="+593">+593</option><option value="+595">+595</option><option value="+598">+598</option>
+          <option value="+502">+502</option><option value="+503">+503</option><option value="+504">+504</option>
+          <option value="+505">+505</option><option value="+506">+506</option><option value="+507">+507</option>
+          <option value="+509">+509</option><option value="+53">+53</option><option value="+1787">+1787</option>
+        </optgroup>
+        <optgroup label="Europa">
+          <option value="+34">+34</option><option value="+39">+39</option><option value="+33">+33</option>
+          <option value="+49">+49</option><option value="+44">+44</option><option value="+351">+351</option>
+          <option value="+40">+40</option><option value="+7">+7</option><option value="+30">+30</option>
+          <option value="+31">+31</option><option value="+32">+32</option><option value="+36">+36</option>
+          <option value="+41">+41</option><option value="+43">+43</option><option value="+45">+45</option>
+          <option value="+46">+46</option><option value="+47">+47</option><option value="+48">+48</option>
+          <option value="+352">+352</option><option value="+353">+353</option><option value="+356">+356</option>
+          <option value="+357">+357</option><option value="+358">+358</option><option value="+359">+359</option>
+          <option value="+370">+370</option><option value="+371">+371</option><option value="+372">+372</option>
+          <option value="+380">+380</option><option value="+381">+381</option><option value="+385">+385</option>
+          <option value="+386">+386</option><option value="+420">+420</option><option value="+421">+421</option>
+        </optgroup>
+        <optgroup label="Asia / África / Oceanía">
+          <option value="+90">+90</option><option value="+20">+20</option><option value="+27">+27</option>
+          <option value="+212">+212</option><option value="+213">+213</option><option value="+216">+216</option>
+          <option value="+218">+218</option><option value="+221">+221</option><option value="+234">+234</option>
+          <option value="+254">+254</option><option value="+255">+255</option><option value="+256">+256</option>
+          <option value="+263">+263</option><option value="+91">+91</option><option value="+92">+92</option>
+          <option value="+880">+880</option><option value="+94">+94</option><option value="+95">+95</option>
+          <option value="+977">+977</option><option value="+62">+62</option><option value="+63">+63</option>
+          <option value="+66">+66</option><option value="+84">+84</option><option value="+86">+86</option>
+          <option value="+81">+81</option><option value="+82">+82</option><option value="+65">+65</option>
+          <option value="+60">+60</option><option value="+61">+61</option><option value="+64">+64</option>
+          <option value="+971">+971</option><option value="+972">+972</option><option value="+966">+966</option>
+          <option value="+961">+961</option><option value="+962">+962</option><option value="+965">+965</option>
+          <option value="+968">+968</option><option value="+973">+973</option><option value="+974">+974</option>
+          <option value="+98">+98</option>
+        </optgroup>
+        <option value="otro">Otro +</option>
+      </select>
+      <input id="numero" type="tel" inputmode="numeric" placeholder="Número sin prefijo" maxlength="15">
+      <button type="button" class="paste" id="btnPegar" title="Pegar">⎘</button>
+    </div>
+    <input id="prefijoManual" class="hidden" placeholder="Escribe el prefijo, ej: +240" style="margin-top:8px">
+
+    <label>Motivo del reporte</label>
+    <div class="motivos">
+      <div class="motivo active" data-motivo="Spam">🚫 Spam</div>
+      <div class="motivo" data-motivo="Contenido +18">🔞 +18</div>
+      <div class="motivo" data-motivo="Acoso">💬 Acoso</div>
+      <div class="motivo" data-motivo="Estafa">💸 Estafa</div>
+    </div>
+
+    <button type="button" id="btnIniciar" class="btn b-blue mt">Iniciar reporte · 10 Coins</button>
+
+    <label>¿Cuántos coins necesitas?</label>
+    <select id="cantPedir">
+      <option value="10">10 Coins</option><option value="50" selected>50 Coins</option>
+      <option value="100">100 Coins</option><option value="200">200 Coins</option>
+    </select>
+    <button type="button" id="btnPedir" class="btn b-tg mt">Pedir coins por Telegram</button>
+    <p class="sub" style="text-align:center;margin:9px 0 0">Se abrirá tu Telegram para escribir a @Formen0.</p>
+
+    <div class="progress" id="progWrap">
+      <div class="steps">
+        <div class="step" id="s1"><span>○</span> Conexión segura</div>
+        <div class="step" id="s2"><span>○</span> Validando número</div>
+        <div class="step" id="s3"><span>○</span> Enviando reporte</div>
+        <div class="step" id="s4"><span>○</span> Confirmando</div>
+      </div>
+      <div class="bar"><i id="barra"></i></div>
+      <div class="pcent" id="porcent">0%</div>
+      <div class="console" id="log"></div>
+    </div>
+
+    <div class="success" id="successBox">
+      <div class="tick">✓</div>
+      <h3>Reporte completado</h3>
+      <div class="report">
+        <div><span>Número</span><b id="numFinal">--</b></div>
+        <div><span>Reportado por</span><b id="userReport">--</b></div>
+        <div><span>Motivo</span><b id="motivoFinal">--</b></div>
+        <div><span>Saldo</span><b id="coinsAfter">0</b></div>
+        <div><span>Caso</span><b id="caseId">--</b></div>
+        <div><span>Tiempo</span><b id="timeFinal">0s</b></div>
+      </div>
+      <div class="row2">
+        <button type="button" class="btn b-ghost" id="btnCopiarReporte" style="padding:11px">Copiar</button>
+        <button type="button" class="btn b-blue" id="btnOtro" style="padding:11px">Otro número</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><i></i>Mis últimos reportes</h2>
+    <div class="list" id="listaHistorial"></div>
+    <button type="button" class="btn b-red mt" id="btnLimpiarHistorial" style="padding:11px">Borrar historial</button>
+  </div>
+
+  <div class="support">
+    <b>WhatsApp Support</b>
+    <p>Se recibieron múltiples reportes sobre este número.</p>
+    <p id="waStatus">Estado: <b style="color:var(--gold)">En revisión</b></p>
+  </div>
+
+  <div class="footer">BXJO PANEL PRO · V4 · Demo / simulación educativa<br>Hecho por <b>Bxjo</b> · 2026</div>
 </div>
 </div>
 
 <script>
-/* ============ 1. BASE ============ */
-var TELEGRAM_USER='Formen0';
+/* ============ 0. BASE ============ */
+var TG='Formen0';
 var KEY='bxjo_cuenta_de_este_celular';
 var SES='bxjo_sesion_actual';
-var CODIGOS_USADOS='bxjo_codigos_usados';
+var COD_USADOS='bxjo_codigos_usados';
+var COD_GEN='bxjo_codigos_generados';
+var HIST='bxjo_hist_';
 var ultimoCodigo='';
+var motivo='Spam';
+var enviando=false;
 
-// Cuentas fijas en el codigo. Agrega mas lineas si quieres.
-var CUENTAS_FIJAS={
-  'bxjo':'BxjoAdmin2026'
-};
+var CUENTAS_FIJAS={'bxjo':'BxjoAdmin2026'};
 
 var MEMORIA={};
 function lsGet(k){ try{ var v=localStorage.getItem(k); return (v===null||v===undefined)?(MEMORIA[k]||null):v; }catch(e){ return MEMORIA[k]||null; } }
 function lsSet(k,v){ MEMORIA[k]=v; try{ localStorage.setItem(k,v); }catch(e){} }
 function lsDel(k){ delete MEMORIA[k]; try{ localStorage.removeItem(k); }catch(e){} }
-function getCuenta(){ try{ var c=lsGet(KEY); if(!c) return null; return JSON.parse(c); }catch(e){ return null; } }
+function getCuenta(){ try{ var c=lsGet(KEY); return c?JSON.parse(c):null; }catch(e){ return null; } }
 function saveCuenta(c){ lsSet(KEY, JSON.stringify(c)); }
-
 function $(id){ return document.getElementById(id); }
-function aviso(id,m,t){ var a=$(id); if(a){ a.innerText=m; a.className='alert show '+t; } try{ alert(m); }catch(e){} }
-function limpiar(id){ var a=$(id); if(a){ a.innerText=''; a.className='alert'; } }
+function cada(sel,fn){ var n=document.querySelectorAll(sel); for(var i=0;i<n.length;i++){ fn(n[i],i); } }
+function txt(id,v){ var e=$(id); if(e) e.innerText=v; }
 
-/* ============ 2. LOGIN ============ */
-function mostrarCuentaGuardada(){
-  var c=getCuenta(); var el=$('cuentaGuardada'); if(!el) return;
+/* ============ 1. TOASTS ============ */
+function toast(m,t){
+  var box=$('toasts'); if(!box) return;
+  var d=document.createElement('div');
+  d.className='toast '+(t||'info');
+  d.innerText=m;
+  box.appendChild(d);
+  setTimeout(function(){ d.className+=' out'; },2400);
+  setTimeout(function(){ if(d.parentNode) d.parentNode.removeChild(d); },2750);
+}
+function copiar(t){
+  if(!t) return;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(function(){ toast('Copiado al portapapeles','ok'); },function(){ respaldo(t); });
+  } else { respaldo(t); }
+}
+function respaldo(t){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); toast('Copiado','ok');
+  }catch(e){ toast('Copia manual: '+t,'info'); }
+}
+
+/* ============ 2. SESIÓN ============ */
+function mostrarGuardada(){
+  var c=getCuenta(), el=$('cuentaGuardada'); if(!el) return;
   if(c && c.user){ el.innerText='Cuenta guardada en este celular: '+c.user; $('loginUser').value=c.user; }
   else { el.innerText=''; }
 }
 function enterPanel(user,coins){
-  $('userShow').innerText=user;
-  $('userReport').innerText=user;
-  $('coinsShow').innerText=coins+' Coins';
-  $('roleShow').innerText = CUENTAS_FIJAS[user] ? 'Creador - Admin' : 'Usuario verificado';
+  txt('userShow',user);
+  txt('userReport',user);
+  txt('coinsShow',coins+' Coins');
+  txt('ava',(user.charAt(0)||'?'));
+  var esAdmin=!!CUENTAS_FIJAS[user];
+  var r=$('roleShow');
+  r.innerText=esAdmin?'Creador · Admin':'Usuario verificado';
+  r.className=esAdmin?'admin':'';
   $('authScreen').classList.add('hidden');
   $('panelScreen').classList.remove('hidden');
-  if(CUENTAS_FIJAS[user]){ $('adminPanel').classList.remove('hidden'); } else { $('adminPanel').classList.add('hidden'); }
+  if(esAdmin) $('adminPanel').classList.remove('hidden'); else $('adminPanel').classList.add('hidden');
+  pintarHistorial();
+  if(esAdmin){ pintarCodigos(); pintarStats(); }
   window.scrollTo(0,0);
 }
 function doLogin(){
   var user=($('loginUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
   var pass=$('loginPass').value||'';
-  if(!user||!pass){ aviso('alertBox','Escribe usuario y contrasena.','err'); return; }
-
+  if(!user||!pass){ toast('Escribe usuario y contraseña','err'); return; }
   if(CUENTAS_FIJAS[user]){
-    if(CUENTAS_FIJAS[user]!==pass){ aviso('alertBox','Clave incorrecta para '+user+'.','err'); return; }
-    var previa=getCuenta();
-    var coinsFija=(previa && previa.user===user && typeof previa.coins==='number') ? previa.coins : 999;
-    var repsFija=(previa && previa.user===user) ? (previa.reports||0) : 0;
-    saveCuenta({user:user,pass:pass,coins:coinsFija,reports:repsFija});
+    if(CUENTAS_FIJAS[user]!==pass){ toast('Contraseña incorrecta para '+user,'err'); return; }
+    var pv=getCuenta();
+    var coins=(pv && pv.user===user && typeof pv.coins==='number')?pv.coins:999;
+    var reps=(pv && pv.user===user)?(pv.reports||0):0;
+    saveCuenta({user:user,pass:pass,coins:coins,reports:reps});
     lsSet(SES,user);
-    limpiar('alertBox');
-    enterPanel(user,coinsFija);
+    toast('Bienvenido, '+user,'ok');
+    enterPanel(user,coins);
     return;
   }
-
   var c=getCuenta();
-  if(!c || !c.user){ aviso('alertBox','En este celular no hay cuenta guardada. Creala abajo.','err'); return; }
-  if(c.user!==user){ aviso('alertBox','En este celular la cuenta guardada es: '+c.user+'.','err'); return; }
-  if(c.pass!==pass){ aviso('alertBox','Contrasena incorrecta.','err'); return; }
+  if(!c || !c.user){ toast('No hay cuenta guardada. Créala abajo.','err'); return; }
+  if(c.user!==user){ toast('La cuenta guardada es: '+c.user,'err'); return; }
+  if(c.pass!==pass){ toast('Contraseña incorrecta','err'); return; }
   lsSet(SES,user);
-  limpiar('alertBox');
+  toast('Bienvenido, '+user,'ok');
   enterPanel(user,c.coins||0);
 }
 function doRegister(){
   var user=($('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
-  var p1=$('regPass').value||''; var p2=$('regPass2').value||'';
-  if(!user){ aviso('alertReg','Escribe un usuario.','err'); return; }
-  if(user.length<3){ aviso('alertReg','Minimo 3 letras.','err'); return; }
-  if(CUENTAS_FIJAS[user]){ aviso('alertReg','Ese usuario es del creador.','err'); return; }
-  if(p1.length<4){ aviso('alertReg','La contrasena minimo 4.','err'); return; }
-  if(p1!==p2){ aviso('alertReg','Las contrasenas no coinciden.','err'); return; }
-  var vieja=getCuenta();
-  if(vieja && vieja.user===user){ aviso('alertReg','Esa cuenta ya esta guardada. Inicia sesion arriba.','err'); return; }
-  if(vieja){ try{ if(!confirm('Ya hay una cuenta guardada: '+vieja.user+'. ¿Cambiarla por '+user+'?')) return; }catch(e){} }
+  var p1=$('regPass').value||'', p2=$('regPass2').value||'';
+  if(!user){ toast('Escribe un usuario','err'); return; }
+  if(user.length<3){ toast('Mínimo 3 letras','err'); return; }
+  if(CUENTAS_FIJAS[user]){ toast('Ese usuario es del creador','err'); return; }
+  if(p1.length<4){ toast('La contraseña mínimo 4','err'); return; }
+  if(p1!==p2){ toast('Las contraseñas no coinciden','err'); return; }
+  var v=getCuenta();
+  if(v && v.user===user){ toast('Esa cuenta ya existe. Inicia sesión.','err'); return; }
+  if(v){ try{ if(!confirm('Ya hay una cuenta guardada: '+v.user+'. ¿Cambiarla por '+user+'?')) return; }catch(e){} }
   saveCuenta({user:user,pass:p1,coins:0,reports:0});
-  aviso('alertReg','Cuenta "'+user+'" guardada. Ahora inicia sesion arriba.','ok');
   $('loginUser').value=user;
   $('regUser').value=''; $('regPass').value=''; $('regPass2').value='';
-  mostrarCuentaGuardada();
+  toast('Cuenta "'+user+'" creada. Ahora inicia sesión.','ok');
+  mostrarGuardada();
 }
 function logout(){
   lsDel(SES);
   $('panelScreen').classList.add('hidden');
   $('authScreen').classList.remove('hidden');
   $('loginPass').value='';
-  mostrarCuentaGuardada();
+  $('progWrap').classList.remove('show');
+  $('successBox').classList.remove('show');
+  mostrarGuardada();
+  toast('Sesión cerrada','info');
 }
 
-/* ============ 3. CODIGOS ============ */
-function crearCodigo(cant){
-  var clave=(cant*37+4821)%10000;
-  return 'BXJO-'+cant+'-'+('0000'+clave).slice(-4);
-}
+/* ============ 3. CÓDIGOS ============ */
+function crearCodigo(cant){ return 'BXJO-'+cant+'-'+('0000'+((cant*37+4821)%10000)).slice(-4); }
 function generarCodigo(cant){
+  if(!cant || cant<1){ toast('Monto inválido','err'); return; }
   ultimoCodigo=crearCodigo(cant);
   var box=$('codigoGenerado');
   box.innerText=ultimoCodigo+'  =  '+cant+' Coins';
   box.classList.add('show');
-  $('btnCompartirCodigo').style.display='block';
-  aviso('alertBox','Codigo generado: '+ultimoCodigo,'ok');
+  var g=JSON.parse(lsGet(COD_GEN)||'[]');
+  g.unshift({codigo:ultimoCodigo,cant:cant,fecha:new Date().toLocaleString('es-CO')});
+  if(g.length>30) g=g.slice(0,30);
+  lsSet(COD_GEN,JSON.stringify(g));
+  pintarCodigos(); pintarStats();
+  toast('Código de '+cant+' coins generado','ok');
+}
+function pintarCodigos(){
+  var box=$('listaCodigos'); if(!box) return;
+  var g=JSON.parse(lsGet(COD_GEN)||'[]');
+  box.innerHTML='';
+  if(!g.length){ box.innerHTML='<div class="empty">Todavía no generaste códigos.</div>'; return; }
+  for(var i=0;i<g.length;i++){
+    (function(it){
+      var d=document.createElement('div'); d.className='item';
+      d.innerHTML='<div><b>'+it.codigo+'</b><br><small>'+it.cant+' coins · '+it.fecha+'</small></div>';
+      var b=document.createElement('button'); b.className='mini'; b.type='button'; b.innerText='copiar';
+      b.onclick=function(){ copiar(it.codigo); };
+      d.appendChild(b); box.appendChild(d);
+    })(g[i]);
+  }
+}
+function pintarStats(){
+  var g=JSON.parse(lsGet(COD_GEN)||'[]');
+  var c=getCuenta();
+  txt('stGen',g.length);
+  txt('stRep',(c&&c.reports)?c.reports:0);
+  txt('stBal',(c&&c.coins)?c.coins:0);
 }
 function compartirCodigo(){
-  if(!ultimoCodigo) return;
-  var msg='Hola, aqui tienes tu codigo de coins BXJO: '+ultimoCodigo+' - Canjealo en el panel.';
-  window.open('https://t.me/'+TELEGRAM_USER+'?text='+encodeURIComponent(msg),'_blank');
+  if(!ultimoCodigo){ toast('Genera un código primero','err'); return; }
+  var m='Hola, aquí tienes tu código de coins BXJO: '+ultimoCodigo+' - Canjéalo en el panel.';
+  window.open('https://t.me/'+TG+'?text='+encodeURIComponent(m),'_blank');
 }
 function canjearCodigo(){
-  var codigo=($('codigoInput').value||'').trim().toUpperCase().replace(/\s/g,'');
-  if(!codigo){ aviso('alertBox','Pega el codigo que te dio Bxjo','err'); return; }
-  var partes=codigo.split('-');
-  if(partes.length!==3 || partes[0]!=='BXJO'){ aviso('alertBox','Codigo invalido. Ejemplo: BXJO-50-6712','err'); return; }
-  var cant=parseInt(partes[1]); var clave=parseInt(partes[2]);
-  if([10,50,100,200].indexOf(cant)===-1){ aviso('alertBox','Codigo invalido.','err'); return; }
-  if(clave!==(cant*37+4821)%10000){ aviso('alertBox','Codigo invalido. Pidele a Bxjo que lo revise.','err'); return; }
-  var usados=JSON.parse(lsGet(CODIGOS_USADOS)||'[]');
-  if(usados.indexOf(codigo)!==-1){ aviso('alertBox','Ese codigo ya lo usaste.','err'); return; }
-  var user=lsGet(SES); var c=getCuenta();
-  if(!c || c.user!==user){ aviso('alertBox','Inicia sesion primero','err'); return; }
-  usados.push(codigo); lsSet(CODIGOS_USADOS, JSON.stringify(usados));
+  var cod=($('codigoInput').value||'').trim().toUpperCase().replace(/\s/g,'');
+  if(!cod){ toast('Pega el código','err'); return; }
+  var p=cod.split('-');
+  if(p.length!==3 || p[0]!=='BXJO'){ toast('Código inválido','err'); return; }
+  var cant=parseInt(p[1]), clave=parseInt(p[2]);
+  if([10,50,100,200].indexOf(cant)===-1){ toast('Código inválido','err'); return; }
+  if(clave!==(cant*37+4821)%10000){ toast('Código inválido. Pídele a Bxjo que lo revise.','err'); return; }
+  var usados=JSON.parse(lsGet(COD_USADOS)||'[]');
+  if(usados.indexOf(cod)!==-1){ toast('Ese código ya lo usaste','err'); return; }
+  var user=lsGet(SES), c=getCuenta();
+  if(!c || c.user!==user){ toast('Inicia sesión primero','err'); return; }
+  usados.push(cod); lsSet(COD_USADOS,JSON.stringify(usados));
   c.coins=(c.coins||0)+cant; saveCuenta(c);
-  $('coinsShow').innerText=c.coins+' Coins';
+  txt('coinsShow',c.coins+' Coins');
   $('codigoInput').value='';
-  aviso('alertBox','Listo! Te llegaron '+cant+' Coins. Ahora tienes '+c.coins+'.','ok');
+  if(CUENTAS_FIJAS[user]) pintarStats();
+  toast('¡Listo! +'+cant+' coins. Tienes '+c.coins+'.','ok');
 }
 
-/* ============ 4. REPORTES ============ */
-var motivo='Spam';
+/* ============ 4. HISTORIAL ============ */
+function histKey(){ return HIST+(lsGet(SES)||'x'); }
+function guardarHist(o){
+  var h=JSON.parse(lsGet(histKey())||'[]');
+  h.unshift(o);
+  if(h.length>15) h=h.slice(0,15);
+  lsSet(histKey(),JSON.stringify(h));
+}
+function pintarHistorial(){
+  var box=$('listaHistorial'); if(!box) return;
+  var h=JSON.parse(lsGet(histKey())||'[]');
+  box.innerHTML='';
+  if(!h.length){ box.innerHTML='<div class="empty">Sin reportes todavía.</div>'; return; }
+  for(var i=0;i<h.length;i++){
+    (function(it){
+      var d=document.createElement('div'); d.className='item';
+      d.innerHTML='<div><b>'+it.num+'</b><br><small>'+it.motivo+' · '+it.fecha+'</small></div>'+
+                  '<div style="text-align:right"><small>'+it.caso+'</small></div>';
+      box.appendChild(d);
+    })(h[i]);
+  }
+}
+function limpiarHistorial(){
+  lsDel(histKey()); pintarHistorial(); toast('Historial borrado','info');
+}
+
+/* ============ 5. REPORTE ============ */
+function prefijoActual(){
+  var v=$('prefijo').value;
+  if(v==='otro'){
+    var m=($('prefijoManual').value||'').trim().replace(/[^0-9]/g,'');
+    return m?'+'+m:'';
+  }
+  return v;
+}
 function pedirCoins(){
   var user=lsGet(SES)||$('loginUser').value||'usuario';
   var cant=$('cantPedir').value;
-  var msg='Hola Bxjo, soy '+user+' y necesito '+cant+' coins para usar el panel BXJO. Mi usuario es: '+user;
-  window.open('https://t.me/'+TELEGRAM_USER+'?text='+encodeURIComponent(msg),'_blank');
+  var m='Hola Bxjo, soy '+user+' y necesito '+cant+' coins para usar el panel BXJO. Mi usuario es: '+user;
+  window.open('https://t.me/'+TG+'?text='+encodeURIComponent(m),'_blank');
+}
+function log(l,t){
+  var c=$('log'); if(!c) return;
+  var d=document.createElement('div'); d.className=t||'';
+  d.innerText='['+new Date().toLocaleTimeString('es-CO')+'] '+l;
+  c.appendChild(d); c.scrollTop=c.scrollHeight;
+}
+function paso(n){
+  for(var i=1;i<=4;i++){
+    var e=$('s'+i); if(!e) continue;
+    e.className='step'+(i<n?' done':'')+(i===n?' on':'');
+    e.firstChild.innerText=(i<n?'●':(i===n?'◉':'○'));
+  }
 }
 function iniciar(){
-  var user=lsGet(SES); if(!user){ aviso('alertBox','Inicia sesion primero','err'); return; }
-  var c=getCuenta(); if(!c || c.user!==user){ aviso('alertBox','Inicia sesion primero','err'); return; }
-  if((c.coins||0)<10){ aviso('alertBox','No tienes coins. Pidele a Bxjo por Telegram.','err'); return; }
-  var prefijo=$('prefijo').value;
-  var num=($('numero').value||'').trim().replace(/[^0-9]/g,'');
-  if(num.length<6 || num.length>15){ aviso('alertBox','Pon un numero valido (6 a 15 digitos)','err'); return; }
-  limpiar('alertBox');
+  if(enviando) return;
+  var user=lsGet(SES);
+  if(!user){ toast('Inicia sesión primero','err'); return; }
+  var c=getCuenta();
+  if(!c || c.user!==user){ toast('Inicia sesión primero','err'); return; }
+  if((c.coins||0)<10){ toast('Sin coins ('+(c.coins||0)+'). Pídele a Bxjo.','err'); return; }
+  var pre=prefijoActual();
+  if(!pre){ toast('Elige o escribe un prefijo','err'); return; }
+  var num=($('numero').value||'').replace(/[^0-9]/g,'');
+  if(num.length<6 || num.length>15){ toast('Número inválido (6 a 15 dígitos)','err'); return; }
+
+  enviando=true;
+  $('btnIniciar').disabled=true;
   c.coins-=10; c.reports=(c.reports||0)+1; saveCuenta(c);
-  $('coinsShow').innerText=c.coins+' Coins';
-  $('coinsAfter').innerText=c.coins+' Coins';
-  var start=Date.now(); var caseId='BX-'+Math.floor(100000+Math.random()*900000);
-  $('caseId').innerText=caseId;
-  $('numFinal').innerText=prefijo+' '+num;
-  $('motivoFinal').innerText=motivo;
-  $('metaNum').innerText=prefijo+' '+num;
-  $('metaSes').innerText='SES-'+Math.floor(1000+Math.random()*9000);
+  txt('coinsShow',c.coins+' Coins');
+  txt('coinsAfter',c.coins+' Coins');
+
+  var ini=Date.now();
+  var caso='BX-'+Math.floor(100000+Math.random()*900000);
+  txt('caseId',caso);
+  txt('numFinal',pre+' '+num);
+  txt('motivoFinal',motivo);
+  txt('metaNum',pre+' '+num);
+  txt('metaSes','SES-'+Math.floor(1000+Math.random()*9000));
   $('progWrap').classList.add('show');
   $('successBox').classList.remove('show');
-  var log=$('log'); log.innerHTML='';
-  var barra=$('barra'); var porc=$('porcent'); var barText=$('barText');
-  log.innerHTML+='<div class="ok">[OK] Conectado - Seguro</div><div class="warn">[Coins] -10 - Saldo: '+c.coins+'<
+  $('log').innerHTML='';
+
+  log('Conexión segura establecida','ok');
+  log('Proxy activo · región CO','warn');
+  log('Saldo descontado: -10 coins','warn');
+  paso(1);
+
+  var barra=$('barra'), porc=$('porcent'), p=0;
+
+  setTimeout(function(){ paso(2); log('Validando +'+pre+' '+num,''); },600);
+  setTimeout(function(){ paso(3); log('Enviando reporte por '+motivo,''); },1500);
+  setTimeout(function(){ paso(4); log('Confirmando con el servidor',''); },2600);
+
+  var t=setInterval(function(){
+    p+=Math.floor(Math.random()*8)+3;
+    if(p>100) p=100;
+    barra.style.width=p+'%';
+    porc.innerText=p+'%';
+    if(p>=100){
+      clearInterval(t);
+      var seg=((Date.now()-ini)/1000).toFixed(1);
+      txt('timeFinal',seg+'s');
+      log('Reporte confirmado · caso '+caso,'ok');
+      paso(5);
+      $('successBox').classList.add('show');
+      $('waStatus').innerHTML='Estado: <b style="color:var(--gold)">En revisión</b> · caso '+caso;
+      guardarHist({num:pre+' '+num,motivo:motivo,caso:caso,fecha:new Date().toLocaleString('es-CO')});
+      pintarHistorial();
+      if(CUENTAS_FIJAS[user]) pintarStats();
+      enviando=false;
+      $('btnIniciar').disabled=false;
+      toast('Reporte enviado · '+caso,'ok');
+    }
+  },120);
+}
+function otro(){
+  $('numero').value='';
+  $('progWrap').classList.remove('show');
+  $('successBox').classList.remove('show');
+  txt('metaNum','--');
+  $('numero').focus();
+}
+function copiarReporte(){
+  var t='REPORTE BXJO\nNúmero: '+$('numFinal').innerText+'\nMotivo: '+$('motivoFinal').innerText+
+        '\nCaso: '+$('caseId').innerText+'\nUsuario: '+$('userReport').innerText;
+  copiar(t);
+}
+function pegar(){
+  if(navigator.clipboard && navigator.clipboard.readText){
+    navigator.clipboard.readText().then(function(t){
+      var d=(t||'').replace(/[^0-9]/g,'');
+      if(d) $('numero').value=d.slice(0,15);
+    },function(){ toast('Pega manualmente','info'); });
+  } else { toast('Pega manualmente','info'); }
+}
+
+/* ============ 6. ENGANCHE ============ */
+function on(id,ev,fn){ var e=$(id); if(e) e.addEventListener(ev,fn); }
+on('btnEntrar','click',doLogin);
+on('btnCrear','click',doRegister);
+on('btnSalir','click',logout);
+on('btnCanjear','click',canjearCodigo);
+on('btnCompartirCodigo','click',compartirCodigo);
+on('btnCopiarCodigo','click',function(){ if(ultimoCodigo) copiar(ultimoCodigo); else toast('Genera uno primero','err'); });
+on('btnLimpiarCodigos','click',function(){ lsDel(COD_GEN); pintarCodigos(); pintarStats(); toast('Historial de códigos vaciado','info'); });
+on('btnCodCustom','click',function(){
+  var v=prompt('¿Cuántos coins? (solo números)');
+  if(v===null) return;
+  v=parseInt(v);
+  if(!v || v<1 || v>100000){ toast('Monto inválido','err'); return; }
+  generarCodigo(v);
+});
+cada('.codGen',function(b){ b.addEventListener('click',function(){ generarCodigo(parseInt(this.getAttribute('data-cant'))); }); });
+cada('.motivo',function(m){
+  m.addEventListener('click',function(){
+    cada('.motivo',function(x){ x.classList.remove('active'); });
+    this.classList.add('active');
+    motivo=this.getAttribute('data-motivo');
+  });
+});
+on('btnIniciar','click',iniciar);
+on('btnPedir','click',pedirCoins);
+on('btnOtro','click',otro);
+on('btnCopiarReporte','click',copiarReporte);
+on('btnLimpiarHistorial','click',limpiarHistorial);
+on('btnPegar','click',pegar);
+on('loginPass','keydown',function(e){ if(e.key==='Enter'||e.keyCode===13){ e.preventDefault(); doLogin(); } });
+on('regPass2','keydown',function(e){ if(e.key==='Enter'||e.keyCode===13){ e.preventDefault(); doRegister(); } });
+on('numero','input',function(e){
+  e.target.value=e.target.value.replace(/[^0-9]/g,'');
+  if(e.target.value.length>=3) txt('metaNum',(prefijoActual()||'')+' '+e.target.value);
+});
+on('prefijo','change',function(){
+  if(this.value==='otro'){ $('prefijoManual').classList.remove('hidden'); $('prefijoManual').focus(); }
+  else { $('prefijoManual').classList.add('hidden'); $('prefijoManual').value=''; }
+  var v=$('numero').value;
+  if(v) txt('metaNum',(prefijoActual()||'')+' '+v);
+});
+on('prefijoManual','input',function(){
+  var v=$('numero').value;
+  if(v) txt('metaNum',(prefijoActual()||'')+' '+v);
+});
+window.onerror=function(m){ var d=$('diag'); if(d){ d.innerText='ERROR: '+m; d.className='bad'; } };
+
+/* ============ 7. ARRANQUE ============ */
+try{
+  var dg=$('diag');
+  if(dg){ dg.innerText='Panel V4 cargado OK'; dg.className='ok'; }
+  mostrarGuardada();
+  var s=lsGet(SES);
+  if(s){ var cc=getCuenta(); if(cc && cc.user===s){ enterPanel(s,cc.coins||0); } }
+}catch(e){
+  var d2=$('diag'); if(d2){ d2.innerText='ERROR: '+e.message; d2.className='bad'; }
+}
+</script>
+</body>
+</html>
