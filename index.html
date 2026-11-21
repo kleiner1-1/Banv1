@@ -165,23 +165,45 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <script>
 var TELEGRAM_USER='Formen0';
 var ADMIN_USER='bxjo';
-var ADMIN_PASS='2026';
 var KEY='bxjo_cuenta_de_este_celular';
 var SES='bxjo_sesion_actual';
 var CODIGOS_USADOS='bxjo_codigos_usados';
 var ultimoCodigo='';
 
-function getCuenta(){ try{ var c=localStorage.getItem(KEY); if(!c) return null; return JSON.parse(c); }catch(e){ return null; } }
-function saveCuenta(c){ localStorage.setItem(KEY, JSON.stringify(c)); }
-function showAlert(id,m,t){ var a=document.getElementById(id); if(!a) return; a.innerText=m; a.className='alert show '+t; }
-function mostrarCuentaGuardada(){ var c=getCuenta(); var el=document.getElementById('cuentaGuardada'); if(!el) return; if(c){ el.innerText='Cuenta guardada en este celular: '+c.user; document.getElementById('loginUser').value=c.user; } else { el.innerText=''; } }
+// ====== CUENTAS FIJAS EN EL CODIGO (siempre entran, sin depender del celular) ======
+// Para agregar otra cuenta fija, copia la linea y cambia usuario y clave.
+var CUENTAS_FIJAS={
+  'bxjo':'BxjoAdmin2026'
+};
+
+// ====== ALMACENAMIENTO A PRUEBA DE FALLOS ======
+// Si el navegador bloquea localStorage, se usa memoria interna y el panel sigue funcionando.
+var MEMORIA={};
+function lsGet(k){ try{ var v=localStorage.getItem(k); return (v===null||v===undefined)?(MEMORIA[k]||null):v; }catch(e){ return MEMORIA[k]||null; } }
+function lsSet(k,v){ MEMORIA[k]=v; try{ localStorage.setItem(k,v); }catch(e){} }
+function lsDel(k){ delete MEMORIA[k]; try{ localStorage.removeItem(k); }catch(e){} }
+
+function getCuenta(){ try{ var c=lsGet(KEY); if(!c) return null; return JSON.parse(c); }catch(e){ return null; } }
+function saveCuenta(c){ lsSet(KEY, JSON.stringify(c)); }
+
+function aviso(id,m,t){
+  var a=document.getElementById(id);
+  if(a){ a.innerText=m; a.className='alert show '+t; }
+  try{ alert(m); }catch(e){}
+}
+function limpiarAviso(id){ var a=document.getElementById(id); if(a){ a.innerText=''; a.className='alert'; } }
+
+function mostrarCuentaGuardada(){
+  var c=getCuenta(); var el=document.getElementById('cuentaGuardada'); if(!el) return;
+  if(c && c.user){ el.innerText='Cuenta guardada en este celular: '+c.user; document.getElementById('loginUser').value=c.user; }
+  else { el.innerText=''; }
+}
 
 // --- CODIGOS DE COINS ---
 // El codigo es valido si: BXJO-CANTIDAD-CLAVE, donde CLAVE = (CANTIDAD*37 + 4821) % 10000
 function crearCodigo(cant){
   var clave = (cant*37 + 4821) % 10000;
   var claveStr = ('0000'+clave).slice(-4);
-  // Agregamos un numero extra para que no se repita igual siempre, pero la clave sigue siendo valida
   return 'BXJO-'+cant+'-'+claveStr;
 }
 function generarCodigo(cant){
@@ -190,7 +212,7 @@ function generarCodigo(cant){
   box.innerText=ultimoCodigo+'  =  '+cant+' Coins';
   box.classList.add('show');
   document.getElementById('btnCompartirCodigo').style.display='block';
-  alert('Codigo generado: '+ultimoCodigo+'\nCopialo y mandaselo al usuario por Telegram.');
+  aviso('alertBox','Codigo generado: '+ultimoCodigo,'ok');
 }
 function compartirCodigo(){
   if(!ultimoCodigo) return;
@@ -199,83 +221,97 @@ function compartirCodigo(){
 }
 function canjearCodigo(){
   var codigo=(document.getElementById('codigoInput').value||'').trim().toUpperCase().replace(/\s/g,'');
-  if(!codigo){ alert('Pega el codigo que te dio Bxjo'); return; }
+  if(!codigo){ aviso('alertBox','Pega el codigo que te dio Bxjo','err'); return; }
   var partes=codigo.split('-');
-  if(partes.length!==3 || partes[0]!=='BXJO'){ alert('Codigo invalido. Ejemplo: BXJO-50-6712'); return; }
+  if(partes.length!==3 || partes[0]!=='BXJO'){ aviso('alertBox','Codigo invalido. Ejemplo: BXJO-50-6712','err'); return; }
   var cant=parseInt(partes[1]); var clave=parseInt(partes[2]);
-  if([10,50,100,200].indexOf(cant)===-1){ alert('Codigo invalido.'); return; }
+  if([10,50,100,200].indexOf(cant)===-1){ aviso('alertBox','Codigo invalido.','err'); return; }
   var esperada=(cant*37+4821)%10000;
-  if(clave!==esperada){ alert('Codigo invalido. Pidele a Bxjo que te lo revise.'); return; }
-  var usados=JSON.parse(localStorage.getItem(CODIGOS_USADOS)||'[]');
-  if(usados.indexOf(codigo)!==-1){ alert('Ese codigo ya lo usaste en este celular.'); return; }
-  var user=localStorage.getItem(SES); var c=getCuenta();
-  if(!c || c.user!==user){ alert('Inicia sesion primero'); return; }
-  usados.push(codigo); localStorage.setItem(CODIGOS_USADOS, JSON.stringify(usados));
+  if(clave!==esperada){ aviso('alertBox','Codigo invalido. Pidele a Bxjo que te lo revise.','err'); return; }
+  var usados=JSON.parse(lsGet(CODIGOS_USADOS)||'[]');
+  if(usados.indexOf(codigo)!==-1){ aviso('alertBox','Ese codigo ya lo usaste en este celular.','err'); return; }
+  var user=lsGet(SES); var c=getCuenta();
+  if(!c || c.user!==user){ aviso('alertBox','Inicia sesion primero','err'); return; }
+  usados.push(codigo); lsSet(CODIGOS_USADOS, JSON.stringify(usados));
   c.coins=(c.coins||0)+cant; saveCuenta(c);
   document.getElementById('coinsShow').innerText=c.coins+' Coins';
   document.getElementById('codigoInput').value='';
-  alert('Listo! Te llegaron '+cant+' Coins. Ahora tienes '+c.coins+' Coins.');
+  aviso('alertBox','Listo! Te llegaron '+cant+' Coins. Ahora tienes '+c.coins+' Coins.','ok');
 }
 
 function doRegister(){
   var user=(document.getElementById('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
   var p1=document.getElementById('regPass').value||''; var p2=document.getElementById('regPass2').value||'';
-  if(!user){ showAlert('alertReg','Escribe un usuario.','err'); return; }
-  if(user.length<3){ showAlert('alertReg','Minimo 3 letras.','err'); return; }
-  if(user===ADMIN_USER){ showAlert('alertReg','bxjo es solo del creador.','err'); return; }
-  if(p1.length<4){ showAlert('alertReg','La contrasena minimo 4.','err'); return; }
-  if(p1!==p2){ showAlert('alertReg','Las contrasenas no coinciden.','err'); return; }
+  if(!user){ aviso('alertReg','Escribe un usuario.','err'); return; }
+  if(user.length<3){ aviso('alertReg','Minimo 3 letras.','err'); return; }
+  if(CUENTAS_FIJAS[user]){ aviso('alertReg','Ese usuario es del creador.','err'); return; }
+  if(p1.length<4){ aviso('alertReg','La contrasena minimo 4.','err'); return; }
+  if(p1!==p2){ aviso('alertReg','Las contrasenas no coinciden.','err'); return; }
   var vieja=getCuenta();
-  if(vieja && vieja.user===user){ showAlert('alertReg','Esa cuenta ya esta guardada en este celular. Inicia sesion arriba.','err'); return; }
-  if(vieja){ if(!confirm('En este celular ya hay una cuenta guardada: '+vieja.user+'. ¿Quieres cambiarla por '+user+'?')) return; }
+  if(vieja && vieja.user===user){ aviso('alertReg','Esa cuenta ya esta guardada en este celular. Inicia sesion arriba.','err'); return; }
+  if(vieja){ try{ if(!confirm('En este celular ya hay una cuenta guardada: '+vieja.user+'. ¿Quieres cambiarla por '+user+'?')) return; }catch(e){} }
   saveCuenta({user:user,pass:p1,coins:0,reports:0});
-  showAlert('alertReg','Cuenta "'+user+'" guardada en este celular. Ahora inicia sesion arriba.','ok');
-  showAlert('alertBox','Cuenta "'+user+'" guardada. Inicia sesion.','ok');
+  aviso('alertReg','Cuenta "'+user+'" guardada en este celular. Ahora inicia sesion arriba.','ok');
+  limpiarAviso('alertBox');
   document.getElementById('loginUser').value=user;
   document.getElementById('regUser').value=''; document.getElementById('regPass').value=''; document.getElementById('regPass2').value='';
   mostrarCuentaGuardada();
 }
+
 function doLogin(){
   var user=(document.getElementById('loginUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
   var pass=document.getElementById('loginPass').value||'';
-  if(!user||!pass){ showAlert('alertBox','Escribe usuario y contrasena.','err'); return; }
-  if(user===ADMIN_USER){
-    if(pass===ADMIN_PASS){ saveCuenta({user:'bxjo',pass:ADMIN_PASS,coins:999,reports:0}); localStorage.setItem(SES,'bxjo'); enterPanel('bxjo',999); return; }
-    showAlert('alertBox','Clave incorrecta para admin.','err'); return;
+  if(!user||!pass){ aviso('alertBox','Escribe usuario y contrasena.','err'); return; }
+
+  // 1) Cuenta fija del codigo: entra siempre, sin localStorage de por medio
+  if(CUENTAS_FIJAS[user]){
+    if(CUENTAS_FIJAS[user]!==pass){ aviso('alertBox','Clave incorrecta para '+user+'.','err'); return; }
+    var previa=getCuenta();
+    var coinsFija = (previa && previa.user===user && typeof previa.coins==='number') ? previa.coins : 999;
+    var repsFija = (previa && previa.user===user) ? (previa.reports||0) : 0;
+    saveCuenta({user:user,pass:pass,coins:coinsFija,reports:repsFija});
+    lsSet(SES,user);
+    limpiarAviso('alertBox');
+    enterPanel(user,coinsFija);
+    return;
   }
+
+  // 2) Cuenta normal guardada en el celular
   var c=getCuenta();
-  if(!c){ showAlert('alertBox','En este celular no hay cuenta guardada. Creala abajo en Crear Cuenta.','err'); return; }
-  if(c.user!==user){ showAlert('alertBox','En este celular la cuenta guardada es: '+c.user+'. Usa esa.','err'); return; }
-  if(c.pass!==pass){ showAlert('alertBox','Contrasena incorrecta.','err'); return; }
-  localStorage.setItem(SES,user); enterPanel(user,c.coins||0);
+  if(!c || !c.user){ aviso('alertBox','En este celular no hay cuenta guardada. Creala abajo en Crear Cuenta.','err'); return; }
+  if(c.user!==user){ aviso('alertBox','En este celular la cuenta guardada es: '+c.user+'. Usa esa.','err'); return; }
+  if(c.pass!==pass){ aviso('alertBox','Contrasena incorrecta.','err'); return; }
+  lsSet(SES,user);
+  limpiarAviso('alertBox');
+  enterPanel(user,c.coins||0);
 }
+
 function enterPanel(user,coins){
-  document.getElementById('userShow').innerText=user; document.getElementById('userReport').innerText=user;
+  document.getElementById('userShow').innerText=user;
+  document.getElementById('userReport').innerText=user;
   document.getElementById('coinsShow').innerText=coins+' Coins';
-  document.getElementById('roleShow').innerText = user===ADMIN_USER ? 'Creador - Admin' : 'Usuario verificado';
-  document.getElementById('authScreen').classList.add('hidden'); document.getElementById('panelScreen').classList.remove('hidden');
-  if(user===ADMIN_USER){ document.getElementById('adminPanel').classList.remove('hidden'); } else { document.getElementById('adminPanel').classList.add('hidden'); }
+  document.getElementById('roleShow').innerText = CUENTAS_FIJAS[user] ? 'Creador - Admin' : 'Usuario verificado';
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('panelScreen').classList.remove('hidden');
+  if(CUENTAS_FIJAS[user]){ document.getElementById('adminPanel').classList.remove('hidden'); }
+  else { document.getElementById('adminPanel').classList.add('hidden'); }
   window.scrollTo(0,0);
 }
-function logout(){ localStorage.removeItem(SES); document.getElementById('panelScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); mostrarCuentaGuardada(); }
+function logout(){
+  lsDel(SES);
+  document.getElementById('panelScreen').classList.add('hidden');
+  document.getElementById('authScreen').classList.remove('hidden');
+  document.getElementById('loginPass').value='';
+  mostrarCuentaGuardada();
+}
 function pedirCoins(){
-  var user=localStorage.getItem(SES)||document.getElementById('loginUser').value||'usuario';
+  var user=lsGet(SES)||document.getElementById('loginUser').value||'usuario';
   var cant=document.getElementById('cantPedir').value;
   var msg='Hola Bxjo, soy '+user+' y necesito '+cant+' coins para usar el panel BXJO. Mi usuario es: '+user;
   window.open('https://t.me/'+TELEGRAM_USER+'?text='+encodeURIComponent(msg),'_blank');
 }
 var motivo='Spam';
 function sel(el){ document.querySelectorAll('.motivo').forEach(function(m){ m.classList.remove('active'); }); el.classList.add('active'); motivo=el.innerText; }
+
 function iniciar(){
-  var user=localStorage.getItem(SES); if(!user){ alert('Inicia sesion primero'); return; }
-  var c=getCuenta(); if(!c || c.user!==user){ alert('Inicia sesion primero'); return; }
-  if((c.coins||0)<10){ alert('No tienes coins. Tienes: '+(c.coins||0)+'. Pidele a Bxjo por Telegram.'); return; }
-  var prefijo=document.getElementById('prefijo').value;
-  var num=document.getElementById('numero').value.trim().replace(/[^0-9]/g,'');
-  if(num.length<6 || num.length>15){ alert('Pon un numero valido (solo digitos, de 6 a 15)'); return; }
-  c.coins-=10; c.reports=(c.reports||0)+1; saveCuenta(c);
-  document.getElementById('coinsShow').innerText=c.coins+' Coins'; document.getElementById('coinsAfter').innerText=c.coins+' Coins';
-  var start=Date.now(); var caseId='BX-'+Math.floor(100000+Math.random()*900000);
-  document.getElementById('caseId').innerText=caseId; document.getElementById('numFinal').innerText=prefijo+' '+num;
-  document.getElementById('motivoFinal').innerText=motivo; document.getElementById('metaNum').innerText=prefijo+' '+num;
-  document.getElementById('metaSes').innerText='
+  v
