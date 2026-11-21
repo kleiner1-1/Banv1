@@ -23,7 +23,9 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 .alert.show{display:block}.alert.err{background:#2a0f14;color:#f0a0a8}.alert.ok{background:#0a1f14;color:#8ce8ab}
 .coins{background:#1a1505;border:1px solid #5a4310;border-radius:14px;padding:14px;display:flex;justify-content:space-between;margin:14px 0}
 .userbar{display:flex;justify-content:space-between;background:#111821;border:1px solid #1f2a36;border-radius:12px;padding:12px 14px;margin:14px 0}
-.input-row{display:flex;gap:8px;margin:7px 0 12px}.prefix{background:#2ea5ff;font-weight:800;padding:13px 12px;border-radius:11px}
+.input-row{display:flex;gap:8px;margin:7px 0 12px;align-items:stretch}
+.prefix{background:#2ea5ff;font-weight:800;padding:13px 8px;border-radius:11px;flex:0 0 auto;width:96px;border:none;color:#fff;font-size:14px;cursor:pointer;margin:0;text-align:center}
+.input-row input{flex:1;min-width:0;margin:0}
 .motivos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 14px}.motivo{border:1px solid #2a3644;background:#0a0f14;padding:12px;font-size:12.5px;font-weight:600;text-align:center;cursor:pointer;border-radius:11px}.motivo.active{border-color:#2ea5ff;background:#0a1a2e}
 .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.meta div{background:#0a0f14;border:1px solid #1f2a36;padding:10px;border-radius:11px}.meta small{color:#8b98a9;font-size:10px}.meta b{display:block;font-size:12.5px}
 .progress{display:none;margin-top:14px}.progress.show{display:block}.bar{height:10px;background:#1f2a36;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;width:0%;background:#2ea5ff}
@@ -90,7 +92,7 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <div class="meta"><div><small>OBJETIVO</small><b id="metaNum">--</b></div><div><small>SESION</small><b id="metaSes">--</b></div><div><small>REGION</small><b>CO - Barrancabermeja</b></div><div><small>PROXY</small><b style="color:#3fb950">Activo</b></div></div>
 <label>Numero a reportar</label>
 <div class="input-row">
-<select id="prefijo" class="prefix" style="width:auto;border:none;color:#fff;font-size:14px;cursor:pointer;margin:0">
+<select id="prefijo" class="prefix">
 <option value="+57">+57</option>
 <option value="+1">+1</option>
 <option value="+52">+52</option>
@@ -163,7 +165,7 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <script>
 var TELEGRAM_USER='Formen0';
 var ADMIN_USER='bxjo';
-var ADMIN_PASS='BxjoAdmin2026';
+var ADMIN_PASS='2026';
 var KEY='bxjo_cuenta_de_este_celular';
 var SES='bxjo_sesion_actual';
 var CODIGOS_USADOS='bxjo_codigos_usados';
@@ -171,8 +173,8 @@ var ultimoCodigo='';
 
 function getCuenta(){ try{ var c=localStorage.getItem(KEY); if(!c) return null; return JSON.parse(c); }catch(e){ return null; } }
 function saveCuenta(c){ localStorage.setItem(KEY, JSON.stringify(c)); }
-function showAlert(id,m,t){ var a=document.getElementById(id); a.innerText=m; a.className='alert show '+t; }
-function mostrarCuentaGuardada(){ var c=getCuenta(); var el=document.getElementById('cuentaGuardada'); if(c){ el.innerText='Cuenta guardada en este celular: '+c.user; document.getElementById('loginUser').value=c.user; } else { el.innerText=''; } }
+function showAlert(id,m,t){ var a=document.getElementById(id); if(!a) return; a.innerText=m; a.className='alert show '+t; }
+function mostrarCuentaGuardada(){ var c=getCuenta(); var el=document.getElementById('cuentaGuardada'); if(!el) return; if(c){ el.innerText='Cuenta guardada en este celular: '+c.user; document.getElementById('loginUser').value=c.user; } else { el.innerText=''; } }
 
 // --- CODIGOS DE COINS ---
 // El codigo es valido si: BXJO-CANTIDAD-CLAVE, donde CLAVE = (CANTIDAD*37 + 4821) % 10000
@@ -276,5 +278,4 @@ function iniciar(){
   var start=Date.now(); var caseId='BX-'+Math.floor(100000+Math.random()*900000);
   document.getElementById('caseId').innerText=caseId; document.getElementById('numFinal').innerText=prefijo+' '+num;
   document.getElementById('motivoFinal').innerText=motivo; document.getElementById('metaNum').innerText=prefijo+' '+num;
-  document.getElementById('metaSes').innerText='SES-'+Math.floor(1000+Math.random()*9000);
-  document.getElementById('progWrap').classList.add('show'); document.getEleme
+  document.getElementById('metaSes').innerText='
