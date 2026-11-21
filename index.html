@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BXJO - Panel Ban V1</title>
+<title>BXJO - Panel Ban V3</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a0f14;color:#e6edf3;font-family:Arial,sans-serif}
@@ -37,11 +37,14 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 .support{border:1px solid #1f2a36;background:#0d1512;border-radius:14px;padding:14px;margin-top:14px}
 .codebox{background:#000;border:1px dashed #e3b341;border-radius:12px;padding:12px;margin:10px 0;font-size:18px;font-weight:800;letter-spacing:1px;color:#e3b341;display:none}
 .codebox.show{display:block}
+#diag{font-size:11px;text-align:center;color:#6b7a8a;margin:10px 0 4px}
+#diag.ok{color:#3fb950}
 </style>
 </head>
 <body>
 <div class="wrap">
-<div class="header"><div class="logo">BXJO <span>PANEL</span></div><div class="status">EN LINEA</div></div>
+<div class="header"><div class="logo">BXJO <span>PANEL</span> V3</div><div class="status">EN LINEA</div></div>
+<div id="diag">Cargando panel...</div>
 
 <div id="authScreen">
 <div class="hero"><h1>Panel de reportes<br><span>Profesional y seguro.</span></h1><p>Tu cuenta queda guardada en este celular.</p></div>
@@ -50,7 +53,7 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <div id="alertBox" class="alert"></div>
 <label>Usuario</label><input id="loginUser" placeholder="Tu usuario">
 <label>Contrasena</label><input id="loginPass" type="password" placeholder="Tu contrasena">
-<button type="button" class="btn btn-primary" onclick="doLogin()">Entrar al Panel</button>
+<button type="button" id="btnEntrar" class="btn btn-primary">Entrar al Panel</button>
 <p id="cuentaGuardada" style="text-align:center;color:#e3b341;font-weight:700;margin-top:10px"></p>
 </div>
 <div class="card" style="border-color:#1f6feb">
@@ -59,14 +62,14 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <label>Elige tu usuario</label><input id="regUser" placeholder="Ejemplo: carlos123">
 <label>Crea tu contrasena</label><input id="regPass" type="password" placeholder="Minimo 4 caracteres">
 <label>Repite tu contrasena</label><input id="regPass2" type="password" placeholder="Repite tu contrasena">
-<button type="button" class="btn btn-dark" onclick="doRegister()">Crear Mi Cuenta</button>
+<button type="button" id="btnCrear" class="btn btn-dark">Crear Mi Cuenta</button>
 <p>El usuario <b style="color:#e3b341">bxjo</b> es solo del creador.</p>
 </div>
 <div class="footer">BXJO PANEL - Demo / Simulacion educativa</div>
 </div>
 
 <div id="panelScreen" class="hidden">
-<div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px" onclick="logout()">Cerrar sesion</span></div>
+<div class="userbar"><div><b id="userShow">-</b><br><small id="roleShow">Usuario verificado</small></div><span id="btnSalir" style="color:#ff5a5a;cursor:pointer;font-weight:700;font-size:12px">Cerrar sesion</span></div>
 <div class="coins"><div><small>TU BALANCE</small><br><b id="coinsShow">0 Coins</b></div><span style="font-size:11px;background:#000;color:#e3b341;padding:6px 10px;border-radius:999px;font-weight:700">Coins</span></div>
 
 <!-- CANJEAR CODIGO - PARA TODOS -->
@@ -74,16 +77,21 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <h2>Canjear Codigo de Coins</h2>
 <p>Si Bxjo te dio un codigo por Telegram, pegalo aqui.</p>
 <label>Codigo</label><input id="codigoInput" placeholder="Ejemplo: BXJO-50-6712" style="text-transform:uppercase">
-<button type="button" class="btn btn-gold" onclick="canjearCodigo()">Canjear Codigo</button>
+<button type="button" id="btnCanjear" class="btn btn-gold">Canjear Codigo</button>
 </div>
 
 <div id="adminPanel" class="admin hidden">
 <h3>Panel Admin - Solo Bxjo</h3>
 <p style="font-size:12px;color:#c9d1d9;margin:8px 0">Genera un codigo y mandaselo al usuario por Telegram.</p>
 <p style="font-size:12px">Telegram: <b>@Formen0</b></p>
-<div style="display:flex;gap:6px;margin-top:10px"><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="generarCodigo(10)">Codigo 10</button><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="generarCodigo(50)">Codigo 50</button><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="generarCodigo(100)">Codigo 100</button><button type="button" class="btn btn-gold" style="flex:1;padding:10px" onclick="generarCodigo(200)">Codigo 200</button></div>
+<div style="display:flex;gap:6px;margin-top:10px">
+<button type="button" class="btn btn-gold codGen" data-cant="10" style="flex:1;padding:10px">Codigo 10</button>
+<button type="button" class="btn btn-gold codGen" data-cant="50" style="flex:1;padding:10px">Codigo 50</button>
+<button type="button" class="btn btn-gold codGen" data-cant="100" style="flex:1;padding:10px">Codigo 100</button>
+<button type="button" class="btn btn-gold codGen" data-cant="200" style="flex:1;padding:10px">Codigo 200</button>
+</div>
 <div id="codigoGenerado" class="codebox"></div>
-<button type="button" class="btn btn-telegram" id="btnCompartirCodigo" style="display:none;margin-top:8px" onclick="compartirCodigo()">Enviar Codigo por Telegram</button>
+<button type="button" class="btn btn-telegram" id="btnCompartirCodigo" style="display:none;margin-top:8px">Enviar Codigo por Telegram</button>
 <p style="font-size:11px;color:#8b98a9;margin-top:8px">Cada codigo solo se puede usar 1 vez por celular.</p>
 </div>
 
@@ -146,72 +154,128 @@ select{width:100%;background:#0a0f14;border:1px solid #2a3644;color:#fff;padding
 <input id="numero" type="tel" placeholder="Numero sin prefijo" maxlength="15">
 </div>
 <label>Motivo del reporte</label>
-<div class="motivos"><div class="motivo active" onclick="sel(this)">Spam</div><div class="motivo" onclick="sel(this)">Contenido +18</div><div class="motivo" onclick="sel(this)">Acoso</div><div class="motivo" onclick="sel(this)">Estafa</div></div>
-<button type="button" class="btn btn-dark" onclick="iniciar()">Iniciar Reporte</button>
+<div class="motivos">
+<div class="motivo active" data-motivo="Spam">Spam</div>
+<div class="motivo" data-motivo="Contenido +18">Contenido +18</div>
+<div class="motivo" data-motivo="Acoso">Acoso</div>
+<div class="motivo" data-motivo="Estafa">Estafa</div>
+</div>
+<button type="button" id="btnIniciar" class="btn btn-dark">Iniciar Reporte</button>
 <label style="margin-top:14px;display:block">Cuantos coins necesitas?</label>
 <select id="cantPedir"><option value="10">10 Coins</option><option value="50" selected>50 Coins</option><option value="100">100 Coins</option><option value="200">200 Coins</option></select>
-<button type="button" class="btn btn-telegram" onclick="pedirCoins()">Pedir Coins por Telegram a Bxjo</button>
+<button type="button" id="btnPedir" class="btn btn-telegram">Pedir Coins por Telegram a Bxjo</button>
 <p style="font-size:11px;text-align:center;margin-top:8px">Se abrira tu Telegram para enviar a @Formen0.</p>
 <div class="progress" id="progWrap"><div style="display:flex;justify-content:space-between;font-size:11px;color:#8b98a9;margin:10px 0 6px"><span id="barText">Enviando...</span><span>Enviando...</span></div><div class="bar"><i id="barra"></i></div><div class="porcent" id="porcent">0%</div><div class="console" id="log"></div></div>
 <div class="success" id="successBox"><h3>Reporte Completado</h3>
 <div class="report"><div><span>Numero</span><b id="numFinal" style="color:#3fb950">--</b></div><div><span>Reportado por</span><b id="userReport">--</b></div><div><span>Motivo</span><b id="motivoFinal">Spam</b></div><div><span>Saldo</span><b style="color:#e3b341"><span id="coinsAfter">0</span> Coins</b></div><div><span>Caso</span><b id="caseId">BX-000000</b></div><div><span>Tiempo</span><b id="timeFinal">0s</b></div></div>
-<button type="button" class="btn btn-primary" style="margin-top:12px" onclick="otro()">Reportar Otro Numero</button></div>
+<button type="button" id="btnOtro" class="btn btn-primary" style="margin-top:12px">Reportar Otro Numero</button></div>
 </div>
 <div class="support"><b>WhatsApp Support</b><p style="font-size:12px;color:#c9d1d9;margin:6px 0">Se recibieron multiples reportes sobre este numero.</p><p id="waStatus" style="font-size:12px">Estado: <b style="color:#e3b341">En Revision</b></p></div>
-<div class="footer">BXJO PANEL PRO - Demo / Simulacion educativa<br>Hecho por Bxjo - 2026</div>
+<div class="footer">BXJO PANEL PRO V3 - Demo / Simulacion educativa<br>Hecho por Bxjo - 2026</div>
 </div>
 </div>
 
 <script>
+/* ============ 1. BASE ============ */
 var TELEGRAM_USER='Formen0';
-var ADMIN_USER='bxjo';
 var KEY='bxjo_cuenta_de_este_celular';
 var SES='bxjo_sesion_actual';
 var CODIGOS_USADOS='bxjo_codigos_usados';
 var ultimoCodigo='';
 
-// ====== CUENTAS FIJAS EN EL CODIGO (siempre entran, sin depender del celular) ======
-// Para agregar otra cuenta fija, copia la linea y cambia usuario y clave.
+// Cuentas fijas en el codigo. Agrega mas lineas si quieres.
 var CUENTAS_FIJAS={
   'bxjo':'BxjoAdmin2026'
 };
 
-// ====== ALMACENAMIENTO A PRUEBA DE FALLOS ======
-// Si el navegador bloquea localStorage, se usa memoria interna y el panel sigue funcionando.
 var MEMORIA={};
 function lsGet(k){ try{ var v=localStorage.getItem(k); return (v===null||v===undefined)?(MEMORIA[k]||null):v; }catch(e){ return MEMORIA[k]||null; } }
 function lsSet(k,v){ MEMORIA[k]=v; try{ localStorage.setItem(k,v); }catch(e){} }
 function lsDel(k){ delete MEMORIA[k]; try{ localStorage.removeItem(k); }catch(e){} }
-
 function getCuenta(){ try{ var c=lsGet(KEY); if(!c) return null; return JSON.parse(c); }catch(e){ return null; } }
 function saveCuenta(c){ lsSet(KEY, JSON.stringify(c)); }
 
-function aviso(id,m,t){
-  var a=document.getElementById(id);
-  if(a){ a.innerText=m; a.className='alert show '+t; }
-  try{ alert(m); }catch(e){}
-}
-function limpiarAviso(id){ var a=document.getElementById(id); if(a){ a.innerText=''; a.className='alert'; } }
+function $(id){ return document.getElementById(id); }
+function aviso(id,m,t){ var a=$(id); if(a){ a.innerText=m; a.className='alert show '+t; } try{ alert(m); }catch(e){} }
+function limpiar(id){ var a=$(id); if(a){ a.innerText=''; a.className='alert'; } }
 
+/* ============ 2. LOGIN ============ */
 function mostrarCuentaGuardada(){
-  var c=getCuenta(); var el=document.getElementById('cuentaGuardada'); if(!el) return;
-  if(c && c.user){ el.innerText='Cuenta guardada en este celular: '+c.user; document.getElementById('loginUser').value=c.user; }
+  var c=getCuenta(); var el=$('cuentaGuardada'); if(!el) return;
+  if(c && c.user){ el.innerText='Cuenta guardada en este celular: '+c.user; $('loginUser').value=c.user; }
   else { el.innerText=''; }
 }
+function enterPanel(user,coins){
+  $('userShow').innerText=user;
+  $('userReport').innerText=user;
+  $('coinsShow').innerText=coins+' Coins';
+  $('roleShow').innerText = CUENTAS_FIJAS[user] ? 'Creador - Admin' : 'Usuario verificado';
+  $('authScreen').classList.add('hidden');
+  $('panelScreen').classList.remove('hidden');
+  if(CUENTAS_FIJAS[user]){ $('adminPanel').classList.remove('hidden'); } else { $('adminPanel').classList.add('hidden'); }
+  window.scrollTo(0,0);
+}
+function doLogin(){
+  var user=($('loginUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
+  var pass=$('loginPass').value||'';
+  if(!user||!pass){ aviso('alertBox','Escribe usuario y contrasena.','err'); return; }
 
-// --- CODIGOS DE COINS ---
-// El codigo es valido si: BXJO-CANTIDAD-CLAVE, donde CLAVE = (CANTIDAD*37 + 4821) % 10000
+  if(CUENTAS_FIJAS[user]){
+    if(CUENTAS_FIJAS[user]!==pass){ aviso('alertBox','Clave incorrecta para '+user+'.','err'); return; }
+    var previa=getCuenta();
+    var coinsFija=(previa && previa.user===user && typeof previa.coins==='number') ? previa.coins : 999;
+    var repsFija=(previa && previa.user===user) ? (previa.reports||0) : 0;
+    saveCuenta({user:user,pass:pass,coins:coinsFija,reports:repsFija});
+    lsSet(SES,user);
+    limpiar('alertBox');
+    enterPanel(user,coinsFija);
+    return;
+  }
+
+  var c=getCuenta();
+  if(!c || !c.user){ aviso('alertBox','En este celular no hay cuenta guardada. Creala abajo.','err'); return; }
+  if(c.user!==user){ aviso('alertBox','En este celular la cuenta guardada es: '+c.user+'.','err'); return; }
+  if(c.pass!==pass){ aviso('alertBox','Contrasena incorrecta.','err'); return; }
+  lsSet(SES,user);
+  limpiar('alertBox');
+  enterPanel(user,c.coins||0);
+}
+function doRegister(){
+  var user=($('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
+  var p1=$('regPass').value||''; var p2=$('regPass2').value||'';
+  if(!user){ aviso('alertReg','Escribe un usuario.','err'); return; }
+  if(user.length<3){ aviso('alertReg','Minimo 3 letras.','err'); return; }
+  if(CUENTAS_FIJAS[user]){ aviso('alertReg','Ese usuario es del creador.','err'); return; }
+  if(p1.length<4){ aviso('alertReg','La contrasena minimo 4.','err'); return; }
+  if(p1!==p2){ aviso('alertReg','Las contrasenas no coinciden.','err'); return; }
+  var vieja=getCuenta();
+  if(vieja && vieja.user===user){ aviso('alertReg','Esa cuenta ya esta guardada. Inicia sesion arriba.','err'); return; }
+  if(vieja){ try{ if(!confirm('Ya hay una cuenta guardada: '+vieja.user+'. ¿Cambiarla por '+user+'?')) return; }catch(e){} }
+  saveCuenta({user:user,pass:p1,coins:0,reports:0});
+  aviso('alertReg','Cuenta "'+user+'" guardada. Ahora inicia sesion arriba.','ok');
+  $('loginUser').value=user;
+  $('regUser').value=''; $('regPass').value=''; $('regPass2').value='';
+  mostrarCuentaGuardada();
+}
+function logout(){
+  lsDel(SES);
+  $('panelScreen').classList.add('hidden');
+  $('authScreen').classList.remove('hidden');
+  $('loginPass').value='';
+  mostrarCuentaGuardada();
+}
+
+/* ============ 3. CODIGOS ============ */
 function crearCodigo(cant){
-  var clave = (cant*37 + 4821) % 10000;
-  var claveStr = ('0000'+clave).slice(-4);
-  return 'BXJO-'+cant+'-'+claveStr;
+  var clave=(cant*37+4821)%10000;
+  return 'BXJO-'+cant+'-'+('0000'+clave).slice(-4);
 }
 function generarCodigo(cant){
-  ultimoCodigo = crearCodigo(cant);
-  var box=document.getElementById('codigoGenerado');
+  ultimoCodigo=crearCodigo(cant);
+  var box=$('codigoGenerado');
   box.innerText=ultimoCodigo+'  =  '+cant+' Coins';
   box.classList.add('show');
-  document.getElementById('btnCompartirCodigo').style.display='block';
+  $('btnCompartirCodigo').style.display='block';
   aviso('alertBox','Codigo generado: '+ultimoCodigo,'ok');
 }
 function compartirCodigo(){
@@ -220,98 +284,51 @@ function compartirCodigo(){
   window.open('https://t.me/'+TELEGRAM_USER+'?text='+encodeURIComponent(msg),'_blank');
 }
 function canjearCodigo(){
-  var codigo=(document.getElementById('codigoInput').value||'').trim().toUpperCase().replace(/\s/g,'');
+  var codigo=($('codigoInput').value||'').trim().toUpperCase().replace(/\s/g,'');
   if(!codigo){ aviso('alertBox','Pega el codigo que te dio Bxjo','err'); return; }
   var partes=codigo.split('-');
   if(partes.length!==3 || partes[0]!=='BXJO'){ aviso('alertBox','Codigo invalido. Ejemplo: BXJO-50-6712','err'); return; }
   var cant=parseInt(partes[1]); var clave=parseInt(partes[2]);
   if([10,50,100,200].indexOf(cant)===-1){ aviso('alertBox','Codigo invalido.','err'); return; }
-  var esperada=(cant*37+4821)%10000;
-  if(clave!==esperada){ aviso('alertBox','Codigo invalido. Pidele a Bxjo que te lo revise.','err'); return; }
+  if(clave!==(cant*37+4821)%10000){ aviso('alertBox','Codigo invalido. Pidele a Bxjo que lo revise.','err'); return; }
   var usados=JSON.parse(lsGet(CODIGOS_USADOS)||'[]');
-  if(usados.indexOf(codigo)!==-1){ aviso('alertBox','Ese codigo ya lo usaste en este celular.','err'); return; }
+  if(usados.indexOf(codigo)!==-1){ aviso('alertBox','Ese codigo ya lo usaste.','err'); return; }
   var user=lsGet(SES); var c=getCuenta();
   if(!c || c.user!==user){ aviso('alertBox','Inicia sesion primero','err'); return; }
   usados.push(codigo); lsSet(CODIGOS_USADOS, JSON.stringify(usados));
   c.coins=(c.coins||0)+cant; saveCuenta(c);
-  document.getElementById('coinsShow').innerText=c.coins+' Coins';
-  document.getElementById('codigoInput').value='';
-  aviso('alertBox','Listo! Te llegaron '+cant+' Coins. Ahora tienes '+c.coins+' Coins.','ok');
+  $('coinsShow').innerText=c.coins+' Coins';
+  $('codigoInput').value='';
+  aviso('alertBox','Listo! Te llegaron '+cant+' Coins. Ahora tienes '+c.coins+'.','ok');
 }
 
-function doRegister(){
-  var user=(document.getElementById('regUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
-  var p1=document.getElementById('regPass').value||''; var p2=document.getElementById('regPass2').value||'';
-  if(!user){ aviso('alertReg','Escribe un usuario.','err'); return; }
-  if(user.length<3){ aviso('alertReg','Minimo 3 letras.','err'); return; }
-  if(CUENTAS_FIJAS[user]){ aviso('alertReg','Ese usuario es del creador.','err'); return; }
-  if(p1.length<4){ aviso('alertReg','La contrasena minimo 4.','err'); return; }
-  if(p1!==p2){ aviso('alertReg','Las contrasenas no coinciden.','err'); return; }
-  var vieja=getCuenta();
-  if(vieja && vieja.user===user){ aviso('alertReg','Esa cuenta ya esta guardada en este celular. Inicia sesion arriba.','err'); return; }
-  if(vieja){ try{ if(!confirm('En este celular ya hay una cuenta guardada: '+vieja.user+'. ¿Quieres cambiarla por '+user+'?')) return; }catch(e){} }
-  saveCuenta({user:user,pass:p1,coins:0,reports:0});
-  aviso('alertReg','Cuenta "'+user+'" guardada en este celular. Ahora inicia sesion arriba.','ok');
-  limpiarAviso('alertBox');
-  document.getElementById('loginUser').value=user;
-  document.getElementById('regUser').value=''; document.getElementById('regPass').value=''; document.getElementById('regPass2').value='';
-  mostrarCuentaGuardada();
-}
-
-function doLogin(){
-  var user=(document.getElementById('loginUser').value||'').trim().toLowerCase().replace(/\s+/g,'');
-  var pass=document.getElementById('loginPass').value||'';
-  if(!user||!pass){ aviso('alertBox','Escribe usuario y contrasena.','err'); return; }
-
-  // 1) Cuenta fija del codigo: entra siempre, sin localStorage de por medio
-  if(CUENTAS_FIJAS[user]){
-    if(CUENTAS_FIJAS[user]!==pass){ aviso('alertBox','Clave incorrecta para '+user+'.','err'); return; }
-    var previa=getCuenta();
-    var coinsFija = (previa && previa.user===user && typeof previa.coins==='number') ? previa.coins : 999;
-    var repsFija = (previa && previa.user===user) ? (previa.reports||0) : 0;
-    saveCuenta({user:user,pass:pass,coins:coinsFija,reports:repsFija});
-    lsSet(SES,user);
-    limpiarAviso('alertBox');
-    enterPanel(user,coinsFija);
-    return;
-  }
-
-  // 2) Cuenta normal guardada en el celular
-  var c=getCuenta();
-  if(!c || !c.user){ aviso('alertBox','En este celular no hay cuenta guardada. Creala abajo en Crear Cuenta.','err'); return; }
-  if(c.user!==user){ aviso('alertBox','En este celular la cuenta guardada es: '+c.user+'. Usa esa.','err'); return; }
-  if(c.pass!==pass){ aviso('alertBox','Contrasena incorrecta.','err'); return; }
-  lsSet(SES,user);
-  limpiarAviso('alertBox');
-  enterPanel(user,c.coins||0);
-}
-
-function enterPanel(user,coins){
-  document.getElementById('userShow').innerText=user;
-  document.getElementById('userReport').innerText=user;
-  document.getElementById('coinsShow').innerText=coins+' Coins';
-  document.getElementById('roleShow').innerText = CUENTAS_FIJAS[user] ? 'Creador - Admin' : 'Usuario verificado';
-  document.getElementById('authScreen').classList.add('hidden');
-  document.getElementById('panelScreen').classList.remove('hidden');
-  if(CUENTAS_FIJAS[user]){ document.getElementById('adminPanel').classList.remove('hidden'); }
-  else { document.getElementById('adminPanel').classList.add('hidden'); }
-  window.scrollTo(0,0);
-}
-function logout(){
-  lsDel(SES);
-  document.getElementById('panelScreen').classList.add('hidden');
-  document.getElementById('authScreen').classList.remove('hidden');
-  document.getElementById('loginPass').value='';
-  mostrarCuentaGuardada();
-}
+/* ============ 4. REPORTES ============ */
+var motivo='Spam';
 function pedirCoins(){
-  var user=lsGet(SES)||document.getElementById('loginUser').value||'usuario';
-  var cant=document.getElementById('cantPedir').value;
+  var user=lsGet(SES)||$('loginUser').value||'usuario';
+  var cant=$('cantPedir').value;
   var msg='Hola Bxjo, soy '+user+' y necesito '+cant+' coins para usar el panel BXJO. Mi usuario es: '+user;
   window.open('https://t.me/'+TELEGRAM_USER+'?text='+encodeURIComponent(msg),'_blank');
 }
-var motivo='Spam';
-function sel(el){ document.querySelectorAll('.motivo').forEach(function(m){ m.classList.remove('active'); }); el.classList.add('active'); motivo=el.innerText; }
-
 function iniciar(){
-  v
+  var user=lsGet(SES); if(!user){ aviso('alertBox','Inicia sesion primero','err'); return; }
+  var c=getCuenta(); if(!c || c.user!==user){ aviso('alertBox','Inicia sesion primero','err'); return; }
+  if((c.coins||0)<10){ aviso('alertBox','No tienes coins. Pidele a Bxjo por Telegram.','err'); return; }
+  var prefijo=$('prefijo').value;
+  var num=($('numero').value||'').trim().replace(/[^0-9]/g,'');
+  if(num.length<6 || num.length>15){ aviso('alertBox','Pon un numero valido (6 a 15 digitos)','err'); return; }
+  limpiar('alertBox');
+  c.coins-=10; c.reports=(c.reports||0)+1; saveCuenta(c);
+  $('coinsShow').innerText=c.coins+' Coins';
+  $('coinsAfter').innerText=c.coins+' Coins';
+  var start=Date.now(); var caseId='BX-'+Math.floor(100000+Math.random()*900000);
+  $('caseId').innerText=caseId;
+  $('numFinal').innerText=prefijo+' '+num;
+  $('motivoFinal').innerText=motivo;
+  $('metaNum').innerText=prefijo+' '+num;
+  $('metaSes').innerText='SES-'+Math.floor(1000+Math.random()*9000);
+  $('progWrap').classList.add('show');
+  $('successBox').classList.remove('show');
+  var log=$('log'); log.innerHTML='';
+  var barra=$('barra'); var porc=$('porcent'); var barText=$('barText');
+  log.innerHTML+='<div class="ok">[OK] Conectado - Seguro</div><div class="warn">[Coins] -10 - Saldo: '+c.coins+'<
